@@ -9,7 +9,6 @@ const Footer = () => {
         {/* LEFT */}
         <div className="w-full md:w-1/4 lg:w-1/5 flex flex-col gap-6">
           <Image src="/mb-logo.png " alt="" width={120} height={100} />
-
           <span className="font-semibold">MishBabySupport@gmail.com</span>
           <div className="flex gap-6">
             <Image src="/facebook.png" alt="" width={16} height={16} />
@@ -23,7 +22,7 @@ const Footer = () => {
         <div className="flex flex-row justify-stretch gap-8 lg:gap-16">
           <div className="flex flex-col justify-between">
             <h1 className="font-medium text-lg text-cyan-600">SHOP</h1>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 lg:gap-8">
               <Link href="">New Arrivals</Link>
               <Link href="">Baby Clothing</Link>
               <Link href="">Toys & Games</Link>
@@ -33,7 +32,7 @@ const Footer = () => {
           </div>
           <div className="flex flex-col justify-between gap-8">
             <h1 className="font-medium text-lg text-cyan-600">HELP</h1>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 lg:gap-8">
               <Link href="">About Us</Link>
               <Link href="">Contact Us</Link>
               <Link href="">Customer Service</Link>
