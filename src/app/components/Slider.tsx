@@ -19,7 +19,7 @@ const slides = [
     description: "Sale! Up to 50% off!",
     img: "/slides/slide2.jpeg",
     url: "/",
-    bg: "bg-gradient-to-r from-pink-50 to-blue-50",
+    bg: "bg-gradient-to-r from-cyan-50 to-blue-100",
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const slides = [
     description: "",
     img: "/slides/slide3.jpeg",
     url: "/",
-    bg: "bg-gradient-to-r from-blue-50 to-yellow-50",
+    bg: "bg-gradient-to-r from-blue-50 to-rose-50",
   },
 ];
 
@@ -54,11 +54,11 @@ const Slider = () => {
             key={slide.id}
           >
             {/* TEXT CONTAINER */}
-            <div className="h-1/2 xl:w-1/2 xl:h-full flex flex-col items-center justify-center gap-8 2xl:gap-12 text-center">
-              <h2 className="text-lg lg:text-3xl 2xl:text-5xl">
+            <div className="h-1/2 xl:w-1/2 xl:h-full flex flex-col items-center justify-center gap-8 2xl:gap-12 text-center mt-3">
+              <h2 className="text-lg lg:text-2xl 2xl:text-4xl">
                 {slide.description}
               </h2>
-              <h1 className="text-4xl lg:text-6xl 2xl:text-8xl font-semibold">
+              <h1 className="text-4xl lg:text-6xl 2xl:text-6xl font-semibold">
                 {slide.title}
               </h1>
               <Link href={slide.url}>
