@@ -1,7 +1,15 @@
-const HomePage = () => {
-  return (
-    <div className=''>HomePage</div>
-  )
-}
+// "use client";
 
-export default HomePage
+import Slider from "./components/Slider";
+
+// import Slider from "@/components/Slider";
+
+const HomePage = async () => {
+  return (
+    <div className="">
+      <Slider />
+    </div>
+  );
+};
+
+export default HomePage;
