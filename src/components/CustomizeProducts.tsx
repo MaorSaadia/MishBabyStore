@@ -4,14 +4,16 @@ import { products } from "@wix/stores";
 import { useEffect, useState } from "react";
 import Add from "./Add";
 
-const CustomizeProducts = ({
-  productId,
-  variants,
-  productOptions,
-}: {
+interface CustomizeProductsProps {
   productId: string;
   variants: products.Variant[];
   productOptions: products.ProductOption[];
+}
+
+const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
+  productId,
+  variants,
+  productOptions,
 }) => {
   const [selectedOptions, setSelectedOptions] = useState<{
     [key: string]: string;
@@ -97,7 +99,6 @@ const CustomizeProducts = ({
                       : "white",
                     color: selected || disabled ? "white" : "#f35c7a",
                     boxShadow: disabled ? "none" : "",
-                    
                   }}
                   key={choice.description}
                   onClick={clickHandler}

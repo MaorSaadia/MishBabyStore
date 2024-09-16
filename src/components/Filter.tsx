@@ -53,12 +53,12 @@ const Filter = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Categories</SelectItem>
-              <SelectItem value="new">New Arrival</SelectItem>
+              <SelectItem value="new">Toys & Games</SelectItem>
               <SelectItem value="popular">Popular</SelectItem>
             </SelectContent>
           </Select>
         </div>
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <Select
             onValueChange={(value) => handleFilterChange("filter", value)}
           >
@@ -71,7 +71,7 @@ const Filter = () => {
               <SelectItem value="onSale">On Sale</SelectItem>
             </SelectContent>
           </Select>
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-col gap-2">
         <Select onValueChange={(value) => handleFilterChange("sort", value)}>
