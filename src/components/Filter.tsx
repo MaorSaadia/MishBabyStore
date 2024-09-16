@@ -1,69 +1,91 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Filter = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { replace } = useRouter();
 
-  const handleFilterChange = (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  ) => {
-    const { name, value } = e.target;
+  const handleFilterChange = (name: string, value: string) => {
     const params = new URLSearchParams(searchParams);
-    params.set(name, value);
+    if (value === "all") {
+      params.delete(name);
+    } else {
+      params.set(name, value);
+    }
     replace(`${pathname}?${params.toString()}`);
   };
 
   return (
-    <div className="mt-12 flex justify-between">
-      <div className="flex gap-6 flex-wrap">
-        <input
-          type="text"
-          name="min"
-          placeholder="min price"
-          className="text-xs rounded-2xl pl-2 w-24 ring-1 ring-gray-400"
-          onChange={handleFilterChange}
-        />
-        <input
-          type="text"
-          name="max"
-          placeholder="max price"
-          className="text-xs rounded-2xl pl-2 w-24 ring-1 ring-gray-400"
-          onChange={handleFilterChange}
-        />
-        {/* TODO: Filter Categories */}
-        <select
-          name="cat"
-          className="py-2 px-4 rounded-2xl text-xs font-medium bg-[#EBEDED]"
-          onChange={handleFilterChange}
-        >
-          <option>Category</option>
-          <option value="">New Arrival</option>
-          <option value="">Popular</option>
-        </select>
-        <select
-          name=""
-          id=""
-          className="py-2 px-4 rounded-2xl text-xs font-medium bg-[#EBEDED]"
-        >
-          <option>All Filters</option>
-        </select>
+    <div className="mt-12 flex flex-col md:flex-row justify-between gap-6">
+      <div className="flex flex-wrap gap-6">
+        <div className="flex flex-col gap-2">
+          <Input
+            id="min"
+            name="min"
+            placeholder="Min price"
+            className="w-24"
+            onChange={(e) => handleFilterChange("min", e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Input
+            id="max"
+            name="max"
+            placeholder="Max price"
+            className="w-24"
+            onChange={(e) => handleFilterChange("max", e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Select onValueChange={(value) => handleFilterChange("cat", value)}>
+            <SelectTrigger id="category" className="w-[180px]">
+              <SelectValue placeholder="Select category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Categories</SelectItem>
+              <SelectItem value="new">New Arrival</SelectItem>
+              <SelectItem value="popular">Popular</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col gap-2">
+          <Select
+            onValueChange={(value) => handleFilterChange("filter", value)}
+          >
+            <SelectTrigger id="filters" className="w-[180px]">
+              <SelectValue placeholder="All Filters" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Filters</SelectItem>
+              <SelectItem value="inStock">In Stock</SelectItem>
+              <SelectItem value="onSale">On Sale</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
-      <div className="">
-        <select
-          name="sort"
-          id=""
-          className="py-2 px-4 rounded-2xl text-xs font-medium bg-white ring-1 ring-gray-400"
-          onChange={handleFilterChange}
-        >
-          <option>Sort By</option>
-          <option value="asc price">Price (low to high)</option>
-          <option value="desc price">Price (high to low)</option>
-          <option value="asc lastUpdated">Newest</option>
-          <option value="desc lastUpdated">Oldest</option>
-        </select>
+      <div className="flex flex-col gap-2">
+        <Select onValueChange={(value) => handleFilterChange("sort", value)}>
+          <SelectTrigger id="sort" className="w-[180px]">
+            <SelectValue placeholder="Sort By" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="default">Default</SelectItem>
+            <SelectItem value="asc price">Price (low to high)</SelectItem>
+            <SelectItem value="desc price">Price (high to low)</SelectItem>
+            <SelectItem value="asc lastUpdated">Newest</SelectItem>
+            <SelectItem value="desc lastUpdated">Oldest</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );
