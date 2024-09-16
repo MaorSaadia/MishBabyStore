@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+
 import { wixClientServer } from "@/lib/wixClientServer";
 
 const CategoryList = async () => {
@@ -34,10 +35,10 @@ const CategoryList = async () => {
                 <h3 className="text-2xl font-semibold text-gray-800 mb-2 group-hover:text-cyan-600 transition-colors duration-300">
                   {item.name}
                 </h3>
-                <p className="text-sm text-gray-600 line-clamp-2">
+                {/* <p className="text-sm text-gray-600 line-clamp-2">
                   {item.description || "Discover our curated collection"}
-                </p>
-                <span className="inline-block mt-4 text-cyan-600 font-medium group-hover:text-black transition-colors duration-300">
+                </p> */}
+                <span className="inline-block text-cyan-600 font-medium group-hover:text-black transition-colors duration-300">
                   Explore →
                 </span>
               </div>
