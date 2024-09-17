@@ -1,7 +1,8 @@
 "use client";
 
-import { products } from "@wix/stores";
 import { useEffect, useState } from "react";
+import { products } from "@wix/stores";
+
 import Add from "./Add";
 
 interface CustomizeProductsProps {

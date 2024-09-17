@@ -16,17 +16,14 @@ const UserMenu = () => {
 
   const isLoggedIn = wixClient.auth.loggedIn();
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
 
   const handleLogout = async () => {
-    setIsLoading(true);
     Cookies.remove("refreshToken");
     const { logoutUrl } = await wixClient.auth.logout(window.location.href);
-    setIsLoading(false);
     router.push(logoutUrl);
   };
 

@@ -3,7 +3,7 @@
 import { createContext, ReactNode } from "react";
 import { createClient, OAuthStrategy } from "@wix/sdk";
 import { products, collections } from "@wix/stores";
-// import { currentCart } from "@wix/ecom";
+import { currentCart } from "@wix/ecom";
 import { redirects } from "@wix/redirects";
 import Cookies from "js-cookie";
 
@@ -13,7 +13,7 @@ const wixClient = createClient({
   modules: {
     products,
     collections,
-    // currentCart,
+    currentCart,
     redirects,
   },
   auth: OAuthStrategy({

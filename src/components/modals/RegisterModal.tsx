@@ -53,7 +53,6 @@ const RegisterModal = () => {
           const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
             response.data.sessionToken!
           );
-          console.log(tokens);
           Cookies.set("refreshToken", JSON.stringify(tokens.refreshToken), {
             expires: 2,
           });
@@ -62,15 +61,8 @@ const RegisterModal = () => {
           registerModal.onClose();
           break;
         case LoginState.FAILURE:
-          if (
-            response.errorCode === "invalidEmail" ||
-            response.errorCode === "invalidPassword"
-          ) {
-            toast.error("Invalid email or password!");
-          } else if (response.errorCode === "emailAlreadyExists") {
+          if (response.errorCode === "emailAlreadyExists") {
             toast.error("Email already exists!");
-          } else if (response.errorCode === "resetPassword") {
-            toast.error("You need to reset your password!");
           } else {
             toast.error("Something went wrong!");
           }
