@@ -1,21 +1,23 @@
 "use client";
 
-import axios from "axios";
-// import { signIn } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { LoginState } from "@wix/sdk";
+import Cookies from "js-cookie";
 
+import { useWixClient } from "@/hooks/useWixClient";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
 
 import Modal from "./Modal";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
-import ModalButton from "../ui/modal-button";
 
 const RegisterModal = () => {
+  const wixClient = useWixClient();
+
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
@@ -32,22 +34,35 @@ const RegisterModal = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
 
-    axios
-      .post("/api/register", data)
-      .then(() => {
-        toast.success("Registered!");
-        registerModal.onClose();
-        loginModal.onOpen();
-      })
-      .catch((error) => {
-        toast.error(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
+    setIsLoading(true);
+    try {
+      const response = await wixClient.auth.register({
+        email: data.email,
+        password: data.password,
+        profile: { nickname: data.name },
       });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      // toast.error(error);
+    }
+    setIsLoading(false);
+    // axios
+    //   .post("/api/register", data)
+    //   .then(() => {
+    //     toast.success("Registered!");
+    //     registerModal.onClose();
+    //     loginModal.onOpen();
+    //   })
+    //   .catch((error) => {
+    //     toast.error(error);
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
   };
 
   const onToggle = useCallback(() => {
