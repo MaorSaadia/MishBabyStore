@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { LoginState } from "@wix/sdk";
 import Cookies from "js-cookie";
 
@@ -17,6 +18,7 @@ import Heading from "../Heading";
 
 const RegisterModal = () => {
   const wixClient = useWixClient();
+  const router = useRouter();
 
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
@@ -35,34 +37,56 @@ const RegisterModal = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    let response;
 
     setIsLoading(true);
     try {
-      const response = await wixClient.auth.register({
+      response = await wixClient.auth.register({
         email: data.email,
         password: data.password,
         profile: { nickname: data.name },
       });
-      console.log(response);
+
+      switch (response?.loginState) {
+        case LoginState.SUCCESS:
+          toast.success("Logged in");
+          const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
+            response.data.sessionToken!
+          );
+          console.log(tokens);
+          Cookies.set("refreshToken", JSON.stringify(tokens.refreshToken), {
+            expires: 2,
+          });
+          wixClient.auth.setTokens(tokens);
+          router.refresh();
+          registerModal.onClose();
+          break;
+        case LoginState.FAILURE:
+          if (
+            response.errorCode === "invalidEmail" ||
+            response.errorCode === "invalidPassword"
+          ) {
+            toast.error("Invalid email or password!");
+          } else if (response.errorCode === "emailAlreadyExists") {
+            toast.error("Email already exists!");
+          } else if (response.errorCode === "resetPassword") {
+            toast.error("You need to reset your password!");
+          } else {
+            toast.error("Something went wrong!");
+          }
+        // case LoginState.EMAIL_VERIFICATION_REQUIRED:
+        //   setMode(MODE.EMAIL_VERIFICATION);
+        // case LoginState.OWNER_APPROVAL_REQUIRED:
+        //   setMessage("Your account is pending approval");
+        default:
+          break;
+      }
     } catch (error) {
       console.log(error);
-      // toast.error(error);
+      toast.error("Something went wrong!");
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
-    // axios
-    //   .post("/api/register", data)
-    //   .then(() => {
-    //     toast.success("Registered!");
-    //     registerModal.onClose();
-    //     loginModal.onOpen();
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error);
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
   };
 
   const onToggle = useCallback(() => {
@@ -74,16 +98,16 @@ const RegisterModal = () => {
     <div className="flex flex-col gap-4">
       <Heading title="Welcome to MishBaby" subtitle="Create an account!" />
       <Input
-        id="email"
-        label="Email"
+        id="name"
+        label="Name"
         disabled={isLoading}
         register={register}
         errors={errors}
         required
       />
       <Input
-        id="name"
-        label="Name"
+        id="email"
+        label="Email"
         disabled={isLoading}
         register={register}
         errors={errors}

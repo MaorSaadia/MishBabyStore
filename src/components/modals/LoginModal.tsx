@@ -4,8 +4,11 @@ import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { LoginState } from "@wix/sdk";
 import { FcGoogle } from "react-icons/fc";
+import Cookies from "js-cookie";
 
+import { useWixClient } from "@/hooks/useWixClient";
 import useLoginModal from "@/hooks/useLoginModal";
 import useRegisterModal from "@/hooks/useRegisterModal";
 
@@ -15,11 +18,14 @@ import Heading from "../Heading";
 import ModalButton from "../ui/modal-button";
 
 const LoginModal = () => {
+  const wixClient = useWixClient();
   const router = useRouter();
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const [isLoading, setIsLoading] = useState(false);
 
+  const isLoggedIn = wixClient.auth.loggedIn();
+  console.log(isLoggedIn);
   const {
     register,
     handleSubmit,
@@ -31,27 +37,52 @@ const LoginModal = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log("submit");
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setIsLoading(true);
+    try {
+      let response;
+      response = await wixClient.auth.login({
+        email: data.email,
+        password: data.password,
+      });
 
-    // setIsLoading(true);
-
-    // signIn("credentials", {
-    //   ...data,
-    //   redirect: false,
-    // }).then((callback) => {
-    //   setIsLoading(false);
-
-    //   if (callback?.ok) {
-    //     toast.success("Logged in");
-    //     router.refresh();
-    //     loginModal.onClose();
-    //   }
-
-    //   if (callback?.error) {
-    //     toast.error(callback.error);
-    //   }
-    // });
+      switch (response?.loginState) {
+        case LoginState.SUCCESS:
+          toast.success("Logged in");
+          const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
+            response.data.sessionToken!
+          );
+          console.log(tokens);
+          Cookies.set("refreshToken", JSON.stringify(tokens.refreshToken), {
+            expires: 2,
+          });
+          wixClient.auth.setTokens(tokens);
+          // router.push("/");
+          router.refresh();
+          loginModal.onClose();
+          break;
+        case LoginState.FAILURE:
+          if (
+            response.errorCode === "invalidEmail" ||
+            response.errorCode === "invalidPassword"
+          ) {
+            toast.error("Invalid email or password!");
+          } else {
+            toast.error("Something went wrong!");
+          }
+        // case LoginState.EMAIL_VERIFICATION_REQUIRED:
+        //   setMode(MODE.EMAIL_VERIFICATION);
+        // case LoginState.OWNER_APPROVAL_REQUIRED:
+        //   setMessage("Your account is pending approval");
+        default:
+          break;
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong!");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onToggle = useCallback(() => {
