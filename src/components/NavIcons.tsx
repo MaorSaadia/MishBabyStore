@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import CartModal from "./CartModal";
+import UserMenu from "./UserMenu";
 
 const NavIcons = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -58,7 +59,8 @@ const NavIcons = () => {
 
   return (
     <div className="flex items-center gap-4 xl:gap-6 relative">
-      <Image
+      <UserMenu />
+      {/* <Image
         src="/profile.png"
         alt=""
         width={22}
@@ -66,7 +68,7 @@ const NavIcons = () => {
         className="cursor-pointer"
         // onClick={login}
         onClick={handleProfile}
-      />
+      /> */}
       {isProfileOpen && (
         <div className="absolute p-4 rounded-md top-12 left-0 bg-white text-sm shadow-[0_3px_10px_rgb(0,0,0,0.2)] z-20">
           <Link href="/profile">Profile</Link>

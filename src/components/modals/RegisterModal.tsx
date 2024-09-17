@@ -7,8 +7,8 @@ import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-import useRegisterModal from "@/hooks/use-register-modal";
-import useLoginModal from "@/hooks/use-login-modal";
+import useRegisterModal from "@/hooks/useRegisterModal";
+import useLoginModal from "@/hooks/useLoginModal";
 
 import Modal from "./Modal";
 import Input from "../inputs/Input";
@@ -57,7 +57,7 @@ const RegisterModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Welcome to LuxeAura" subtitle="Create an account!" />
+      <Heading title="Welcome to MishBaby" subtitle="Create an account!" />
       <Input
         id="email"
         label="Email"

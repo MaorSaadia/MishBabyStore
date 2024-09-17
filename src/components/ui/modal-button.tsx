@@ -36,7 +36,7 @@ const ModalButton: React.FC<ButtonProps> = ({
             ${
               outline
                 ? "bg-white border-black text-black"
-                : "bg-black border-white text-white"
+                : "bg-cyan-500 border-white text-white"
             }
             ${
               small
