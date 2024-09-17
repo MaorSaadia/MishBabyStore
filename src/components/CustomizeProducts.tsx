@@ -35,18 +35,32 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
   }, [selectedOptions, variants]);
 
   const handleOptionSelect = (optionType: string, choice: string) => {
-    setSelectedOptions((prev) => ({ ...prev, [optionType]: choice }));
+    setSelectedOptions((prev) => {
+      if (prev[optionType] === choice) {
+        // If the clicked option is already selected, deselect it
+        const updatedOptions = { ...prev };
+        delete updatedOptions[optionType]; // Remove the selected option
+        return updatedOptions;
+      }
+      // Otherwise, select the new option
+      return { ...prev, [optionType]: choice };
+    });
   };
 
-  const isVariantInStock = (choices: { [key: string]: string }) => {
+  // Keep this function to check if a variant is available based on selected options
+  const isVariantInStock = (optionName: string, optionValue: string) => {
     return variants.some((variant) => {
       const variantChoices = variant.choices;
       if (!variantChoices) return false;
 
+      // Check if current options (including deselected ones) match the variant
+      const isMatch = Object.entries({
+        ...selectedOptions,
+        [optionName]: optionValue,
+      }).every(([key, value]) => variantChoices[key] === value);
+
       return (
-        Object.entries(choices).every(
-          ([key, value]) => variantChoices[key] === value
-        ) &&
+        isMatch &&
         variant.stock?.inStock &&
         variant.stock?.quantity &&
         variant.stock?.quantity > 0
@@ -69,10 +83,10 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
           <ul className="flex flex-wrap items-center gap-4">
             <AnimatePresence>
               {option.choices?.map((choice) => {
-                const disabled = !isVariantInStock({
-                  ...selectedOptions,
-                  [option.name!]: choice.description!,
-                });
+                const disabled = !isVariantInStock(
+                  option.name!,
+                  choice.description!
+                );
 
                 const selected =
                   selectedOptions[option.name!] === choice.description;
@@ -86,12 +100,12 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
                     key={choice.description}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="relative"
+                    className="relative group"
                   >
                     <motion.div
                       className={`w-12 h-12 rounded-full ring-2 ${
                         selected
-                          ? "ring-sky-500"
+                          ? "ring-slate-600"
                           : disabled
                           ? "ring-gray-300"
                           : "ring-gray-200 hover:ring-sky-100"
@@ -122,6 +136,11 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
                         <X className="text-red-500" size={24} />
                       </motion.div>
                     )}
+
+                    {/* Tooltip for color name */}
+                    <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-slate-600 text-slate-100 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      {choice.description}
+                    </span>
                   </motion.li>
                 ) : (
                   <motion.li
