@@ -22,7 +22,7 @@ const Footer = () => {
         <div className="flex flex-row justify-stretch gap-8 lg:gap-16">
           <div className="flex flex-col justify-between">
             <h1 className="font-medium text-lg text-cyan-600">SHOP</h1>
-            <div className="flex flex-col gap-6 lg:gap-8">
+            <div className="flex flex-col gap-6 md:gap-8">
               <Link href="">New Arrivals</Link>
               <Link href="">Baby Clothing</Link>
               <Link href="">Toys & Games</Link>
@@ -32,7 +32,7 @@ const Footer = () => {
           </div>
           <div className="flex flex-col justify-between gap-8">
             <h1 className="font-medium text-lg text-cyan-600">HELP</h1>
-            <div className="flex flex-col gap-6 lg:gap-8">
+            <div className="flex flex-col gap-6 md:gap-8">
               <Link href="">About Us</Link>
               <Link href="">Contact Us</Link>
               <Link href="">Customer Service</Link>

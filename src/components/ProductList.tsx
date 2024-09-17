@@ -45,7 +45,7 @@ const ProductList: React.FC<ProductListProps> = async ({
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="flex-grow mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div className="flex-grow mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
         {res.items.map((product: products.Product) => (
           <Link
             href={"/" + product.slug}
@@ -91,13 +91,15 @@ const ProductList: React.FC<ProductListProps> = async ({
           </Link>
         ))}
       </div>
-      <div className="mt-8">
-        <Pagination
-          currentPage={res.currentPage || 0}
-          hasPrev={res.hasPrev()}
-          hasNext={res.hasNext()}
-        />
-      </div>
+      {!limit && (
+        <div className="mt-8">
+          <Pagination
+            currentPage={res.currentPage || 0}
+            hasPrev={res.hasPrev()}
+            hasNext={res.hasNext()}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -41,12 +41,12 @@ const HomePage = async () => {
         </h1>
         <Suspense fallback={<Skeleton />}>
           <ProductList
-            categoryId={process.env.FEATURED_PRODUCTS_FEATURED_CATEGORY_ID!}
-            limit={4}
+            categoryId={process.env.FEATURED_PRODUCTS_FEATURED_ALL_CATEGORY_ID!}
+            limit={8}
           />
         </Suspense>
       </div>
-      <div className="mt-12 container mx-auto px-4 py-12 bg-gray-50">
+      <div className="mt-8 container mx-auto px-4 py-12 bg-gray-50">
         <h2 className="text-2xl md:text-4xl font-bold mb-8 text-gray-800">
           Explore Categories
         </h2>
