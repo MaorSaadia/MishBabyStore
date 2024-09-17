@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, X } from "lucide-react";
 import { products } from "@wix/stores";
 
 import Add from "./Add";
@@ -53,96 +55,113 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col gap-8 bg-gray-50 p-6 rounded-lg shadow-md"
+    >
       {productOptions.map((option) => (
         <div className="flex flex-col gap-4" key={option.name}>
-          <h4 className="font-medium">Choose a {option.name}</h4>
-          <ul className="flex items-center gap-3">
-            {option.choices?.map((choice) => {
-              const disabled = !isVariantInStock({
-                ...selectedOptions,
-                [option.name!]: choice.description!,
-              });
+          <h4 className="font-semibold text-lg text-gray-700">
+            Choose {option.name}
+          </h4>
+          <ul className="flex flex-wrap items-center gap-4">
+            <AnimatePresence>
+              {option.choices?.map((choice) => {
+                const disabled = !isVariantInStock({
+                  ...selectedOptions,
+                  [option.name!]: choice.description!,
+                });
 
-              const selected =
-                selectedOptions[option.name!] === choice.description;
+                const selected =
+                  selectedOptions[option.name!] === choice.description;
 
-              const clickHandler = disabled
-                ? undefined
-                : () => handleOptionSelect(option.name!, choice.description!);
+                const clickHandler = disabled
+                  ? undefined
+                  : () => handleOptionSelect(option.name!, choice.description!);
 
-              return option.name === "Color" ? (
-                <li
-                  className="w-8 h-8 rounded-full ring-1 ring-gray-300 relative"
-                  style={{
-                    backgroundColor: choice.value,
-                    cursor: disabled ? "not-allowed" : "pointer",
-                  }}
-                  onClick={clickHandler}
-                  key={choice.description}
-                >
-                  {selected && (
-                    <div className="absolute w-10 h-10 rounded-full ring-2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
-                  )}
-                  {disabled && (
-                    <div className="absolute w-10 h-[2px] bg-red-400 rotate-45 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
-                  )}
-                </li>
-              ) : (
-                <li
-                  className="ring-1 ring-lama text-lama rounded-md py-1 px-4 text-sm"
-                  style={{
-                    cursor: disabled ? "not-allowed" : "pointer",
-                    backgroundColor: selected
-                      ? "#f35c7a"
-                      : disabled
-                      ? "#FBCFE8"
-                      : "white",
-                    color: selected || disabled ? "white" : "#f35c7a",
-                    boxShadow: disabled ? "none" : "",
-                  }}
-                  key={choice.description}
-                  onClick={clickHandler}
-                >
-                  {choice.description}
-                </li>
-              );
-            })}
+                return option.name === "Color" ? (
+                  <motion.li
+                    key={choice.description}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="relative"
+                  >
+                    <motion.div
+                      className={`w-12 h-12 rounded-full ring-2 ${
+                        selected
+                          ? "ring-sky-500"
+                          : disabled
+                          ? "ring-gray-300"
+                          : "ring-gray-200 hover:ring-sky-100"
+                      } transition-all duration-200`}
+                      style={{
+                        backgroundColor: choice.value,
+                        cursor: disabled ? "not-allowed" : "pointer",
+                        opacity: disabled ? 0.5 : 1,
+                      }}
+                      onClick={clickHandler}
+                    >
+                      {selected && (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="absolute inset-0 flex items-center justify-center"
+                        >
+                          <Check className="text-white" size={20} />
+                        </motion.div>
+                      )}
+                    </motion.div>
+                    {disabled && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="absolute inset-0 flex items-center justify-center"
+                      >
+                        <X className="text-red-500" size={24} />
+                      </motion.div>
+                    )}
+                  </motion.li>
+                ) : (
+                  <motion.li
+                    key={choice.description}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`ring-2 rounded-md py-2 px-4 text-sm font-medium transition-all duration-200 ${
+                      selected
+                        ? "ring-slate-400 bg-slate-500 text-white"
+                        : disabled
+                        ? "ring-gray-300 bg-gray-100 text-gray-400"
+                        : "ring-gray-200 bg-white text-gray-700 hover:ring-slate-300"
+                    }`}
+                    style={{
+                      cursor: disabled ? "not-allowed" : "pointer",
+                    }}
+                    onClick={clickHandler}
+                  >
+                    {choice.description}
+                  </motion.li>
+                );
+              })}
+            </AnimatePresence>
           </ul>
         </div>
       ))}
-      <Add
-        productId={productId}
-        variantId={
-          selectedVariant?._id || "00000000-0000-0000-0000-000000000000"
-        }
-        stockNumber={selectedVariant?.stock?.quantity || 0}
-      />
-      {/* COLOR */}
-      {/* 
-          <ul className="flex items-center gap-3">
-            <li className="w-8 h-8 rounded-full ring-1 ring-gray-300 cursor-pointer relative bg-red-500">
-              <div className="absolute w-10 h-10 rounded-full ring-2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
-            </li>
-            <li className="w-8 h-8 rounded-full ring-1 ring-gray-300 cursor-pointer relative bg-blue-500"></li>
-            <li className="w-8 h-8 rounded-full ring-1 ring-gray-300 cursor-not-allowed relative bg-green-500">
-              <div className="absolute w-10 h-[2px] bg-red-400 rotate-45 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
-            </li>
-          </ul> */}
-      {/* OTHERS */}
-      {/* <h4 className="font-medium">Choose a size</h4>
-      <ul className="flex items-center gap-3">
-        <li className="ring-1 ring-lama text-lama rounded-md py-1 px-4 text-sm cursor-pointer">
-          Small
-        </li>
-        <li className="ring-1 ring-lama text-white bg-lama rounded-md py-1 px-4 text-sm cursor-pointer">
-          Medium
-        </li>
-        <li className="ring-1 ring-pink-200 text-white bg-pink-200 rounded-md py-1 px-4 text-sm cursor-not-allowed">
-          Large
-        </li>
-      </ul> */}
-    </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <Add
+          productId={productId}
+          variantId={
+            selectedVariant?._id || "00000000-0000-0000-0000-000000000000"
+          }
+          stockNumber={selectedVariant?.stock?.quantity || 0}
+        />
+      </motion.div>
+    </motion.div>
   );
 };
 

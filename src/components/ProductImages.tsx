@@ -31,9 +31,9 @@ const ProductImages = ({ items }: { items: any }) => {
 
   return (
     <div className="space-y-4">
-      <div className="relative h-[600px] overflow-hidden rounded-lg shadow-lg">
+      <div className="relative h-[400px] md:h-[600px] overflow-hidden rounded-lg shadow-lg">
         <div
-          className="absolute inset-0 cursor-zoom-in"
+          className="absolute inset-0 cursor-context-menu"
           onMouseEnter={() => setIsZoomed(true)}
           onMouseLeave={() => setIsZoomed(false)}
           onMouseMove={handleMouseMove}

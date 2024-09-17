@@ -32,13 +32,13 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
             </div>
 
             {/* Product Details */}
-            <div className="md:w-1/2 p-8">
-              <div className="flex items-center mb-4">
+            <div className="md:w-1/2 p-8 -mt-8 md:mt-1">
+              {/* <div className="flex items-center mb-4">
                 <Tag className="w-5 h-5 mr-2 text-indigo-600" />
                 <span className="text-sm font-medium text-indigo-600">
                   New Arrival
                 </span>
-              </div>
+              </div> */}
               <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
                 {product.name}
               </h1>
