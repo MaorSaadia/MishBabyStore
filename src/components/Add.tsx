@@ -5,18 +5,20 @@ import { useCartStore } from "@/hooks/useCartStore";
 import { useWixClient } from "@/hooks/useWixClient";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Add = ({
-  productId,
-  variantId,
-  stockNumber,
-  allOptionsSelected,
-  missingOptions,
-}: {
+interface AddProps {
   productId: string;
   variantId: string;
   stockNumber: number;
   allOptionsSelected?: boolean;
   missingOptions?: string[];
+}
+
+const Add: React.FC<AddProps> = ({
+  productId,
+  variantId,
+  stockNumber,
+  allOptionsSelected,
+  missingOptions,
 }) => {
   const [quantity, setQuantity] = useState(1);
 

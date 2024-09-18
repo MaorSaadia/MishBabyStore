@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
 import { products } from "@wix/stores";
+
 import { wixClientServer } from "@/lib/wixClientServer";
 import Pagination from "./Pagination";
 
@@ -49,31 +50,58 @@ const ProductList: React.FC<ProductListProps> = async ({
         {res.items.map((product: products.Product) => (
           <Link
             href={"/" + product.slug}
-            className="group flex flex-col"
+            className="group flex flex-col h-full"
             key={product._id}
           >
-            <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl">
-              <div className="relative w-full h-60 overflow-hidden">
+            <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl flex flex-col h-full">
+              <div className="relative w-full h-40 md:h-60 overflow-hidden">
                 <Image
                   src={product.media?.mainMedia?.image?.url || "/product.png"}
                   alt=""
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+                  className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
                 />
+                {product.priceData?.price !==
+                  product.priceData?.discountedPrice && (
+                  <div className="absolute top-0 left-0 bg-rose-500 text-white px-2 py-1 text-xs font-bold">
+                    SALE
+                  </div>
+                )}
               </div>
-              <div className="p-4 flex flex-col gap-2">
-                <div className="flex justify-between items-center">
-                  <h3 className="font-medium text-gray-800 truncate">
-                    {product.name}
-                  </h3>
-                  <span className="font-semibold">
-                    ${product.priceData?.price}
-                  </span>
+              <div className="p-4 flex flex-col gap-2 flex-grow">
+                <h3 className="font-medium text-gray-800 truncate">
+                  {product.name}
+                </h3>
+                <div className="flex items-center space-x-2 flex-wrap">
+                  {product.priceData?.price !==
+                  product.priceData?.discountedPrice ? (
+                    <>
+                      <span className="text-lg font-bold text-rose-600">
+                        ${product.priceData?.discountedPrice}
+                      </span>
+                      <span className="text-sm text-gray-500 line-through">
+                        ${product.priceData?.price}
+                      </span>
+                      <span className="text-xs font-medium text-green-500 bg-green-100 px-2 py-1 rounded-full">
+                        {Math.round(
+                          (1 -
+                            Number(product.priceData?.discountedPrice) /
+                              Number(product.priceData?.price)) *
+                            100
+                        )}
+                        % OFF
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-lg font-bold text-gray-900">
+                      ${product.priceData?.price}
+                    </span>
+                  )}
                 </div>
-                {product.additionalInfoSections && (
+                {/* {product.additionalInfoSections && (
                   <div
-                    className="text-sm text-gray-500 line-clamp-2"
+                    className="text-sm text-gray-500 line-clamp-2 flex-grow"
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(
                         product.additionalInfoSections.find(
@@ -82,8 +110,8 @@ const ProductList: React.FC<ProductListProps> = async ({
                       ),
                     }}
                   ></div>
-                )}
-                <button className="mt-2 rounded-full ring-1 ring-cyan-500 text-cyan-500 w-full py-2 px-4 text-sm transition-all duration-300 ease-in-out hover:bg-cyan-600 hover:text-white">
+                )} */}
+                <button className="mt-2 rounded-full bg-cyan-500 text-white w-full py-2 px-4 text-sm transition-all duration-300 ease-in-out hover:bg-cyan-600">
                   Add to Cart
                 </button>
               </div>
