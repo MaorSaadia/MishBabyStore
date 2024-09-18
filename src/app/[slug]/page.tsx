@@ -33,16 +33,23 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
 
             {/* Product Details */}
             <div className="md:w-1/2 p-8 -mt-8 md:mt-1">
-              {/* <div className="flex items-center mb-4">
-                <Tag className="w-5 h-5 mr-2 text-indigo-600" />
-                <span className="text-sm font-medium text-indigo-600">
-                  New Arrival
+              <div className="flex items-center mb-4">
+                <Tag className="w-5 h-5 mr-2 text-rose-600" />
+                <span className="text-md font-medium text-rose-600">
+                  {product.ribbon}
                 </span>
-              </div> */}
+              </div>
               <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
                 {product.name}
               </h1>
-              <p className="mt-4 text-gray-500">{product.description}</p>
+              {product.description ? (
+                <p
+                  className="mt-4 text-gray-500"
+                  dangerouslySetInnerHTML={{ __html: product.description }}
+                />
+              ) : (
+                <p className="mt-4 text-gray-500">No description available.</p>
+              )}
 
               {/* Price */}
               <div className="mt-8 flex items-center">
@@ -117,7 +124,9 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </summary>
                     <p className="mt-2 text-sm text-gray-500">
-                      {section.description}
+                      {section.description
+                        ? section.description
+                        : "No additional information available."}
                     </p>
                   </details>
                 ))}

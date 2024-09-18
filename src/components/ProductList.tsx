@@ -50,7 +50,7 @@ const ProductList: React.FC<ProductListProps> = async ({
         {res.items.map((product: products.Product) => (
           <Link
             href={"/" + product.slug}
-            className="group flex flex-col h-70  md:h-80"
+            className="group flex flex-col h-70 md:h-80"
             key={product._id}
           >
             <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl flex flex-col h-full">

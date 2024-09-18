@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
+import Image from "next/image";
 
 import { useWixClient } from "@/hooks/useWixClient";
 import { useCartStore } from "@/hooks/useCartStore";
@@ -17,16 +17,6 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
   const wixClient = useWixClient();
   const { cart, isLoading, removeItem } = useCartStore();
 
-  console.log(cart);
-
-  const subtotal = cart.lineItems?.reduce((sum, item) => {
-    const price = Number(item.price?.amount) || 0;
-    const quantity = item.quantity || 1;
-    return sum + price * quantity;
-  }, 0);
-
-  console.log(subtotal);
-
   // Detect clicks outside the modal and close it
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -34,7 +24,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
         modalRef.current &&
         !modalRef.current.contains(event.target as Node)
       ) {
-        onClose(); // Close modal if clicked outside
+        onClose();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
