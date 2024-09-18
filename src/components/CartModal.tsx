@@ -17,6 +17,16 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
   const wixClient = useWixClient();
   const { cart, isLoading, removeItem } = useCartStore();
 
+  console.log(cart);
+
+  const subtotal = cart.lineItems?.reduce((sum, item) => {
+    const price = Number(item.price?.amount) || 0;
+    const quantity = item.quantity || 1;
+    return sum + price * quantity;
+  }, 0);
+
+  console.log(subtotal);
+
   // Detect clicks outside the modal and close it
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -121,7 +131,10 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
           <div>
             <div className="flex items-center justify-between font-semibold">
               <span>Subtotal</span>
-              <span>${cart.subtotal.amount}</span>
+              {
+                // @ts-ignore
+                <span>${cart.subtotal.amount}</span>
+              }
             </div>
             <p className="text-gray-500 text-sm mt-2 mb-4">
               Shipping and taxes calculated at checkout.
