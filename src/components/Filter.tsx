@@ -47,31 +47,19 @@ const Filter = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <Select onValueChange={(value) => handleFilterChange("cat", value)}>
-            <SelectTrigger id="category" className="w-[180px]">
-              <SelectValue placeholder="Select category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              <SelectItem value="new">Toys & Games</SelectItem>
-              <SelectItem value="popular">Popular</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        {/* <div className="flex flex-col gap-2">
           <Select
             onValueChange={(value) => handleFilterChange("filter", value)}
           >
             <SelectTrigger id="filters" className="w-[180px]">
-              <SelectValue placeholder="All Filters" />
+              <SelectValue placeholder="Filters" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Filters</SelectItem>
+              <SelectItem value="all">All</SelectItem>
               <SelectItem value="inStock">In Stock</SelectItem>
               <SelectItem value="onSale">On Sale</SelectItem>
             </SelectContent>
           </Select>
-        </div> */}
+        </div>
       </div>
       <div className="flex flex-col gap-2">
         <Select onValueChange={(value) => handleFilterChange("sort", value)}>

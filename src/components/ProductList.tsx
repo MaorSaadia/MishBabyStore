@@ -50,7 +50,7 @@ const ProductList: React.FC<ProductListProps> = async ({
         {res.items.map((product: products.Product) => (
           <Link
             href={"/" + product.slug}
-            className="group flex flex-col h-full"
+            className="group flex flex-col h-70  md:h-80"
             key={product._id}
           >
             <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl flex flex-col h-full">
@@ -83,7 +83,7 @@ const ProductList: React.FC<ProductListProps> = async ({
                       <span className="text-sm text-gray-500 line-through">
                         ${product.priceData?.price}
                       </span>
-                      <span className="text-xs font-medium text-green-500 bg-green-100 px-2 py-1 rounded-full">
+                      {/* <span className="text-xs font-medium text-green-500 bg-green-100 px-2 py-1 rounded-full">
                         {Math.round(
                           (1 -
                             Number(product.priceData?.discountedPrice) /
@@ -91,7 +91,7 @@ const ProductList: React.FC<ProductListProps> = async ({
                             100
                         )}
                         % OFF
-                      </span>
+                      </span> */}
                     </>
                   ) : (
                     <span className="text-lg font-bold text-gray-900">
@@ -111,16 +111,16 @@ const ProductList: React.FC<ProductListProps> = async ({
                     }}
                   ></div>
                 )} */}
-                <button className="mt-2 rounded-full bg-cyan-500 text-white w-full py-2 px-4 text-sm transition-all duration-300 ease-in-out hover:bg-cyan-600">
+                {/* <button className="mt-2 rounded-full bg-cyan-500 text-white w-full py-2 px-4 text-sm transition-all duration-300 ease-in-out hover:bg-cyan-600">
                   Add to Cart
-                </button>
+                </button> */}
               </div>
             </div>
           </Link>
         ))}
       </div>
       {!limit && (
-        <div className="mt-8">
+        <div className="">
           <Pagination
             currentPage={res.currentPage || 0}
             hasPrev={res.hasPrev()}
