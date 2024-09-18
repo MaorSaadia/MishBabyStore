@@ -37,23 +37,19 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
   const handleOptionSelect = (optionType: string, choice: string) => {
     setSelectedOptions((prev) => {
       if (prev[optionType] === choice) {
-        // If the clicked option is already selected, deselect it
         const updatedOptions = { ...prev };
-        delete updatedOptions[optionType]; // Remove the selected option
+        delete updatedOptions[optionType];
         return updatedOptions;
       }
-      // Otherwise, select the new option
       return { ...prev, [optionType]: choice };
     });
   };
 
-  // Keep this function to check if a variant is available based on selected options
   const isVariantInStock = (optionName: string, optionValue: string) => {
     return variants.some((variant) => {
       const variantChoices = variant.choices;
       if (!variantChoices) return false;
 
-      // Check if current options (including deselected ones) match the variant
       const isMatch = Object.entries({
         ...selectedOptions,
         [optionName]: optionValue,
@@ -67,6 +63,14 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
       );
     });
   };
+
+  const allOptionsSelected = productOptions.every(
+    (option) => selectedOptions[option.name!]
+  );
+
+  const missingOptions = productOptions
+    .filter((option) => !selectedOptions[option.name!])
+    .map((option) => option.name!);
 
   return (
     <motion.div
@@ -131,13 +135,10 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="absolute inset-0 flex items-center justify-center"
-                      >
-                        <X className="text-red-500" size={24} />
-                      </motion.div>
+                        className="absolute w-12 h-[2px] bg-slate-300 rotate-45 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      ></motion.div>
                     )}
 
-                    {/* Tooltip for color name */}
                     <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-slate-600 text-slate-100 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       {choice.description}
                     </span>
@@ -178,7 +179,37 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
             selectedVariant?._id || "00000000-0000-0000-0000-000000000000"
           }
           stockNumber={selectedVariant?.stock?.quantity || 0}
+          allOptionsSelected={allOptionsSelected}
+          missingOptions={missingOptions}
         />
+        <AnimatePresence>
+          {allOptionsSelected && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mt-2 overflow-hidden"
+            >
+              {selectedVariant?.stock?.quantity === 0 ? (
+                <div className="text-xs text-red-500">
+                  Product is out of stock
+                </div>
+              ) : selectedVariant?.stock?.quantity &&
+                selectedVariant.stock.quantity < 20 ? (
+                <div className="text-xs">
+                  Only{" "}
+                  <span className="text-orange-500">
+                    {selectedVariant.stock.quantity} items
+                  </span>{" "}
+                  left!
+                  <br /> {"Don't"} miss it
+                </div>
+              ) : (
+                <div className="text-xs">In stock</div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </motion.div>
   );

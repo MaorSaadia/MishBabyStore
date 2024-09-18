@@ -1,18 +1,22 @@
 "use client";
 
 import { useState } from "react";
-
 import { useCartStore } from "@/hooks/useCartStore";
 import { useWixClient } from "@/hooks/useWixClient";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Add = ({
   productId,
   variantId,
   stockNumber,
+  allOptionsSelected,
+  missingOptions,
 }: {
   productId: string;
   variantId: string;
   stockNumber: number;
+  allOptionsSelected?: boolean;
+  missingOptions?: string[];
 }) => {
   const [quantity, setQuantity] = useState(1);
 
@@ -32,8 +36,8 @@ const Add = ({
   return (
     <div className="flex flex-col gap-4">
       <h4 className="font-medium">Choose a Quantity</h4>
-      <div className="flex justify-between">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center justify-between gap-4">
           <div className="bg-gray-100 py-2 px-4 rounded-3xl flex items-center justify-between w-32">
             <button
               className="cursor-pointer text-xl disabled:cursor-not-allowed disabled:opacity-20"
@@ -51,23 +55,26 @@ const Add = ({
               +
             </button>
           </div>
-          {stockNumber < 1 ? (
-            <div className="text-xs">Product is out of stock</div>
-          ) : (
-            <div className="text-xs">
-              Only <span className="text-orange-500">{stockNumber} items</span>{" "}
-              left!
-              <br /> {"Don't"} miss it
-            </div>
-          )}
+          <button
+            onClick={() => addItem(wixClient, productId, variantId, quantity)}
+            disabled={isLoading || !allOptionsSelected}
+            className="w-36 text-sm rounded-3xl ring-1 ring-slate-800 text-slate-900 py-2 px-4 hover:bg-slate-800 hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200 disabled:ring-0 disabled:text-white disabled:ring-none"
+          >
+            Add to Cart
+          </button>
         </div>
-        <button
-          onClick={() => addItem(wixClient, productId, variantId, quantity)}
-          disabled={isLoading}
-          className="w-36 text-sm rounded-3xl ring-1 ring-cyan-500 text-cyan-600 py-2 px-4 hover:bg-cyan-600 hover:text-white disabled:cursor-not-allowed disabled:bg-cyan-200 disabled:ring-0 disabled:text-white disabled:ring-none"
-        >
-          Add to Cart
-        </button>
+        <AnimatePresence>
+          {!allOptionsSelected && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="text-xs text-slate-700 mt-2"
+            >
+              Please select {missingOptions?.join(" and ")} to add to cart.
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
