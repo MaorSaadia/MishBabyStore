@@ -1,31 +1,69 @@
 "use client";
 
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useState } from "react";
+
+import { Menu as MenuIcon, X } from "lucide-react";
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [open]);
+
+  const menuItems = [
+    { href: "/", label: "Shop" },
+    { href: "/deals", label: "Deals" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+  ];
+
   return (
-    <div className="">
-      <Image
-        src="/menu.png"
-        alt=""
-        width={28}
-        height={28}
-        className="cursor-pointer"
-        onClick={() => setOpen((prev) => !prev)}
-      />
+    <div className="relative z-50">
+      <button
+        onClick={() => setOpen(!open)}
+        className="p-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+      >
+        {open ? <X size={28} /> : <MenuIcon size={28} />}
+      </button>
+
       {open && (
-        <div className="absolute bg-black text-white left-0 top-20 w-full h-[calc(100vh-80px)] flex flex-col items-center justify-center gap-8 text-xl  z-10">
-          <Link href="/">Homepage</Link>
-          <Link href="/">Shop</Link>
-          <Link href="/">Deals</Link>
-          <Link href="/">About</Link>
-          <Link href="/">Contact</Link>
-          <Link href="/">Logout</Link>
-          <Link href="/">Cart(1)</Link>
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity">
+          <div className="absolute right-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out">
+            <div className="flex flex-col h-full">
+              <div className="flex justify-end p-4">
+                <button
+                  onClick={() => setOpen(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+              <nav className="flex-grow">
+                <ul className="space-y-4 p-4">
+                  {menuItems.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className="block py-2 px-4 text-lg text-gray-700 hover:bg-gray-100 rounded transition duration-150 ease-in-out"
+                        onClick={() => setOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
+          </div>
         </div>
       )}
     </div>

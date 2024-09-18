@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="flex flex-col md:flex-row justify-between gap-20">
         {/* LEFT */}
         <div className="w-full md:w-1/4 lg:w-1/5 flex flex-col gap-6">
-          <Image src="/mb-logo.png " alt="" width={120} height={100} />
+          <Image src="/mb-logo.jpeg " alt="" width={120} height={100} />
           <span className="font-semibold">MishBabySupport@gmail.com</span>
           <div className="flex gap-6">
             <Image src="/facebook.png" alt="" width={16} height={16} />
@@ -19,25 +19,24 @@ const Footer = () => {
           </div>
         </div>
         {/* CENTER */}
-        <div className="flex flex-row justify-stretch gap-8 lg:gap-16">
-          <div className="flex flex-col justify-between">
+        <div className="flex flex-row justify-stretch gap-12">
+          <div className="flex flex-col justify-between mb-28">
             <h1 className="font-medium text-lg text-cyan-600">SHOP</h1>
-            <div className="flex flex-col gap-6 md:gap-8">
+            <div className="flex flex-col gap-4">
               <Link href="">New Arrivals</Link>
-              <Link href="">Baby Clothing</Link>
-              <Link href="">Toys & Games</Link>
-              <Link href="">Nursery & Furniture</Link>
+              {/* <Link href="">Baby Clothing</Link>
+              <Link href="">Games</Link>
+              <Link href="">Toys</Link>
+              <Link href="">Rome Design</Link> */}
               <Link href="">All Products</Link>
             </div>
           </div>
-          <div className="flex flex-col justify-between gap-8">
+          <div className="flex flex-col justify-between gap-8 mb-20">
             <h1 className="font-medium text-lg text-cyan-600">HELP</h1>
-            <div className="flex flex-col gap-6 md:gap-8">
-              <Link href="">About Us</Link>
+            <div className="flex flex-col gap-2 md:gap-8">
               <Link href="">Contact Us</Link>
               <Link href="">Customer Service</Link>
               <Link href="">My Account</Link>
-              <Link href="">Legal & Privacy</Link>
             </div>
           </div>
         </div>

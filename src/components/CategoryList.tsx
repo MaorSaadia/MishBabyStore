@@ -25,7 +25,7 @@ const CategoryList = async () => {
                     "/placeholder-image.jpg"
                   }
                   alt=""
-                  layout="fill"
+                  fill
                   objectFit="cover"
                   className="transition-transform duration-300 ease-in-out group-hover:scale-110"
                 />
