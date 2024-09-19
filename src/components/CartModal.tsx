@@ -30,8 +30,14 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
+
+    // Disable scrolling on the body when the modal is open
+    document.body.style.overflow = "hidden";
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      // Re-enable scrolling when the modal is closed
+      document.body.style.overflow = "unset";
     };
   }, [onClose]);
 
@@ -60,11 +66,10 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 pointer-events-auto">
-      <div className="fixed inset-0 z-40 bg-black bg-opacity-50 pointer-events-none"></div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
       <div
         ref={modalRef}
-        className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden z-50 pointer-events-auto"
+        className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden z-50"
       >
         <div className="p-4">
           <div className="flex items-center justify-between mb-4">
