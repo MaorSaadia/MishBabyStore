@@ -1,171 +1,224 @@
-const PrivacyPolicy = () => {
+import { ReactNode } from "react";
+import {
+  Scroll,
+  Shield,
+  Eye,
+  UserCheck,
+  Lock,
+  AlertTriangle,
+} from "lucide-react";
+
+interface PolicySectionProps {
+  icon: ReactNode;
+  title: string;
+  content: ReactNode;
+}
+
+const CurrentDate = () => {
+  const now = new Date();
+  // Format the date
+  const formattedDate = `${now.toLocaleString("en-US", {
+    month: "long",
+  })} ${now.getDate()}, ${now.getFullYear()}`;
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="bg-sky-600 text-white py-8 text-center">
-        <h1 className="text-3xl font-bold">Privacy Policy</h1>
+    <p className="text-sm text-gray-500">
+      <strong>Effective Date:</strong> {formattedDate}
+    </p>
+  );
+};
+
+const PolicySection: React.FC<PolicySectionProps> = ({
+  icon,
+  title,
+  content,
+}) => (
+  <div className="flex space-x-4">
+    <div className="flex-shrink-0">
+      <div className="flex items-center justify-center h-12 w-12 rounded-md bg-slate-900 text-white">
+        {icon}
+      </div>
+    </div>
+    <div>
+      <h2 className="text-2xl font-semibold mb-4">{title}</h2>
+      <div className="text-gray-700">{content}</div>
+    </div>
+  </div>
+);
+
+const PrivacyPolicy: React.FC = () => {
+  return (
+    <div className="flex flex-col min-h-screen bg-gray-50">
+      <header className="bg-gradient-to-r from-cyan-800 to-cyan-400 text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+            Privacy Policy
+          </h1>
+          <p className="mt-6 text-xl max-w-3xl">
+            Protecting your personal information is our top priority.
+          </p>
+        </div>
       </header>
 
-      <main className="flex-grow bg-white text-gray-800 p-8 md:px-16 lg:px-32 xl:px-64">
-        <section className="space-y-6">
-          <p>
-            <strong>Effective Date:</strong> [Insert Date]
-          </p>
-          <p>
-            MishBaby (“we,” “us,” or “our”) is committed to protecting the
-            privacy of our customers. This Privacy Policy outlines how we
-            collect, use, and safeguard your personal information when you visit
-            our website, purchase products, or otherwise interact with us.
-          </p>
+      <main className="flex-grow bg-white shadow-xl rounded-lg mx-4 sm:mx-6 lg:mx-8 my-8 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <section className="space-y-8 text-gray-700">
+            <div className="border-b pb-4">
+              <p className="text-sm text-gray-500">
+                <CurrentDate />
+              </p>
+            </div>
 
-          <h2 className="text-2xl font-semibold">1. Information We Collect</h2>
-          <p>
-            We may collect the following types of information:
-            <ul className="list-disc list-inside">
-              <li>
-                <strong>Personal Information:</strong> When you create an
-                account, make a purchase, or contact us, we may collect personal
-                details such as your name, email address, phone number, billing
-                address, and shipping address.
-              </li>
-              <li>
-                <strong>Payment Information:</strong> We collect payment details
-                such as credit/debit card information or other payment methods
-                when you make a purchase.
-              </li>
-              <li>
-                <strong>Automatically Collected Information:</strong> We may
-                collect information automatically when you visit our website,
-                including your IP address, browser type, device information, and
-                browsing behavior through cookies and similar technologies.
-              </li>
-              <li>
-                <strong>Order Information:</strong> We collect information about
-                the products you purchase, including item descriptions and
-                transaction history.
-              </li>
-            </ul>
-          </p>
+            <p className="text-lg">
+              At MishBaby, we are committed to safeguarding your privacy and
+              ensuring the security of your personal information. This Privacy
+              Policy outlines our practices regarding the collection, use, and
+              protection of your data when you interact with our website, make
+              purchases, or engage with our services.
+            </p>
 
-          <h2 className="text-2xl font-semibold">
-            2. How We Use Your Information
-          </h2>
-          <p>
-            We use the information we collect for the following purposes:
-            <ul className="list-disc list-inside">
-              <li>
-                To process and fulfill your orders, including shipping and
-                payment transactions.
-              </li>
-              <li>
-                To communicate with you about your orders, products, and
-                services.
-              </li>
-              <li>
-                To improve our website, customer service, and product offerings.
-              </li>
-              <li>
-                To personalize your experience and provide relevant content and
-                product recommendations.
-              </li>
-              <li>
-                To comply with legal obligations, prevent fraud, and ensure
-                security.
-              </li>
-            </ul>
-          </p>
+            <PolicySection
+              icon={<Scroll />}
+              title="1. Information We Collect"
+              content={
+                <ul className="list-disc list-inside space-y-2">
+                  <li>
+                    <strong>Personal Information:</strong> Name, email address,
+                    phone number, billing and shipping addresses.
+                  </li>
+                  <li>
+                    <strong>Payment Information:</strong> Secure processing of
+                    credit/debit card details or other payment methods.
+                  </li>
+                  <li>
+                    <strong>Automatically Collected Data:</strong> IP address,
+                    browser type, device information, and browsing behavior.
+                  </li>
+                  <li>
+                    <strong>Order Information:</strong> Details of products
+                    purchased and transaction history.
+                  </li>
+                </ul>
+              }
+            />
 
-          <h2 className="text-2xl font-semibold">
-            3. Sharing Your Information
-          </h2>
-          <p>
-            We do not sell, trade, or rent your personal information to third
-            parties. However, we may share your information with:
-            <ul className="list-disc list-inside">
-              <li>
-                <strong>Service Providers:</strong> We work with third-party
-                companies that assist with payment processing, order
-                fulfillment, website hosting, and analytics.
-              </li>
-              <li>
-                <strong>Legal Compliance:</strong> We may disclose your
-                information if required by law, to protect our rights, or in
-                response to legal processes.
-              </li>
-            </ul>
-          </p>
+            <PolicySection
+              icon={<Eye />}
+              title="2. How We Use Your Information"
+              content={
+                <ul className="list-disc list-inside space-y-2">
+                  <li>
+                    Process and fulfill your orders, including shipping and
+                    payment transactions.
+                  </li>
+                  <li>
+                    Communicate about your orders, products, and services.
+                  </li>
+                  <li>
+                    Enhance our website, customer service, and product
+                    offerings.
+                  </li>
+                  <li>
+                    Personalize your experience with relevant content and
+                    product recommendations.
+                  </li>
+                  <li>
+                    Comply with legal obligations, prevent fraud, and maintain
+                    security.
+                  </li>
+                </ul>
+              }
+            />
 
-          <h2 className="text-2xl font-semibold">
-            4. Cookies and Tracking Technologies
-          </h2>
-          <p>
-            We use cookies and similar tracking technologies to collect
-            information about your browsing activities. Cookies help us provide
-            a more personalized experience, track shopping cart activities, and
-            analyze website performance.
-          </p>
+            <PolicySection
+              icon={<UserCheck />}
+              title="3. Sharing Your Information"
+              content={
+                <div>
+                  <p>
+                    We do not sell, trade, or rent your personal information to
+                    third parties. We may share your information with:
+                  </p>
+                  <ul className="list-disc list-inside space-y-2 mt-2">
+                    <li>
+                      <strong>Service Providers:</strong> Third-party companies
+                      assisting with payment processing, order fulfillment,
+                      website hosting, and analytics.
+                    </li>
+                    <li>
+                      <strong>Legal Compliance:</strong> When required by law,
+                      to protect our rights, or in response to legal processes.
+                    </li>
+                  </ul>
+                </div>
+              }
+            />
 
-          <h2 className="text-2xl font-semibold">
-            5. Security of Your Information
-          </h2>
-          <p>
-            We implement industry-standard security measures to protect your
-            personal information. However, no system is 100% secure, and we
-            cannot guarantee the absolute security of your information.
-          </p>
+            <PolicySection
+              icon={<Lock />}
+              title="4. Security of Your Information"
+              content="We implement industry-standard security measures to protect your personal information. While we strive to use commercially acceptable means to protect your personal data, we cannot guarantee its absolute security."
+            />
 
-          <h2 className="text-2xl font-semibold">6. Your Rights</h2>
-          <p>
-            You have the right to:
-            <ul className="list-disc list-inside">
-              <li>
-                <strong>Access:</strong> Request access to the personal
-                information we hold about you.
-              </li>
-              <li>
-                <strong>Correction:</strong> Request corrections to any
-                inaccuracies in your personal information.
-              </li>
-              <li>
-                <strong>Deletion:</strong> Request that we delete your personal
-                information, subject to legal obligations.
-              </li>
-              <li>
-                <strong>Opt-Out:</strong> Unsubscribe from marketing
-                communications by following the instructions in those
-                communications.
-              </li>
-            </ul>
-          </p>
+            <PolicySection
+              icon={<Shield />}
+              title="5. Your Rights"
+              content={
+                <ul className="list-disc list-inside space-y-2">
+                  <li>
+                    <strong>Access:</strong> Request access to your personal
+                    information.
+                  </li>
+                  <li>
+                    <strong>Correction:</strong> Request corrections to any
+                    inaccuracies.
+                  </li>
+                  <li>
+                    <strong>Deletion:</strong> Request deletion of your data,
+                    subject to legal obligations.
+                  </li>
+                  <li>
+                    <strong>Opt-Out:</strong> Unsubscribe from marketing
+                    communications.
+                  </li>
+                </ul>
+              }
+            />
 
-          <h2 className="text-2xl font-semibold">7. Children’s Privacy</h2>
-          <p>
-            Our website is not intended for children under the age of 13. We do
-            not knowingly collect or solicit personal information from children.
-            If you believe we have collected personal information from a child,
-            please contact us to have the information removed.
-          </p>
+            <PolicySection
+              icon={<AlertTriangle />}
+              title="6. Changes to this Privacy Policy"
+              content="We may update this Privacy Policy periodically. Any changes will be posted on this page with an updated effective date. We encourage you to review this policy regularly to stay informed about how we protect your information."
+            />
 
-          <h2 className="text-2xl font-semibold">
-            8. Changes to this Privacy Policy
-          </h2>
-          <p>
-            We may update this Privacy Policy from time to time. Any changes
-            will be posted on this page with the updated effective date. Please
-            review the policy periodically for updates.
-          </p>
-
-          <h2 className="text-2xl font-semibold">9. Contact Us</h2>
-          <p>
-            If you have any questions about this Privacy Policy or your personal
-            information, please contact us at:
-          </p>
-          <p>
-            <strong>MishBaby</strong>
-            <br />
-            MishBabySupport@gmail.com
-          </p>
-        </section>
+            <div className="mt-12 border-t pt-8">
+              <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
+              <p>
+                If you have any questions or concerns about this Privacy Policy
+                or your personal information, please don&apos;t hesitate to
+                reach out:
+              </p>
+              <p className="mt-4">
+                <strong>MishBaby</strong>
+                <br />
+                Email:{" "}
+                <a
+                  href="mailto:MishBabySupport@gmail.com"
+                  className="text-blue-600 hover:underline"
+                >
+                  MishBabySupport@gmail.com
+                </a>
+              </p>
+            </div>
+          </section>
+        </div>
       </main>
+
+      <footer className="mt-6 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <p>&copy; 2024 MishBaby. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 };
