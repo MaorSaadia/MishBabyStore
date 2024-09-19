@@ -7,6 +7,7 @@ import Image from "next/image";
 
 import { useWixClient } from "@/hooks/useWixClient";
 import { useCartStore } from "@/hooks/useCartStore";
+import { X } from "lucide-react";
 
 interface CartModalProps {
   onClose: () => void;
@@ -61,13 +62,21 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
   return (
     <div
       ref={modalRef}
-      className="w-max absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-6 z-20"
+      className="w-max absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-6 z-20 -mr-14 md:mr-0"
     >
       {!cart.lineItems ? (
         <div className="">Cart is Empty</div>
       ) : (
         <>
-          <h2 className="text-xl">Shopping Cart</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold">Shopping Cart</h2>
+            <button
+              onClick={onClose}
+              className="p-1 rounded-full hover:bg-gray-100"
+            >
+              <X size={24} />
+            </button>
+          </div>
           <div className="flex flex-col gap-8">
             {cart.lineItems.map((item) => (
               <div className="flex gap-4" key={item._id}>
@@ -91,6 +100,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                       <h3 className="font-semibold">
                         {item.productName?.original}
                       </h3>
+
                       <div className="p-1 bg-gray-50 rounded-sm flex items-center gap-2">
                         {item.quantity && item.quantity > 1 && (
                           <div className="text-xs text-green-500">
@@ -104,10 +114,15 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                       {item.availability?.status}
                     </div>
                   </div>
+                  {item.descriptionLines?.[0]?.colorInfo?.original && (
+                    <div className="text-slate-500 text-xs">
+                      Color: {item.descriptionLines[0].colorInfo.original}
+                    </div>
+                  )}
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Qty. {item.quantity}</span>
+                    <span className="text-slate-800">Qty. {item.quantity}</span>
                     <span
-                      className="text-blue-500"
+                      className="text-rose-500"
                       style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
                       onClick={() => removeItem(wixClient, item._id!)}
                     >
