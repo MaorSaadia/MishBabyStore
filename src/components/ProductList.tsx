@@ -44,7 +44,7 @@ const ProductList: React.FC<ProductListProps> = async ({
   const res = await productQuery.find();
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col">
       <div className="flex-grow mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
         {res.items.map((product: products.Product) => (
           <Link
@@ -52,7 +52,7 @@ const ProductList: React.FC<ProductListProps> = async ({
             className="group flex flex-col h-70 md:h-80"
             key={product._id}
           >
-            <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl flex flex-col h-full">
+            <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl flex flex-col">
               <div className="relative w-full h-40 md:h-60 overflow-hidden">
                 <Image
                   src={product.media?.mainMedia?.image?.url || "/product.png"}
