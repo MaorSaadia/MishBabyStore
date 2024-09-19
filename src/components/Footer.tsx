@@ -23,13 +23,11 @@ const Footer = () => {
           <div className="flex flex-col justify-between md:mb-24">
             <h1 className="font-medium text-lg text-cyan-600">SHOP</h1>
             <div className="flex flex-col gap-4 mt-3">
-              <Link href="">All Products</Link>
-              <Link href="">New Arrivals</Link>
-              <Link href="">Deals</Link>
-              {/* <Link href="">Baby Clothing</Link>
-              <Link href="">Games</Link>
-              <Link href="">Toys</Link>
-              <Link href="">Rome Design</Link> */}
+              <Link href="/list?cat=all-products">All Products</Link>
+              <Link href="list?cat=all-products&filter=New Arrival">
+                New Arrivals
+              </Link>
+              <Link href="list?cat=all-products&filter=Sale">Deals</Link>
             </div>
           </div>
           <div className="flex flex-col justify-between md:mb-24">

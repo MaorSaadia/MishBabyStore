@@ -41,7 +41,12 @@ const ProductList: React.FC<ProductListProps> = async ({
     }
   }
 
-  const res = await productQuery.find();
+  if (searchParams?.filter) {
+    // @ts-ignore
+    productQuery = productQuery.eq("ribbon", searchParams.filter);
+  }
+
+  let res = await productQuery.find();
 
   return (
     <div className="flex flex-col">
@@ -65,6 +70,11 @@ const ProductList: React.FC<ProductListProps> = async ({
                   product.priceData?.discountedPrice && (
                   <div className="absolute top-0 left-0 bg-rose-500 text-white px-2 py-1 text-xs font-bold">
                     SALE
+                  </div>
+                )}
+                {product.ribbon === "New Arrival" && (
+                  <div className="absolute top-0 left-0 bg-sky-500 text-white px-2 py-1 text-xs font-bold">
+                    NEW
                   </div>
                 )}
               </div>

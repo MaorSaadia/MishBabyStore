@@ -55,8 +55,8 @@ const Filter = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All</SelectItem>
-              <SelectItem value="inStock">In Stock</SelectItem>
-              <SelectItem value="onSale">On Sale</SelectItem>
+              <SelectItem value="New Arrival">New Arrivals</SelectItem>
+              <SelectItem value="Sale">On Sale</SelectItem>
             </SelectContent>
           </Select>
         </div>

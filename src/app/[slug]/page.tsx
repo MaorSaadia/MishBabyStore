@@ -36,8 +36,20 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
             <div className="md:w-1/2 p-8 -mt-8 md:mt-1">
               {product.ribbon && (
                 <div className="flex items-center mb-4">
-                  <Tag className="w-5 h-5 mr-2 text-rose-600" />
-                  <span className="text-md font-medium text-rose-600">
+                  <Tag
+                    className={`w-5 h-5 mr-2 ${
+                      product.ribbon === "New Arrival"
+                        ? "text-sky-600"
+                        : "text-rose-600"
+                    }`}
+                  />
+                  <span
+                    className={`text-md font-medium ${
+                      product.ribbon === "New Arrival"
+                        ? "text-sky-600"
+                        : "text-rose-600"
+                    }`}
+                  >
                     {product.ribbon}
                   </span>
                 </div>
