@@ -27,7 +27,7 @@ const Menu = () => {
   ];
 
   return (
-    <div className="relative z-50">
+    <div className="relative z-40">
       <button
         onClick={() => setOpen(!open)}
         className="p-2 text-gray-500 hover:text-gray-700 focus:outline-none"

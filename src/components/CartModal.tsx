@@ -30,14 +30,8 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-
-    // Disable scrolling on the body when the modal is open
-    document.body.style.overflow = "hidden";
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      // Re-enable scrolling when the modal is closed
-      document.body.style.overflow = "unset";
     };
   }, [onClose]);
 
@@ -66,21 +60,22 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 pointer-events-auto">
+      <div className="fixed inset-0 z-40 bg-black bg-opacity-50 pointer-events-none"></div>
+      <div
+        ref={modalRef}
+        className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden z-50 pointer-events-auto"
+      >
         <div className="p-4">
-          <div className="flex items-center p-2 rounded-t justify-center relative">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold">Shopping Cart</h2>
             <button
               onClick={onClose}
-              className="p-1 transition absolute left-9 rounded-full hover:opacity-70 mb-4"
+              className="p-1 rounded-full hover:bg-gray-100"
             >
               <X size={24} />
             </button>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Shopping Cart</h2>
-            </div>
           </div>
-
           {!cart.lineItems ? (
             <div className="text-center py-8">Cart is Empty</div>
           ) : (
