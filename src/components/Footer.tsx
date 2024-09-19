@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="flex flex-col md:flex-row justify-between gap-8">
         {/* LEFT */}
         <div className="w-full md:w-1/4 lg:w-1/5 flex flex-col gap-4">
-          <Image src="/mb-logo.png" alt="" width={120} height={120} />
+          <Image src="/mb-logo.png" alt="logo" width={120} height={120} />
           <span className="font-semibold">MishBabySupport@gmail.com</span>
           <div className="flex gap-6">
             <Image src="/facebook.png" alt="" width={16} height={16} />
@@ -36,6 +36,7 @@ const Footer = () => {
             <h1 className="font-medium text-lg text-cyan-600">HELP</h1>
             <div className="flex flex-col gap-4 mt-3">
               <Link href="">Contact Us</Link>
+              <Link href="/privacy-policy">Privacy Policy</Link>
               <Link href="">Customer Service</Link>
               <Link href="">My Account</Link>
             </div>
