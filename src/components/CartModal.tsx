@@ -3,11 +3,12 @@
 import { useEffect, useRef } from "react";
 import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
+import { useRouter } from "next/navigation";
+import { X } from "lucide-react";
 import Image from "next/image";
 
 import { useWixClient } from "@/hooks/useWixClient";
 import { useCartStore } from "@/hooks/useCartStore";
-import { X } from "lucide-react";
 
 interface CartModalProps {
   onClose: () => void;
@@ -17,6 +18,8 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const wixClient = useWixClient();
   const { cart, isLoading, removeItem } = useCartStore();
+
+  const router = useRouter();
 
   // Detect clicks outside the modal and close it
   useEffect(() => {
@@ -91,7 +94,12 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                     alt=""
                     width={72}
                     height={96}
-                    className="object-cover rounded-md"
+                    className="object-cover rounded-md cursor-pointer"
+                    onClick={() =>
+                      router.push(
+                        `/${item.productName?.original?.toLowerCase()}`
+                      )
+                    }
                   />
                 )}
                 <div className="flex flex-col justify-between w-full">

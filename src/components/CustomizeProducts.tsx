@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, X } from "lucide-react";
+import { Check } from "lucide-react";
 import { products } from "@wix/stores";
 
 import Add from "./Add";
@@ -196,12 +196,8 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
                 </div>
               ) : selectedVariant?.stock?.quantity &&
                 selectedVariant.stock.quantity < 20 ? (
-                <div className="text-xs">
-                  Only{" "}
-                  <span className="text-orange-500">
-                    {selectedVariant.stock.quantity} items
-                  </span>{" "}
-                  left!
+                <div className="text-xs text-red-500">
+                  Only a few units left!
                   <br /> {"Don't"} miss it
                 </div>
               ) : (

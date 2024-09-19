@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import DOMPurify from "isomorphic-dompurify";
 import { products } from "@wix/stores";
 
 import { wixClientServer } from "@/lib/wixClientServer";
@@ -99,18 +98,6 @@ const ProductList: React.FC<ProductListProps> = async ({
                     </span>
                   )}
                 </div>
-                {/* {product.additionalInfoSections && (
-                  <div
-                    className="text-sm text-gray-500 line-clamp-2 flex-grow"
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(
-                        product.additionalInfoSections.find(
-                          (section: any) => section.title === "shortDesc"
-                        )?.description || "description"
-                      ),
-                    }}
-                  ></div>
-                )} */}
                 {/* <button className="mt-2 rounded-full bg-cyan-500 text-white w-full py-2 px-4 text-sm transition-all duration-300 ease-in-out hover:bg-cyan-600">
                   Add to Cart
                 </button> */}

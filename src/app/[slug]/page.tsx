@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Tag, Heart, Truck, ArrowRight } from "lucide-react";
+import DOMPurify from "isomorphic-dompurify";
 
 import { wixClientServer } from "@/lib/wixClientServer";
 import CustomizeProducts from "@/components/CustomizeProducts";
@@ -45,12 +46,13 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
               {product.description ? (
                 <p
                   className="mt-4 text-gray-500"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(product.description),
+                  }}
                 />
               ) : (
                 <p className="mt-4 text-gray-500">No description available.</p>
               )}
-
               {/* Price */}
               <div className="mt-8 flex items-center">
                 {product.priceData?.price ===
