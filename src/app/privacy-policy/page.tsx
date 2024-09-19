@@ -214,8 +214,8 @@ const PrivacyPolicy: React.FC = () => {
         </div>
       </main>
 
-      <footer className="mt-6 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
+      <footer className="m-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center mb-6">
           <p>&copy; 2024 MishBaby. All rights reserved.</p>
         </div>
       </footer>
