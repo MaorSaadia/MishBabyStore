@@ -5,9 +5,9 @@ const Footer = () => {
   return (
     <div className="border-sky-200 py-8 px-4 md:px-8 lg:px-16 xl:32 2xl:px-64 bg-sky-100 text-sm mt-14">
       {/* TOP */}
-      <div className="flex flex-col md:flex-row justify-between gap-20">
+      <div className="flex flex-col md:flex-row justify-between gap-8">
         {/* LEFT */}
-        <div className="w-full md:w-1/4 lg:w-1/5 flex flex-col gap-6">
+        <div className="w-full md:w-1/4 lg:w-1/5 flex flex-col gap-4">
           <Image src="/mb-logo.jpeg " alt="" width={120} height={100} />
           <span className="font-semibold">MishBabySupport@gmail.com</span>
           <div className="flex gap-6">
@@ -20,20 +20,21 @@ const Footer = () => {
         </div>
         {/* CENTER */}
         <div className="flex flex-row justify-stretch gap-12">
-          <div className="flex flex-col justify-between mb-28">
+          <div className="flex flex-col justify-between md:mb-24">
             <h1 className="font-medium text-lg text-cyan-600">SHOP</h1>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 mt-3">
+              <Link href="">All Products</Link>
               <Link href="">New Arrivals</Link>
+              <Link href="">Deals</Link>
               {/* <Link href="">Baby Clothing</Link>
               <Link href="">Games</Link>
               <Link href="">Toys</Link>
               <Link href="">Rome Design</Link> */}
-              <Link href="">All Products</Link>
             </div>
           </div>
-          <div className="flex flex-col justify-between gap-8 mb-20">
+          <div className="flex flex-col justify-between md:mb-24">
             <h1 className="font-medium text-lg text-cyan-600">HELP</h1>
-            <div className="flex flex-col gap-2 md:gap-8">
+            <div className="flex flex-col gap-4 mt-3">
               <Link href="">Contact Us</Link>
               <Link href="">Customer Service</Link>
               <Link href="">My Account</Link>
@@ -42,7 +43,7 @@ const Footer = () => {
         </div>
         {/* RIGHT */}
         <div className="w-full md:w-1/4 flex flex-col gap-6">
-          <h1 className="font-medium text-lg text-cyan-600">SUBSCRIBE</h1>
+          {/* <h1 className="font-medium text-lg text-cyan-600">SUBSCRIBE</h1>
           <p>
             Be the first to get the latest news about trends, promotions, and
             much more!
@@ -54,7 +55,7 @@ const Footer = () => {
               className="p-4 w-2/4 md:w-3/4"
             />
             <button className="w-1/4 bg-cyan-600 text-white">JOIN</button>
-          </div>
+          </div> */}
           <span className="font-semibold text-cyan-600 text-center">
             Secure Payments
           </span>

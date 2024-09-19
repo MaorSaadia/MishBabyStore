@@ -46,7 +46,7 @@ const HomePage = async () => {
           />
         </Suspense>
       </div>
-      <div className="mt-8 container mx-auto px-4 py-12 bg-gray-50">
+      <div className="container mx-auto px-4 py-12 bg-gray-50">
         <h2 className="text-2xl md:text-4xl font-bold mb-8 text-gray-800">
           Explore Categories
         </h2>
@@ -54,7 +54,7 @@ const HomePage = async () => {
           <CategoryList />
         </Suspense>
       </div>
-      <div className="mt-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
+      <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
         <h1 className="text-2xl md:text-4xl font-bold mb-8 text-gray-800">
           New Products
         </h1>
