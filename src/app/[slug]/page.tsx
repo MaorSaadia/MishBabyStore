@@ -116,9 +116,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
               <div className="mt-10">
                 <div className="flex items-center">
                   <Truck className="w-5 h-5 mr-2 text-gray-400" />
-                  <span className="text-sm text-gray-500">
-                    Free shipping on orders over $100
-                  </span>
+                  <span className="text-sm text-gray-500">Free shipping</span>
                 </div>
                 <div className="mt-2 flex items-center">
                   <Heart className="w-5 h-5 mr-2 text-gray-400" />
