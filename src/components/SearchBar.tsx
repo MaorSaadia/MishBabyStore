@@ -57,7 +57,7 @@ const SearchBar = () => {
       )}
 
       <form
-        className="hidden sm:flex items-center justify-between gap-2 bg-white shadow-md rounded-full px-4 py-2 max-w-md w-full mx-auto"
+        className="hidden sm:flex items-center justify-between gap-16 bg-white shadow-md rounded-full px-4 py-2 max-w-md w-full mx-auto mr-8"
         onSubmit={handleSearch}
       >
         <input

@@ -16,7 +16,7 @@ const Navbar = () => {
           <Image src="/mb-logo.png" alt="" width={50} height={50} />
           <div className="hidden sm:block text-2xl tracking-wide">MishBaby</div>
         </Link>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <SearchBar />
           <NavIcons />
           <Menu />
