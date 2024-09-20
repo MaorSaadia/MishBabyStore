@@ -201,7 +201,7 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
                   <br /> {"Don't"} miss it
                 </div>
               ) : (
-                <div className="text-xs">In stock</div>
+                <div className="text-md m-2 text-green-700">In Stock</div>
               )}
             </motion.div>
           )}
