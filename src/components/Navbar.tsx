@@ -14,9 +14,9 @@ const Navbar = () => {
       <div className="h-full flex items-center justify-between sm:hidden">
         <Link href="/" className="flex items-center">
           <Image src="/mb-logo.png" alt="" width={50} height={50} />
-          <div className="text-2xl tracking-wide">MishBaby</div>
+          <div className="hidden sm:block text-2xl tracking-wide">MishBaby</div>
         </Link>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <SearchBar />
           <NavIcons />
           <Menu />
