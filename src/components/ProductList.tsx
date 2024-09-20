@@ -21,7 +21,8 @@ const ProductList: React.FC<ProductListProps> = async ({
   const wixClient = await wixClientServer();
   let productQuery = wixClient.products
     .queryProducts()
-    .startsWith("name", searchParams?.name || "")
+    // @ts-ignore
+    .contains("name", searchParams?.name || "")
     .eq("collectionIds", categoryId)
     .gt("priceData.price", searchParams?.min || 0)
     .lt("priceData.price", searchParams?.max || 999999)
