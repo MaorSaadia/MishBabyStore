@@ -110,10 +110,10 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                         {item.productName?.original}
                       </h3>
 
-                      <div className="p-2 bg-gray-50 rounded-md flex items-center gap-2">
+                      <div className="bg-gray-50 rounded-md flex flex-row items-center gap-2">
                         {item.quantity && item.quantity > 1 && (
                           <div className="text-sm text-green-600">
-                            {item.quantity} x{" "}
+                            {item.quantity}x{" "}
                           </div>
                         )}
                         <span className="font-semibold">
