@@ -7,7 +7,8 @@ import Image from "next/image";
 const SearchBar = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
-  const [isSearchVisible, setIsSearchVisible] = useState(false); // State to toggle search input visibility
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,9 +19,10 @@ const SearchBar = () => {
     setIsSearchVisible(false);
   };
 
+  const focusClass = isFocused ? "border-cyan-400" : "border-transparent";
+
   return (
     <div className="relative">
-      {/* Search Icon (visible on mobile) */}
       <button
         onClick={() => setIsSearchVisible(!isSearchVisible)}
         className="sm:hidden text-white rounded-full p-2 transition-colors duration-200 hover:opacity-60"
@@ -36,13 +38,15 @@ const SearchBar = () => {
           ></div>
 
           <form
-            className="fixed top-0 left-0 right-0 z-50 flex items-center bg-white shadow-md px-4 py-2 w-full rounded-sm"
+            className={`fixed top-0 left-0 right-0 z-50 flex items-center bg-white shadow-md px-4 py-2 w-full rounded-sm border-2 ${focusClass} transition-colors duration-200`}
             onSubmit={handleSearch}
           >
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
               placeholder="Search"
               className="flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-400"
             />
@@ -57,13 +61,15 @@ const SearchBar = () => {
       )}
 
       <form
-        className="hidden sm:flex items-center justify-between gap-16 bg-white shadow-md rounded-full px-4 py-2 max-w-md w-full mx-auto mr-8"
+        className={`hidden sm:flex items-center justify-between gap-16 bg-white shadow-md rounded-full px-4 py-2 max-w-md w-full mx-auto mr-8 border-2 ${focusClass} transition-colors duration-200`}
         onSubmit={handleSearch}
       >
         <input
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           placeholder="Search"
           className="flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-400"
         />
