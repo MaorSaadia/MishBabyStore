@@ -7,6 +7,7 @@ import Image from "next/image";
 
 import { useWixClient } from "@/hooks/useWixClient";
 import { useCartStore } from "@/hooks/useCartStore";
+import { Button } from "./ui/button";
 
 interface CartModalProps {
   onClose: () => void;
@@ -124,9 +125,19 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                       {item.availability?.status}
                     </div>
                   </div>
+                  {item.descriptionLines?.[0]?.plainText?.original && (
+                    <div className="text-slate-500 text-xs">
+                      Size: {item.descriptionLines[0].plainText.original}
+                    </div>
+                  )}
                   {item.descriptionLines?.[0]?.colorInfo?.original && (
-                    <div className="text-slate-500 text-sm mt-2">
+                    <div className="text-slate-500 text-xs">
                       Color: {item.descriptionLines[0].colorInfo.original}
+                    </div>
+                  )}
+                  {item.descriptionLines?.[1]?.colorInfo?.original && (
+                    <div className="text-slate-500 text-xs">
+                      Color: {item.descriptionLines[1].colorInfo.original}
                     </div>
                   )}
                   <div className="flex justify-between text-sm mt-4">
@@ -156,16 +167,16 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
               Shipping and taxes calculated at checkout.
             </p>
             <div className="flex justify-between gap-4">
-              <button className="flex-1 rounded-md py-3 px-4 ring-1 ring-gray-300 hover:bg-gray-50 transition-colors">
+              <Button className="flex-1 rounded-md py-3 px-4 ring-1 bg-white text-black ring-gray-300 hover:bg-slate-100 transition-colors">
                 View Cart
-              </button>
-              <button
-                className="flex-1 rounded-md py-3 px-4 bg-black text-white hover:bg-gray-800 transition-colors disabled:cursor-not-allowed disabled:opacity-75"
+              </Button>
+              <Button
+                className="flex-1 rounded-md py-3 px-4 bg-black text-white hover:bg-slate-800 transition-colors disabled:cursor-not-allowed disabled:opacity-75"
                 disabled={isLoading}
                 onClick={handleCheckout}
               >
                 Checkout
-              </button>
+              </Button>
             </div>
           </div>
         </>
