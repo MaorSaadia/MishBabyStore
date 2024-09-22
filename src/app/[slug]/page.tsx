@@ -6,6 +6,7 @@ import { wixClientServer } from "@/lib/wixClientServer";
 import CustomizeProducts from "@/components/CustomizeProducts";
 import ProductImages from "@/components/ProductImages";
 import Add from "@/components/Add";
+import ShareButton from "@/components/ShareButton";
 
 const SinglePage = async ({ params }: { params: { slug: string } }) => {
   const wixClient = await wixClientServer();
@@ -68,31 +69,42 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 <p className="mt-4 text-gray-500">No description available.</p>
               )}
               {/* Price */}
-              <div className="mt-8 flex items-center">
-                {product.priceData?.price ===
-                product.priceData?.discountedPrice ? (
-                  <span className="text-3xl font-bold text-gray-900">
-                    ${product.priceData?.price}
-                  </span>
-                ) : (
-                  <>
+              <div className="flex flex-row justify-between items-center">
+                <div className="mt-8 flex items-center ">
+                  {product.priceData?.price ===
+                  product.priceData?.discountedPrice ? (
                     <span className="text-3xl font-bold text-gray-900">
-                      ${product.priceData?.discountedPrice}
-                    </span>
-                    <span className="ml-2 text-lg font-medium text-gray-500 line-through">
                       ${product.priceData?.price}
                     </span>
-                    <span className="ml-2 text-sm font-medium text-rose-500">
-                      {Math.round(
-                        (1 -
-                          Number(product.priceData?.discountedPrice) /
-                            Number(product.priceData?.price)) *
-                          100
-                      )}
-                      % OFF
-                    </span>
-                  </>
-                )}
+                  ) : (
+                    <>
+                      <span className="text-3xl font-bold text-gray-900">
+                        ${product.priceData?.discountedPrice}
+                      </span>
+                      <span className="ml-2 text-lg font-medium text-gray-500 line-through">
+                        ${product.priceData?.price}
+                      </span>
+                      <span className="ml-2 text-sm font-medium text-rose-500">
+                        {Math.round(
+                          (1 -
+                            Number(product.priceData?.discountedPrice) /
+                              Number(product.priceData?.price)) *
+                            100
+                        )}
+                        % OFF
+                      </span>
+                    </>
+                  )}
+                </div>
+                <div className="mt-8 flex items-center justify-between">
+                  <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    {/* {product.name} */}
+                  </h1>
+                  <ShareButton
+                    url={`https://yourwebsite.com/products/${params.slug}`}
+                    title={product.name}
+                  />
+                </div>
               </div>
 
               {/* Customization or Add to Cart */}
