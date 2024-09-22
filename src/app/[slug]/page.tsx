@@ -97,12 +97,11 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   )}
                 </div>
                 <div className="mt-8 flex items-center justify-between">
-                  <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                    {/* {product.name} */}
-                  </h1>
                   <ShareButton
-                    url={`https://yourwebsite.com/products/${params.slug}`}
+                    url={`https://mish-baby-store.vercel.app/${params.slug}`}
                     title={product.name}
+                    // @ts-ignore
+                    image={product.media?.items[0]?.image?.url}
                   />
                 </div>
               </div>
