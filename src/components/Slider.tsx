@@ -8,7 +8,7 @@ const slides = [
   {
     id: 1,
     title: "Nursery & Furniture",
-    description: "Sale! Up to 50% off!",
+    description: "Sale! Up to 30% off!",
     img: "/slides/slide1.jpeg",
     url: "/",
     bg: "bg-gradient-to-r from-yellow-50 to-pink-50",
@@ -18,7 +18,7 @@ const slides = [
     title: "Baby Clothing",
     description: "Sale! Up to 50% off!",
     img: "/slides/slide2.jpeg",
-    url: "/",
+    url: "/list?cat=baby-clothing&filter=Sale",
     bg: "bg-gradient-to-r from-cyan-50 to-blue-100",
   },
   {
@@ -62,7 +62,7 @@ const Slider = () => {
                 {slide.title}
               </h1>
               <Link href={slide.url}>
-                <button className="rounded-md bg-black text-white py-3 px-4 ">
+                <button className="rounded-md bg-black text-white py-3 px-4 hover:bg-slate-700">
                   SHOP NOW
                 </button>
               </Link>

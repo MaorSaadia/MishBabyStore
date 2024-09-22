@@ -70,8 +70,6 @@ const Filter = () => {
             <SelectItem value="default">Default</SelectItem>
             <SelectItem value="asc price">Price (low to high)</SelectItem>
             <SelectItem value="desc price">Price (high to low)</SelectItem>
-            <SelectItem value="asc lastUpdated">Newest</SelectItem>
-            <SelectItem value="desc lastUpdated">Oldest</SelectItem>
           </SelectContent>
         </Select>
       </div>
