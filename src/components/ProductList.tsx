@@ -49,6 +49,27 @@ const ProductList: React.FC<ProductListProps> = async ({
 
   let res = await productQuery.find();
 
+  if (res.items.length === 0) {
+    return (
+      <div className="mt-6 flex flex-col items-center justify-center h-56 bg-slate-100 rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+          No products found
+        </h2>
+        <p className="text-gray-600 text-center max-w-md">
+          {searchParams?.name
+            ? `We couldn't find any products matching "${searchParams.name}".`
+            : "We couldn't find any products matching your search criteria."}
+        </p>
+        <Link
+          href="/"
+          className="mt-4 px-6 py-2 bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition-colors"
+        >
+          Back to Home
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col">
       <div className="flex-grow mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -117,7 +138,7 @@ const ProductList: React.FC<ProductListProps> = async ({
           </Link>
         ))}
       </div>
-      {!limit && (
+      {!limit && res.length > 10 && (
         <div className="">
           <Pagination
             currentPage={res.currentPage || 0}

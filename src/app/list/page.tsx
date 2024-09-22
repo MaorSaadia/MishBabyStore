@@ -23,14 +23,6 @@ const ListPage = async ({ searchParams }: { searchParams: any }) => {
             <br /> Selected Products
           </h1>
         </div>
-        {/* <div className="relative w-1/2">
-          <Image
-            src="/all-products.png"
-            alt=""
-            fill
-            className="object-contain"
-          />
-        </div> */}
       </div>
       {/* FILTER */}
       <Filter />

@@ -19,7 +19,9 @@ const SearchBar = () => {
     setIsSearchVisible(false);
   };
 
-  const focusClass = isFocused ? "border-cyan-400" : "border-transparent";
+  const focusClass = isFocused
+    ? "border-slate-800 sm:border-cyan-400"
+    : "border-transparent";
 
   return (
     <div className="relative">
