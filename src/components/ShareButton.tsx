@@ -52,12 +52,12 @@ const ShareButton: React.FC<ShareButtonProps> = ({ url, title, image }) => {
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full">
-          <Share2 className="h-5 w-5" />
+          <Share2 className="h-6 w-6" />
           <span className="sr-only">Share</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64 p-2">
-        <div className="grid grid-cols-3 gap-2">
+      <PopoverContent className="mr-8 w-48 p-1">
+        <div className="grid grid-cols-3 gap-2 ml-2">
           {Object.entries(shareUrls).map(
             ([platform, url]) =>
               url && (
