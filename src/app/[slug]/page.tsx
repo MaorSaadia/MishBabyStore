@@ -102,6 +102,8 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                     title={product.name}
                     // @ts-ignore
                     image={product.media?.items[0]?.image?.url}
+                    price={product.priceData?.price}
+                    discountedPrice={product.priceData?.discountedPrice}
                   />
                 </div>
               </div>

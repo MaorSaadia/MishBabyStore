@@ -11,16 +11,34 @@ import { Button } from "@/components/ui/button";
 interface ShareButtonProps {
   url: string;
   title: any;
-  image?: any;
+  image?: string;
+  price: any;
+  discountedPrice?: any;
 }
 
-const ShareButton: React.FC<ShareButtonProps> = ({ url, title, image }) => {
-  const shareMessage = `Check out this amazing product that I found: ${title}! 🎉 Don't miss it!`;
+const ShareButton: React.FC<ShareButtonProps> = ({
+  url,
+  title,
+  image,
+  price,
+  discountedPrice,
+}) => {
+  const formatPrice = (p: number) => p.toFixed(2);
+
+  let priceInfo = `$${formatPrice(price)}`;
+  if (discountedPrice && discountedPrice < price) {
+    const discountPercentage = Math.round((1 - discountedPrice / price) * 100);
+    priceInfo = `Now Only: $${formatPrice(
+      discountedPrice
+    )} (${discountPercentage}% off)`;
+  }
+
+  const shareMessage = `🛍️ Check out this Amazing Product that I found: ! "${title}" ${
+    discountedPrice && discountedPrice < price ? "🏷️ On sale!" : ""
+  }\n\n${priceInfo}\n\n🎉Don't miss it! ${url}\n`;
 
   const shareUrls = {
-    whatsapp: `https://wa.me/?text=${encodeURIComponent(
-      `${shareMessage} ${url}`
-    )}`,
+    whatsapp: `https://wa.me/?text=${encodeURIComponent(shareMessage)}`,
     telegram: `https://t.me/share/url?url=${encodeURIComponent(
       url
     )}&text=${encodeURIComponent(shareMessage)}`,
@@ -34,9 +52,9 @@ const ShareButton: React.FC<ShareButtonProps> = ({ url, title, image }) => {
     }`,
     linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
       url
-    )}&title=${encodeURIComponent(shareMessage)}${
-      image ? `&image=${encodeURIComponent(image)}` : ""
-    }`,
+    )}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(
+      priceInfo
+    )}`,
     pinterest: image
       ? `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(
           url

@@ -55,6 +55,7 @@ const ProductImages = ({ items }: { items: any }) => {
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover"
+              priority={true}
             />
           </motion.div>
         </div>
@@ -86,6 +87,7 @@ const ProductImages = ({ items }: { items: any }) => {
               fill
               sizes="96px"
               className="object-cover"
+              priority={true}
             />
           </button>
         ))}
