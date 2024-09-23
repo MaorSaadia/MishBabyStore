@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Tag, Heart, Truck, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import DOMPurify from "isomorphic-dompurify";
 
 import { wixClientServer } from "@/lib/wixClientServer";
@@ -20,6 +21,8 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
   }
 
   const product = products.items[0];
+
+  console.log(product.collectionIds?.[0]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
@@ -100,8 +103,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   <ShareButton
                     url={`https://mish-baby-store.vercel.app/${params.slug}`}
                     title={product.name}
-                    // @ts-ignore
-                    image={product.media?.items[0]?.image?.url}
+                    image={product.media?.items?.[0]?.image?.url}
                     price={product.priceData?.price}
                     discountedPrice={product.priceData?.discountedPrice}
                   />
@@ -139,9 +141,29 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 </div>
               </div>
 
+              {/* Conditional Size Details section */}
+              {product.collectionIds?.[0] ===
+                "b36c1c8c-a1ac-4682-9e34-a630b932325c" && (
+                <details className="mt-4 border-t border-gray-200 pt-4">
+                  <summary className="font-medium text-gray-900 cursor-pointer flex items-center">
+                    SIZE DETAILS
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </summary>
+                  <div className="mt-2">
+                    <Image
+                      src="/size-details.png"
+                      alt="Size Details"
+                      className="w-full"
+                      width={800}
+                      height={500}
+                    />
+                  </div>
+                </details>
+              )}
+
               {/* Additional Info Sections */}
-              <div className="mt-10">
-                {product.additionalInfoSections?.map((section: any) => (
+              <div className="">
+                {product.additionalInfoSections?.map((section) => (
                   <details
                     key={section.title}
                     className="mt-4 border-t border-gray-200 pt-4"
@@ -150,11 +172,18 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                       {section.title}
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </summary>
-                    <p className="mt-2 text-sm text-gray-500">
-                      {section.description
-                        ? section.description
-                        : "No additional information available."}
-                    </p>
+                    {section.description ? (
+                      <div
+                        className="mt-2 text-sm text-gray-500"
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(section.description),
+                        }}
+                      />
+                    ) : (
+                      <p className="mt-2 text-sm text-gray-500">
+                        No additional information available.
+                      </p>
+                    )}
                   </details>
                 ))}
               </div>

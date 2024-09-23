@@ -69,7 +69,7 @@ const ProductList: React.FC<ProductListProps> = async ({
       </div>
     );
   }
-
+  console.log(res?.items?.product?.media);
   return (
     <div className="flex flex-col">
       <div className="flex-grow mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -82,7 +82,11 @@ const ProductList: React.FC<ProductListProps> = async ({
             <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl flex flex-col">
               <div className="relative w-full h-40 md:h-60 overflow-hidden">
                 <Image
-                  src={product.media?.mainMedia?.image?.url || "/product.png"}
+                  src={
+                    product.media?.mainMedia?.image?.url ||
+                    product.media?.items?.[1]?.image?.url ||
+                    "/product.png"
+                  }
                   alt=""
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
