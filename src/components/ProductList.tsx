@@ -23,11 +23,13 @@ const ProductList: React.FC<ProductListProps> = async ({
   const wixClient = await wixClientServer();
   let productQuery = wixClient.products
     .queryProducts()
+    .descending("lastUpdated")
     // @ts-ignore
     .contains("name", searchParams?.name || "")
     .eq("collectionIds", categoryId)
     .gt("priceData.price", searchParams?.min || 0)
     .lt("priceData.price", searchParams?.max || 999999)
+
     .limit(limit || PRODUCT_PER_PAGE)
     .skip(
       searchParams?.page
