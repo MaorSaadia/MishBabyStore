@@ -18,7 +18,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const preventBodyScroll = (e: any) => {
+    const preventBodyScroll = (e: WheelEvent | TouchEvent) => {
       if (isModalOpen) {
         e.preventDefault();
       }
@@ -27,9 +27,13 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
     document.body.addEventListener("wheel", preventBodyScroll, {
       passive: false,
     });
+    document.body.addEventListener("touchmove", preventBodyScroll, {
+      passive: false,
+    });
 
     return () => {
       document.body.removeEventListener("wheel", preventBodyScroll);
+      document.body.removeEventListener("touchmove", preventBodyScroll);
     };
   }, [isModalOpen]);
 
