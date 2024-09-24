@@ -1,17 +1,10 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
+import { motion } from "framer-motion";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
-
-interface ImageItem {
-  _id: string;
-  image: {
-    url: string;
-  };
-}
+import Image from "next/image";
 
 interface ProductImagesProps {
   items: any;
@@ -88,7 +81,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
         className="relative h-[400px] md:h-[600px] overflow-hidden rounded-lg shadow-lg"
       >
         <div
-          className="absolute inset-0 cursor-move"
+          className="absolute inset-0"
           onMouseEnter={() => setIsZoomed(true)}
           onMouseLeave={() => {
             setIsZoomed(false);
@@ -108,10 +101,10 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
             initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
-              scale: isZoomed ? 1.5 : 1,
+              scale: isZoomed ? 1.2 : 1,
               x: isZoomed ? pan.x : 0,
               y: isZoomed ? pan.y : 0,
-              transition: { duration: 0.1 },
+              transition: { duration: 0.05 },
             }}
             className="h-full w-full"
           >
@@ -138,32 +131,24 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
         </button>
       </div>
       <div className="flex space-x-4 overflow-x-auto pb-2">
-        {items.map(
-          (
-            item: {
-              _id: React.Key | null | undefined;
-              image: { url: string | StaticImport };
-            },
-            i: React.SetStateAction<number>
-          ) => (
-            <button
-              key={item._id}
-              onClick={() => setIndex(i)}
-              className={`flex-shrink-0 relative w-24 h-24 rounded-md overflow-hidden ${
-                i === index ? "ring-2 ring-slate-600" : ""
-              }`}
-            >
-              <Image
-                src={item.image.url}
-                alt=""
-                fill
-                sizes="96px"
-                className="object-cover"
-                priority={true}
-              />
-            </button>
-          )
-        )}
+        {items.map((item: any, i: number) => (
+          <button
+            key={item._id}
+            onClick={() => setIndex(i)}
+            className={`flex-shrink-0 relative w-24 h-24 rounded-md overflow-hidden m-2 -mr-1 ${
+              i === index ? "ring-2 ring-slate-600 w-28 h-28 mb-1" : ""
+            }`}
+          >
+            <Image
+              src={item.image.url}
+              alt=""
+              fill
+              sizes="96px"
+              className="object-cover"
+              priority={true}
+            />
+          </button>
+        ))}
       </div>
     </div>
   );
