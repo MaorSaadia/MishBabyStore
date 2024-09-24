@@ -136,7 +136,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
             key={item._id}
             onClick={() => setIndex(i)}
             className={`flex-shrink-0 relative w-24 h-24 rounded-md overflow-hidden m-2 -mr-1 ${
-              i === index ? "ring-2 ring-slate-600 w-28 h-28 mb-1" : ""
+              i === index ? "ring-2 ring-slate-600" : ""
             }`}
           >
             <Image
