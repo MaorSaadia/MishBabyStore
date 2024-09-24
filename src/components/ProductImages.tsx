@@ -208,7 +208,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
                   setIsZoomed(false);
                   setPan({ x: 0, y: 0 });
                 }}
-                className="absolute top-4 right-4 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200 focus:outline-none z-10"
+                className="absolute top-6 right-6 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200 focus:outline-none z-10"
               >
                 <X className="w-6 h-6 text-gray-800" />
               </button>
