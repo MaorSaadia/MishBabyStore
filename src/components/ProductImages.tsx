@@ -17,6 +17,22 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const preventBodyScroll = (e: any) => {
+      if (isModalOpen) {
+        e.preventDefault();
+      }
+    };
+
+    document.body.addEventListener("wheel", preventBodyScroll, {
+      passive: false,
+    });
+
+    return () => {
+      document.body.removeEventListener("wheel", preventBodyScroll);
+    };
+  }, [isModalOpen]);
+
   const nextImage = () => {
     setIndex((prevIndex) => (prevIndex + 1) % items.length);
   };
@@ -83,7 +99,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
   }, [isZoomed]);
 
   return (
-    <div className="space-y-4">
+    <>
       <div
         ref={containerRef}
         className="relative h-[400px] md:h-[600px] overflow-hidden rounded-lg shadow-lg"
@@ -196,7 +212,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 };
 
