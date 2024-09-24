@@ -23,14 +23,9 @@ const faqs: FAQ[] = [
       "Shipping times depend on your location and the product's availability. Typically, orders are delivered within 10-30 business days. Each product page provides specific shipping estimates.",
   },
   {
-    question: "Do you provide tracking information?",
-    answer:
-      "Yes, once your order has been shipped, you will receive a tracking number to follow the status of your delivery.",
-  },
-  {
     question: "Can I return or exchange products?",
     answer:
-      "We offer returns or exchanges for damaged or incorrect items. Please contact our customer support within 30 days of receiving the product, and we'll guide you through the process.",
+      "We offer returns for damaged or incorrect items. Please contact our customer support within 14 days of receiving the product, and we'll guide you through the process.",
   },
   {
     question: "What payment methods do you accept?",
@@ -45,23 +40,23 @@ const faqs: FAQ[] = [
   {
     question: "Can I cancel my order?",
     answer:
-      "You can cancel your order within 24 hours after placing it. Once the order is processed, we won't be able to cancel it, so please reach out to us as soon as possible.",
+      "You can cancel your order within 24 hours after placing it. However, if the item has already been shipped, we won't be able to cancel it.",
   },
   {
     question: "What if my order hasn't arrived?",
     answer:
-      "If your order hasn't arrived within the expected delivery window, check the tracking information provided. If there's a delay, contact our support team for assistance.",
+      "If your order hasn't arrived within the expected delivery window, Or if there's a delay, contact our support team for checking your order.",
   },
   {
     question: "Are your products authentic?",
     answer:
       "Yes, we work closely with verified suppliers to ensure that all products meet our quality standards before being shipped to our customers.",
   },
-  {
-    question: "Can I change my shipping address after placing an order?",
-    answer:
-      "You can modify your shipping address within 24 hours of placing the order. If it has already been processed, unfortunately, we cannot make changes.",
-  },
+  //   {
+  //     question: "Can I change my shipping address after placing an order?",
+  //     answer:
+  //       "You can modify your shipping address within 24 hours of placing the order. If it has already been processed, unfortunately, we cannot make changes.",
+  //   },
   {
     question: "Is shopping on your website secure?",
     answer:
@@ -75,7 +70,7 @@ const faqs: FAQ[] = [
   {
     question: "Do you offer discounts or promotions?",
     answer:
-      "Yes, we offer discounts and promotions from time to time. Be sure to sign up for our newsletter to stay updated on the latest deals.",
+      "Yes, we offer discounts and promotions from time to time. Be sure to stay updated on the latest deals.",
   },
   {
     question: "Do you ship internationally?",
