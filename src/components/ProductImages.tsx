@@ -180,7 +180,6 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
                   fill
                   sizes="(max-width: 768px) 90vw, (max-width: 1200px) 70vw, 60vw"
                   priority={true}
-                  className="object-contain"
                 />
               </motion.div>
               <button
@@ -189,7 +188,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
                   setIsZoomed(false);
                   setPan({ x: 0, y: 0 });
                 }}
-                className="absolute top-4 right-2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200 focus:outline-none z-10"
+                className="absolute top-4 right-4 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200 focus:outline-none z-10"
               >
                 <X className="w-6 h-6 text-gray-800" />
               </button>

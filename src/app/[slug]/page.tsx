@@ -25,8 +25,6 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
 
   const product = products.items[0];
 
-  console.log(product.slug);
-
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
@@ -36,7 +34,10 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
               {/* Product Images */}
               <div className="md:w-1/2">
                 <div className="sticky top-0 p-6">
-                  <ProductImages items={product.media?.items} />
+                  {
+                    // @ts-ignore
+                    <ProductImages items={product.media?.items} />
+                  }
                 </div>
               </div>
 
