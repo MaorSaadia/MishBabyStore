@@ -21,9 +21,12 @@ const Menu = () => {
 
   const menuItems = [
     { href: "/", label: "Shop" },
-    { href: "/deals", label: "Deals" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
+    { href: "/list?cat=all-products&filter=Sale", label: "Deals" },
+    {
+      href: "/list?cat=all-products&filter=New Arrival",
+      label: "New Arrival",
+    },
+    { href: "/contact-us", label: "Contact" },
   ];
 
   return (

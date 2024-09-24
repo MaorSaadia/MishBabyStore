@@ -32,7 +32,10 @@ const Navbar = () => {
           </Link>
           <div className="hidden xl:flex gap-4">
             <Link href="/list?cat=all-products&filter=Sale">Deals</Link>
-            <Link href="/">Contact</Link>
+            <Link href="/list?cat=all-products&filter=New Arrival">
+              New Arrival
+            </Link>
+            <Link href="/contact-us">Contact</Link>
           </div>
         </div>
         {/* RIGHT */}
