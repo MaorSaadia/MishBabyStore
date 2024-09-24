@@ -101,13 +101,6 @@ const CustomerService: React.FC = () => {
                   />
                   <span className="ml-3">Email: support@yourdropship.com</span>
                 </div>
-                {/* <div className="flex items-center">
-                  <HelpCircle
-                    className="flex-shrink-0 w-6 h-6 text-blue-200"
-                    aria-hidden="true"
-                  />
-                  <span className="ml-3">FAQ: Check our Knowledge Base</span>
-                </div> */}
               </dl>
               <p className="mt-6 text-cyan-200">
                 Our dedicated team is ready to assist you with any inquiries
@@ -122,6 +115,17 @@ const CustomerService: React.FC = () => {
               <h3 className="text-2xl font-bold">Submit a Support Ticket</h3>
             </CardHeader>
             <CardContent>
+              <p className="mb-4 text-sm text-gray-600">
+                Please check our{" "}
+                <a
+                  href="/faq"
+                  className="text-cyan-600 underline hover:text-cyan-800"
+                >
+                  FAQ page
+                </a>{" "}
+                for answers to common questions before submitting a support
+                ticket.
+              </p>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label
