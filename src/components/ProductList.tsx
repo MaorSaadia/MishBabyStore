@@ -11,12 +11,14 @@ interface ProductListProps {
   categoryId: string;
   limit?: number;
   searchParams?: any;
+  slug?: string;
 }
 
 const ProductList: React.FC<ProductListProps> = async ({
   categoryId,
   limit,
   searchParams,
+  slug,
 }) => {
   const wixClient = await wixClientServer();
   let productQuery = wixClient.products
@@ -49,6 +51,10 @@ const ProductList: React.FC<ProductListProps> = async ({
 
   let res = await productQuery.find();
 
+  const filteredItems = slug
+    ? res.items.filter((product: { slug: string }) => product.slug !== slug)
+    : res.items;
+
   if (res.items.length === 0) {
     return (
       <div className="mt-6 flex flex-col items-center justify-center h-56 bg-slate-100 rounded-lg shadow-md">
@@ -69,11 +75,11 @@ const ProductList: React.FC<ProductListProps> = async ({
       </div>
     );
   }
-  console.log(res?.items?.product?.media);
+
   return (
     <div className="flex flex-col">
       <div className="flex-grow mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-        {res.items.map((product: products.Product) => (
+        {filteredItems.map((product: products.Product) => (
           <Link
             href={"/" + product.slug}
             className="group flex flex-col h-70 md:h-80"
@@ -142,7 +148,7 @@ const ProductList: React.FC<ProductListProps> = async ({
           </Link>
         ))}
       </div>
-      {!limit && res.length > 10 && (
+      {!limit && filteredItems.length > 12 && (
         <div className="">
           <Pagination
             currentPage={res.currentPage || 0}

@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import Image from "next/image";
 
 import { wixClientServer } from "@/lib/wixClientServer";
 import ProductList from "@/components/ProductList";
