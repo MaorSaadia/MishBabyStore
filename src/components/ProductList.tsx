@@ -23,7 +23,6 @@ const ProductList: React.FC<ProductListProps> = async ({
   const wixClient = await wixClientServer();
   let productQuery = wixClient.products
     .queryProducts()
-    .descending("lastUpdated")
     // @ts-ignore
     .contains("name", searchParams?.name || "")
     .eq("collectionIds", categoryId)
@@ -44,6 +43,8 @@ const ProductList: React.FC<ProductListProps> = async ({
     } else if (sortType === "desc") {
       productQuery = productQuery.descending(sortBy);
     }
+  } else {
+    productQuery = productQuery.descending("lastUpdated");
   }
 
   if (searchParams?.filter) {
