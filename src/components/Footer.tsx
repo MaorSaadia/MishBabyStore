@@ -35,7 +35,7 @@ const Footer = () => {
             <div className="flex flex-col gap-4 mt-3">
               <Link href="/customer-service">Customer Service</Link>
               <Link href="/privacy-policy">Privacy Policy</Link>
-              <Link href="">My Account</Link>
+              <Link href="/faq">FAQ</Link>
             </div>
           </div>
         </div>

@@ -2,6 +2,8 @@
 
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Mail, Send, Clock, MessageSquare } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -32,6 +34,8 @@ const CustomerService: React.FC = () => {
     message: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string,
     field?: string
@@ -46,14 +50,26 @@ const CustomerService: React.FC = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Support ticket submitted:", formData);
-    setFormData({
-      name: "",
-      email: "",
-      orderNumber: "",
-      issueType: "",
-      message: "",
-    });
+    setIsLoading(true);
+    console.log(formData);
+    axios
+      .post("/api/emails/customer-service", formData)
+      .then(() => {
+        toast.success("Support ticket submitted!");
+        setFormData({
+          name: "",
+          email: "",
+          orderNumber: "",
+          issueType: "",
+          message: "",
+        });
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.message || "Something went wrong.");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -216,9 +232,11 @@ const CustomerService: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <Button type="submit" className="w-full">
-                    Submit Message
-                    <Send className="ml-2 h-5 w-5" aria-hidden="true" />
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? "Submitting..." : "Submit Message"}
+                    {!isLoading && (
+                      <Send className="ml-2 h-5 w-5" aria-hidden="true" />
+                    )}
                   </Button>
                 </div>
               </form>

@@ -48,7 +48,7 @@ const CustomerService: React.FC<CustomerServiceProps> = ({
                 <strong>Email:</strong>{" "}
                 <Link
                   href={`mailto:${email}`}
-                  className="text-blue-600 hover:underline"
+                  className="text-cyan-600 hover:underline"
                 >
                   {email}
                 </Link>
