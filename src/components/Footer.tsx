@@ -33,7 +33,7 @@ const Footer = () => {
           <div className="flex flex-col justify-between md:mb-24">
             <h1 className="font-medium text-lg text-cyan-600">HELP</h1>
             <div className="flex flex-col gap-4 mt-3">
-              <Link href="/contact-us">Customer Service</Link>
+              <Link href="/customer-service">Customer Service</Link>
               <Link href="/privacy-policy">Privacy Policy</Link>
               <Link href="">My Account</Link>
             </div>

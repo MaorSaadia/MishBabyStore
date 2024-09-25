@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-
 import { Menu as MenuIcon, X } from "lucide-react";
+import Link from "next/link";
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
@@ -26,7 +25,7 @@ const Menu = () => {
       href: "/list?cat=all-products&filter=New Arrival",
       label: "New Arrival",
     },
-    { href: "/contact-us", label: "Contact" },
+    { href: "/customer-service", label: "Contact" },
   ];
 
   return (

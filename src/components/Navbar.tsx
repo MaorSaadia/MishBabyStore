@@ -35,7 +35,7 @@ const Navbar = () => {
             <Link href="/list?cat=all-products&filter=New Arrival">
               New Arrival
             </Link>
-            <Link href="/contact-us">Contact</Link>
+            <Link href="/customer-service">Contact</Link>
           </div>
         </div>
         {/* RIGHT */}
