@@ -51,7 +51,6 @@ const CustomerService: React.FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(formData);
     axios
       .post("/api/emails/customer-service", formData)
       .then(() => {
@@ -208,9 +207,6 @@ const CustomerService: React.FC = () => {
                       <SelectItem value="order-status">Order Status</SelectItem>
                       <SelectItem value="shipping">Shipping</SelectItem>
                       <SelectItem value="returns">Returns</SelectItem>
-                      <SelectItem value="product-inquiry">
-                        Product Inquiry
-                      </SelectItem>
                       <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
