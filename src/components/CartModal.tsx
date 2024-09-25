@@ -20,6 +20,8 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
 
   const router = useRouter();
 
+  console.log(cart);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -63,7 +65,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
   return (
     <div
       ref={modalRef}
-      className="w-80 md:w-[28rem] absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-4 z-20 max-h-[80vh]"
+      className="w-80 md:w-[26rem] absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-4 z-20 max-h-[80vh]"
     >
       {!cart.lineItems ? (
         <div className="text-center py-8">Your Cart is Empty</div>
@@ -90,10 +92,10 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                       {}
                     )}
                     alt=""
-                    title={`View details for ${item.productName?.original}`}
+                    title={`Go to product page`}
                     width={96}
                     height={120}
-                    className="object-cover rounded-md cursor-pointer"
+                    className="rounded-md cursor-pointer"
                     onClick={() =>
                       router.push(
                         `/${item.productName?.original
@@ -125,9 +127,14 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                       {item.availability?.status}
                     </div>
                   </div>
-                  {item.descriptionLines?.[0]?.plainText?.original && (
+                  {item.descriptionLines?.[0]?.name?.original === "Size" && (
                     <div className="text-slate-500 text-xs">
-                      Size: {item.descriptionLines[0].plainText.original}
+                      Size: {item.descriptionLines[0]?.plainText?.original}
+                    </div>
+                  )}
+                  {item.descriptionLines?.[0]?.name?.original === "Type" && (
+                    <div className="text-slate-500 text-xs">
+                      Type: {item.descriptionLines[0]?.plainText?.original}
                     </div>
                   )}
                   {item.descriptionLines?.[0]?.colorInfo?.original && (
