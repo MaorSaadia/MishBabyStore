@@ -170,7 +170,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
-              className="relative w-[90%] h-[90%] max-w-4xl max-h-[80vh] bg-slate-50 rounded-lg overflow-hidden"
+              className="relative w-[90%] h-[90%] max-w-4xl max-h-[80vh] bg-slate-50 rounded-lg overflow-hidden -mb-2"
               onClick={(e) => e.stopPropagation()}
               onMouseEnter={() => setIsZoomed(true)}
               onMouseLeave={() => {

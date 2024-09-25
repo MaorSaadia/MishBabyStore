@@ -7,13 +7,6 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   const { name, email, orderNumber, issueType, message } = await request.json();
-  console.log("Request Body:", {
-    name,
-    email,
-    orderNumber,
-    issueType,
-    message,
-  });
 
   try {
     await resend.emails.send({
