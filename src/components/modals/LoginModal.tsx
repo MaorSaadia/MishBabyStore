@@ -15,7 +15,6 @@ import useRegisterModal from "@/hooks/useRegisterModal";
 import Modal from "./Modal";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
-import ModalButton from "../ui/modal-button";
 
 const LoginModal = () => {
   const wixClient = useWixClient();
@@ -50,7 +49,6 @@ const LoginModal = () => {
           const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
             response.data.sessionToken!
           );
-          console.log(tokens);
           Cookies.set("refreshToken", JSON.stringify(tokens.refreshToken), {
             expires: 2,
           });
@@ -108,21 +106,36 @@ const LoginModal = () => {
         errors={errors}
         required
       />
+      <div
+        className="
+      text-neutral-500 font-light -mb-8"
+      >
+        <p>
+          Forgot Password?
+          <span
+            onClick={() => {
+              console.log("gfgf");
+            }}
+            className="
+              text-neutral-800
+              cursor-pointer 
+              hover:underline
+            "
+          >
+            {" "}
+            Press here
+          </span>
+        </p>
+      </div>
     </div>
   );
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
-      {/* <ModalButton
-        outline
-        label="Continue with Google"
-        icon={FcGoogle}
-        onClick={() => signIn("google")}
-      /> */}
       <div
         className="
-      text-neutral-500 text-center mt-4 font-light"
+      text-neutral-500 text-center mt-2 font-light"
       >
         <p>
           First time here?
