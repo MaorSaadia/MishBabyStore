@@ -25,7 +25,17 @@ const faqs: FAQ[] = [
   {
     question: "Can I return or exchange products?",
     answer:
-      "We offer returns for damaged or incorrect items. Please contact our customer support within 14 days of receiving the product, and we'll guide you through the process.",
+      "We offer returns for damaged or incorrect items. Please contact our customer support within 14 days of receiving the product, and we'll guide you through the process. In certain cases, we may allow you to keep the item and provide a 50% refund or store credit for the full amount of your order.",
+  },
+  {
+    question: "What happens if my items are lost or damaged?",
+    answer:
+      "For damaged items, we will process a full refund or provide a free replacement if the item becomes defective within 30 days of delivery. For lost items, if the order is lost in transit and cannot be recovered within 30 days of placing the order, we will either reship the item or offer a full refund.",
+  },
+  {
+    question: "How long does it take to process a refund?",
+    answer:
+      "Refunds are typically processed within 5-7 business days after we receive the returned item. If there are any issues with the refund, please contact us to confirm whether it was properly initiated on our end. If the refund was processed correctly, you may need to check with your bank for further details.",
   },
   {
     question: "What payment methods do you accept?",
@@ -52,11 +62,6 @@ const faqs: FAQ[] = [
     answer:
       "Yes, we work closely with verified suppliers to ensure that all products meet our quality standards before being shipped to our customers.",
   },
-  //   {
-  //     question: "Can I change my shipping address after placing an order?",
-  //     answer:
-  //       "You can modify your shipping address within 24 hours of placing the order. If it has already been processed, unfortunately, we cannot make changes.",
-  //   },
   {
     question: "Is shopping on your website secure?",
     answer:
