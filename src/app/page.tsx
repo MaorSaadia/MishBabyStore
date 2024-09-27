@@ -28,17 +28,17 @@ const HomePage = async () => {
           <CategoryList />
         </Suspense>
       </div>
-      <div className="mt-4 md:mt-8 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
+      {/* <div className="mt-4 md:mt-8 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
         <h1 className="text-2xl md:text-4xl font-bold mb-8 text-gray-800">
           New Products
         </h1>
-        {/* <Suspense fallback={<Skeleton />}>
+        <Suspense fallback={<Skeleton />}>
           <ProductList
             categoryId={process.env.FEATURED_PRODUCTS_NEW_CATEGORY_ID!}
             limit={4}
           />
-        </Suspense> */}
-      </div>
+        </Suspense>
+      </div> */}
     </div>
   );
 };
