@@ -20,7 +20,7 @@ const faqs: FAQ[] = [
   {
     question: "How long does shipping take?",
     answer:
-      "Shipping times depend on your location and the product's availability. Typically, orders are delivered within 10-30 business days. Each product page provides specific shipping estimates.",
+      "Shipping times depend on your location and the product's availability. Typically, orders are delivered within 10-30 business days.",
   },
   {
     question: "Can I return or exchange products?",
@@ -70,7 +70,7 @@ const faqs: FAQ[] = [
   {
     question: "How do I contact customer support?",
     answer:
-      "You can reach our customer support team through the Contact Us page or by emailing support@[yourwebsite].com. We aim to respond to all inquiries within 24 hours.",
+      "You can reach our customer support team through the Customer Support page or by emailing support@[yourwebsite].com. We aim to respond to all inquiries within 24 hours.",
   },
   {
     question: "Do you offer discounts or promotions?",
@@ -80,7 +80,7 @@ const faqs: FAQ[] = [
   {
     question: "Do you ship internationally?",
     answer:
-      "Yes, we offer international shipping to most countries. Shipping costs and delivery times may vary based on your location.",
+      "Yes, we offer international shipping to most countries. Delivery times may vary based on your location.",
   },
 ];
 

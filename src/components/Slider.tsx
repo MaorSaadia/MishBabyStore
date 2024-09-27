@@ -1,101 +1,159 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect, useRef, TouchEvent } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const slides = [
   {
     id: 1,
-    title: "Nursery & Furniture",
-    description: "Sale! Up to 30% off!",
-    img: "/slides/slide1.jpeg",
+    title: "Baby Gadgets",
+    description: "Latest Tech for Little Ones",
+    img: "/slides/Baby-Gadgets.jpeg",
     url: "/",
-    bg: "bg-gradient-to-r from-yellow-50 to-pink-50",
+    bg: "bg-gradient-to-r from-sky-100 to-amber-100",
   },
   {
     id: 2,
     title: "Baby Clothing",
     description: "Sale! Up to 50% off!",
-    img: "/slides/slide2.jpeg",
+    img: "/slides/Baby-Clothing.jpeg",
     url: "/list?cat=baby-clothing&filter=Sale",
     bg: "bg-gradient-to-r from-cyan-50 to-blue-100",
   },
   {
     id: 3,
     title: "Toys & Games",
-    description: "",
-    img: "/slides/slide3.jpeg",
+    description: "Explore Our Collection",
+    img: "/slides/Toys-Games.jpeg",
     url: "/",
     bg: "bg-gradient-to-r from-blue-50 to-rose-50",
+  },
+  {
+    id: 4,
+    title: "Nursery & Furniture",
+    description: "Sale! Up to 30% off!",
+    img: "/slides/Nursery-Furniture.jpeg",
+    url: "/",
+    bg: "bg-gradient-to-r from-yellow-50 to-pink-50",
   },
 ];
 
 const Slider = () => {
   const [current, setCurrent] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  //   }, 5000);
+  useEffect(() => {
+    let interval: NodeJS.Timeout | undefined;
+    if (isAutoPlaying) {
+      interval = setInterval(() => {
+        setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+      }, 5000);
+    }
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
 
-  //   return () => clearInterval(interval);
-  // }, []);
+  const nextSlide = () => {
+    setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  };
+
+  const handleTouchStart = (e: TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current - touchEndX.current > 75) {
+      nextSlide();
+    }
+
+    if (touchEndX.current - touchStartX.current > 75) {
+      prevSlide();
+    }
+  };
 
   return (
-    <div className="h-[calc(100vh-80px)] md:h-[calc(54vh-80px)] overflow-hidden">
+    <div
+      className="relative h-[calc(100vh-80px)] md:h-[calc(70vh-80px)] overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <div
-        className="w-max h-full flex transition-all ease-in-out duration-1000"
-        style={{ transform: `translateX(-${current * 100}vw)` }}
+        className="w-full h-full flex transition-transform duration-700 ease-in-out"
+        style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {slides.map((slide) => (
           <div
-            className={`${slide.bg} w-screen h-full flex flex-col gap-16 xl:flex-row`}
+            className={`${slide.bg} w-full h-full flex-shrink-0 flex flex-col md:flex-row items-center justify-center p-8 md:p-16`}
             key={slide.id}
           >
-            {/* TEXT CONTAINER */}
-            <div className="h-1/2 xl:w-1/2 xl:h-full flex flex-col items-center justify-center gap-8 2xl:gap-12 text-center mt-3">
-              <h2 className="text-lg lg:text-2xl 2xl:text-4xl">
+            <div className="w-full md:w-1/2 text-center md:text-left mb-8 md:mb-0">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl mb-4">
                 {slide.description}
               </h2>
-              <h1 className="text-4xl lg:text-6xl 2xl:text-6xl font-semibold">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                 {slide.title}
               </h1>
               <Link href={slide.url}>
-                <button className="rounded-md bg-black text-white py-3 px-4 hover:bg-slate-700">
+                <button className="bg-black text-white py-3 px-6 rounded-full hover:bg-gray-800 transition-colors duration-300">
                   SHOP NOW
                 </button>
               </Link>
             </div>
-            {/* IMAGE CONTAINER */}
-            <div className="h-1/2 xl:w-1/2 xl:h-full relative -top-12">
+            <div className="w-full md:w-1/2 h-64 md:h-full relative">
               <Image
                 src={slide.img}
-                alt=""
-                width={1000}
-                height={500}
-                sizes="100%"
-                className="object-cover"
+                alt={slide.title}
+                fill
+                className="rounded-lg shadow-lg"
               />
             </div>
           </div>
         ))}
       </div>
-      <div className="absolute m-auto left-1/2 bottom-8 md:bottom-2/4 flex gap-4">
-        {slides.map((slide, index) => (
-          <div
-            className={`w-3 h-3  rounded-full ring-1 ring-gray-600 cursor-pointer flex items-center justify-center ${
-              current === index ? "scale-150" : ""
-            }`}
-            key={slide.id}
+
+      <button
+        onClick={prevSlide}
+        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/50 hover:bg-white/80 rounded-full p-2 transition-colors duration-300"
+      >
+        <ChevronLeft size={24} />
+      </button>
+      <button
+        onClick={nextSlide}
+        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/50 hover:bg-white/80 rounded-full p-2 transition-colors duration-300"
+      >
+        <ChevronRight size={24} />
+      </button>
+
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        {slides.map((_, index) => (
+          <button
+            key={index}
             onClick={() => setCurrent(index)}
-          >
-            {current === index && (
-              <div className="w-[6px] h-[6px] bg-gray-600 rounded-full"></div>
-            )}
-          </div>
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              current === index ? "bg-black scale-125" : "bg-gray-300"
+            }`}
+          />
         ))}
       </div>
+
+      <button
+        onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+        className="absolute bottom-4 right-4 bg-white/50 hover:bg-white/80 rounded-full p-2 transition-colors duration-300"
+      >
+        {isAutoPlaying ? "❚❚" : "▶"}
+      </button>
     </div>
   );
 };
