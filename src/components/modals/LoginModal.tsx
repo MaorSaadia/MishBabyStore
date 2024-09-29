@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 
 import { useWixClient } from "@/hooks/useWixClient";
 import useLoginModal from "@/hooks/useLoginModal";
+import useResetPasswordModal from "@/hooks/useResetPasswordModal";
 import useRegisterModal from "@/hooks/useRegisterModal";
 
 import Modal from "./Modal";
@@ -21,6 +22,7 @@ const LoginModal = () => {
   const router = useRouter();
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+  const resetPasswordModal = useResetPasswordModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -81,10 +83,15 @@ const LoginModal = () => {
     }
   };
 
-  const onToggle = useCallback(() => {
-    loginModal.onClose();
-    registerModal.onOpen();
-  }, [loginModal, registerModal]);
+  const onToggle = useCallback(
+    (type: string) => {
+      loginModal.onClose();
+      type === "register"
+        ? registerModal.onOpen()
+        : resetPasswordModal.onOpen();
+    },
+    [loginModal, registerModal, resetPasswordModal]
+  );
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -113,9 +120,7 @@ const LoginModal = () => {
         <p>
           Forgot Password?
           <span
-            onClick={() => {
-              console.log("gfgf");
-            }}
+            onClick={() => onToggle("reset")}
             className="
               text-neutral-800
               cursor-pointer 
@@ -140,7 +145,7 @@ const LoginModal = () => {
         <p>
           First time here?
           <span
-            onClick={onToggle}
+            onClick={() => onToggle("register")}
             className="
               text-neutral-800
               cursor-pointer 

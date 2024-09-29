@@ -41,7 +41,7 @@ const ModalButton: React.FC<ButtonProps> = ({
             ${
               small
                 ? "text-sm py-1 font-light border-[1px]"
-                : "text-md py-3 font-semibold border-2"
+                : "text-md py-3 font-semibold border-2 -mt-2"
             }
             ${mtAuto && "mt-auto"}
             `}

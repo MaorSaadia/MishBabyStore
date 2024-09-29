@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 import LoginModal from "@/components/modals/LoginModal";
 import RegisterModal from "@/components/modals/RegisterModal";
+import ResetPasswordModal from "@/components/modals/ResetPasswordModal";
 import ToastProvider from "@/providers/ToastProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,6 +29,7 @@ export default function RootLayout({
         <WixClientContextProvider>
           <LoginModal />
           <RegisterModal />
+          <ResetPasswordModal />
           <ToastProvider />
           <Navbar />
           {children}
