@@ -11,7 +11,7 @@ const slides = [
     title: "Baby Gadgets",
     description: "Latest Tech for Little Ones",
     img: "/slides/Baby-Gadgets.jpeg",
-    url: "/",
+    url: "/list?cat=consumer-electronics",
     bg: "bg-gradient-to-r from-sky-100 to-amber-100",
   },
   {
@@ -27,7 +27,7 @@ const slides = [
     title: "Toys & Games",
     description: "Explore Our Collection",
     img: "/slides/Toys-Games.jpeg",
-    url: "/",
+    url: "/list?cat=toys-games",
     bg: "bg-gradient-to-r from-blue-50 to-rose-50",
   },
   {
@@ -35,7 +35,7 @@ const slides = [
     title: "Nursery & Furniture",
     description: "Sale! Up to 30% off!",
     img: "/slides/Nursery-Furniture.jpeg",
-    url: "/",
+    url: "/list?cat=nursery-furniture&filter=Sale",
     bg: "bg-gradient-to-r from-yellow-50 to-pink-50",
   },
 ];
