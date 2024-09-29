@@ -170,29 +170,94 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
 
                 {/* Additional Info Sections */}
                 <div className="">
-                  {product.additionalInfoSections?.map((section) => (
-                    <details
-                      key={section.title}
-                      className="mt-4 border-t border-gray-200 pt-4"
-                    >
-                      <summary className="font-medium text-gray-900 cursor-pointer flex items-center">
-                        {section.title}
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </summary>
-                      {section.description ? (
-                        <div
-                          className="mt-2 text-sm text-gray-500"
-                          dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(section.description),
-                          }}
-                        />
-                      ) : (
-                        <p className="mt-2 text-sm text-gray-500">
-                          No additional information available.
-                        </p>
-                      )}
-                    </details>
-                  ))}
+                  <details className="mt-4 border-t border-gray-200 pt-4">
+                    <summary className="font-medium text-gray-900 cursor-pointer flex items-center">
+                      SHIPPING INFO
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </summary>
+                    <div className="mt-2 text-sm text-gray-500">
+                      <p>
+                        <span className="font-bold">1. Shipping Process</span>
+                      </p>
+                      <p>
+                        Once your order is placed, our fulfillment team
+                        processes it promptly, and the product is shipped
+                        directly to your address. We work closely with trusted
+                        suppliers to ensure both timely delivery and
+                        high-quality products.
+                      </p>
+                      <p className="mt-4">
+                        <span className="font-bold">
+                          2. International Shipping and Timeframes
+                        </span>
+                      </p>
+                      <p>
+                        We offer shipping to most countries worldwide. Delivery
+                        times typically range from 10-30 business days,
+                        depending on your location and product availability.
+                      </p>
+                    </div>
+                  </details>
+                </div>
+                <div className="">
+                  <details className="mt-4 border-t border-gray-200 pt-4">
+                    <summary className="font-medium text-gray-900 cursor-pointer flex items-center">
+                      RETURN & REFUND POLICY
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </summary>
+                    <div className="mt-2 text-sm text-gray-500">
+                      <p>
+                        <span className="font-bold">
+                          1. Returns & Exchanges
+                        </span>
+                      </p>
+                      <p>
+                        We want you to be completely satisfied with your
+                        purchase. If you receive a damaged or incorrect item,
+                        you may return or exchange it. Please contact our
+                        customer support team within 14 days of receiving the
+                        product to initiate the process. In certain cases, we
+                        may allow you to keep the item and provide a 50% refund
+                        or store credit for the full amount of your order. We’ll
+                        guide you through every step to ensure a smooth
+                        experience.
+                      </p>
+
+                      <p className="mt-4">
+                        <span className="font-bold">
+                          2. Damaged or Lost Items
+                        </span>
+                      </p>
+                      <p>
+                        <span className="font-bold">Damaged Items:</span> If
+                        your item arrives damaged or becomes defective within 30
+                        days of delivery, we will offer a full refund or send a
+                        free replacement.
+                      </p>
+                      <p>
+                        <span className="font-bold">Lost Items:</span> If your
+                        order is lost in transit and cannot be recovered within
+                        30 days of placing the order, we will either reship the
+                        item or offer a full refund. Your satisfaction is our
+                        priority, and we will work diligently to resolve any
+                        issues.
+                      </p>
+
+                      <p className="mt-4">
+                        <span className="font-bold">
+                          3. Refund Processing Time
+                        </span>
+                      </p>
+                      <p>
+                        Once we receive your returned item, refunds are
+                        typically processed within 5-7 business days. If there
+                        are any issues or delays, feel free to contact our
+                        support team to confirm that the refund has been
+                        initiated. If everything is correct on our end, we
+                        recommend checking with your bank for further updates.
+                      </p>
+                    </div>
+                  </details>
                 </div>
               </div>
             </div>
