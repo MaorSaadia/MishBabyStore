@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useWixClient } from "@/hooks/useWixClient";
 import { useCartStore } from "@/hooks/useCartStore";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 interface CartModalProps {
   onClose: () => void;
@@ -20,7 +21,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
 
   const router = useRouter();
 
-  console.log(cart);
+  // console.log(cart);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -174,9 +175,12 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
               Shipping and taxes calculated at checkout.
             </p>
             <div className="flex justify-between gap-4">
-              <Button className="flex-1 rounded-md py-3 px-4 ring-1 bg-white text-black ring-gray-300 hover:bg-slate-100 transition-colors">
-                View Cart
-              </Button>
+              <Link href="/cart">
+                <Button className="flex-1 rounded-md py-3 px-4 ring-1 bg-white text-black ring-gray-300 hover:bg-slate-100 transition-colors">
+                  View Cart
+                </Button>
+              </Link>
+
               <Button
                 className="flex-1 rounded-md py-3 px-4 bg-black text-white hover:bg-slate-800 transition-colors disabled:cursor-not-allowed disabled:opacity-75"
                 disabled={isLoading}

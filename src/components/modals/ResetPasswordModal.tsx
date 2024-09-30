@@ -41,7 +41,7 @@ const ResetPasswordModal = () => {
         email,
         window.location.href
       );
-      console.log(response);
+      // console.log(response);
       setMessage("Password reset email sent. Please check your e-mail.");
     } catch (error) {
       console.log(error);

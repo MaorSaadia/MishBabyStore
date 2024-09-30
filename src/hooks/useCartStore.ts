@@ -15,6 +15,11 @@ type CartState = {
     quantity: number
   ) => void;
   removeItem: (wixClient: WixClient, itemId: string) => void;
+  updateItemQuantity: (
+    wixClient: WixClient,
+    itemId: string,
+    quantity: number
+  ) => void;
 };
 
 export const useCartStore = create<CartState>((set) => ({
@@ -65,5 +70,25 @@ export const useCartStore = create<CartState>((set) => ({
       counter: response.cart?.lineItems.length,
       isLoading: false,
     });
+  },
+
+  updateItemQuantity: async (wixClient, itemId, quantity) => {
+    set((state) => ({ ...state, isLoading: true }));
+    try {
+      const response =
+        await wixClient.currentCart.updateCurrentCartLineItemQuantity([
+          // @ts-ignore
+          { id: itemId, quantity },
+        ]);
+
+      set({
+        cart: response.cart,
+        counter: response.cart?.lineItems.length,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error("Error updating item quantity:", error);
+      set((state) => ({ ...state, isLoading: false }));
+    }
   },
 }));
