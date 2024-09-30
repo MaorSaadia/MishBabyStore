@@ -121,7 +121,7 @@ const ViewCartPage = () => {
                         {desc.plainText?.original || desc.colorInfo?.original}
                       </p>
                     ))}
-                    <div className="flex justify-between items-center mt-4 -ml-2 sm:ml-2">
+                    <div className="flex justify-between items-center mt-4">
                       <div className="flex items-center border rounded-md">
                         <Button
                           variant="ghost"
