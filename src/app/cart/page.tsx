@@ -64,7 +64,9 @@ const ViewCartPage = () => {
       </div>
     );
   }
-  console.log(cart.lineItems);
+
+  // console.log(cart.lineItems);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Your Shopping Cart</h1>
@@ -159,12 +161,13 @@ const ViewCartPage = () => {
                             (item.quantity || 1)
                           ).toFixed(2)}
                         </p>
-                        {item.fullPrice?.amount && (
+                        {item.fullPrice?.amount !==
+                          item.priceBeforeDiscounts?.amount && (
                           <p className="text-xs md:text-sm">
                             <span className="line-through text-gray-500 mr-2">
                               $
                               {(
-                                Number(item.fullPrice.amount ?? 0) *
+                                Number(item?.fullPrice?.amount ?? 0) *
                                 (item.quantity || 1)
                               ).toFixed(2)}
                             </span>
@@ -172,7 +175,7 @@ const ViewCartPage = () => {
                             <span className="text-rose-600">
                               Save $
                               {(
-                                (Number(item.fullPrice.amount ?? 0) -
+                                (Number(item.fullPrice?.amount ?? 0) -
                                   Number(
                                     item.priceBeforeDiscounts?.amount ?? 0
                                   )) *

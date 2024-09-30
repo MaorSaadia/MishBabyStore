@@ -17,7 +17,7 @@ const UserMenu = () => {
   const isLoggedIn = wixClient.auth.loggedIn();
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(wixClient.auth);
+  // console.log(wixClient.auth);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
