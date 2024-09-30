@@ -11,11 +11,13 @@ import { useCartStore } from "@/hooks/useCartStore";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import useScreenSize from "@/hooks/useScreenSize";
 
 const ViewCartPage = () => {
   const wixClient = useWixClient();
   const { cart, isLoading, removeItem, updateItemQuantity } = useCartStore();
   const router = useRouter();
+  const isLargeScreen = useScreenSize();
 
   const handleCheckout = async () => {
     try {
@@ -70,8 +72,8 @@ const ViewCartPage = () => {
         <div className="lg:col-span-2">
           {cart.lineItems.map((item) => (
             <Card key={item._id} className="mb-4">
-              <CardContent className="p-4">
-                <div className="flex gap-6">
+              <CardContent className="p-3">
+                <div className="flex gap-3">
                   {item.image && (
                     <Image
                       src={wixMedia.getScaledToFillImageUrl(
@@ -81,8 +83,8 @@ const ViewCartPage = () => {
                         {}
                       )}
                       alt={item.productName?.original || ""}
-                      width={180}
-                      height={180}
+                      width={isLargeScreen ? 180 : 110}
+                      height={isLargeScreen ? 180 : 80}
                       className="rounded-md cursor-pointer"
                       onClick={() =>
                         router.push(
@@ -95,7 +97,7 @@ const ViewCartPage = () => {
                   )}
                   <div className="flex-grow">
                     <div className="flex justify-between items-start">
-                      <h3 className="text-lg font-semibold">
+                      <h3 className="text-sm md:text-lg font-semibold">
                         {item.productName?.original}
                       </h3>
                       <Button
@@ -107,16 +109,19 @@ const ViewCartPage = () => {
                         <X size={16} />
                       </Button>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-xs md:text-sm text-gray-500 mt-1">
                       {item.availability?.status}
                     </p>
                     {item.descriptionLines?.map((desc, index) => (
-                      <p key={index} className="text-sm text-gray-600 mt-1">
+                      <p
+                        key={index}
+                        className="text-xs md:text-sm text-gray-600 mt-1"
+                      >
                         {desc.name?.original}:{" "}
                         {desc.plainText?.original || desc.colorInfo?.original}
                       </p>
                     ))}
-                    <div className="flex justify-between items-center mt-4">
+                    <div className="flex justify-between items-center mt-4 -ml-2 sm:ml-2">
                       <div className="flex items-center border rounded-md">
                         <Button
                           variant="ghost"
@@ -129,7 +134,7 @@ const ViewCartPage = () => {
                           }
                           disabled={isLoading || (item.quantity || 0) <= 1}
                         >
-                          <Minus size={16} />
+                          <Minus size={8} />
                         </Button>
                         <span className="px-2">{item.quantity}</span>
                         <Button
@@ -143,11 +148,11 @@ const ViewCartPage = () => {
                           }
                           disabled={isLoading}
                         >
-                          <Plus size={16} />
+                          <Plus size={8} />
                         </Button>
                       </div>
                       <div className="text-right">
-                        <p className="font-semibold text-lg">
+                        <p className="font-semibold text-md md:text-lg">
                           $
                           {(
                             Number(item.priceBeforeDiscounts?.amount ?? 0) *
@@ -155,7 +160,7 @@ const ViewCartPage = () => {
                           ).toFixed(2)}
                         </p>
                         {item.fullPrice?.amount && (
-                          <p className="text-sm">
+                          <p className="text-xs md:text-sm">
                             <span className="line-through text-gray-500 mr-2">
                               $
                               {(
