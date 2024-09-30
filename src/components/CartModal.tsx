@@ -5,12 +5,12 @@ import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
+import Link from "next/link";
 import Image from "next/image";
 
 import { useWixClient } from "@/hooks/useWixClient";
 import { useCartStore } from "@/hooks/useCartStore";
 import { Button } from "./ui/button";
-import Link from "next/link";
 
 interface CartModalProps {
   onClose: () => void;
@@ -177,7 +177,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
               Shipping and taxes calculated at checkout.
             </p>
             <div className="flex justify-between gap-4">
-              <Link href="/cart">
+              <Link href="/cart" onClick={onClose}>
                 <Button className="flex-1 rounded-md py-3 px-4 ring-1 bg-white text-black ring-gray-300 hover:bg-slate-100 transition-colors">
                   View Cart
                 </Button>
