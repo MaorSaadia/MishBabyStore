@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
