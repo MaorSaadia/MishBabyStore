@@ -3,82 +3,138 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="border-sky-200 py-8 px-4 md:px-8 lg:px-16 xl:32 2xl:px-64 bg-sky-100 text-sm mt-14">
-      {/* TOP */}
-      <div className="flex flex-col md:flex-row justify-between gap-8">
-        {/* LEFT */}
-        <div className="w-full md:w-1/4 lg:w-1/5 flex flex-col gap-4">
-          <Image src="/mb-logo.png" alt="logo" width={120} height={120} />
-          <span className="font-semibold">MishBabySupport@gmail.com</span>
-          <div className="flex gap-6">
-            <Image src="/facebook.png" alt="" width={16} height={16} />
-            <Image src="/instagram.png" alt="" width={16} height={16} />
-            <Image src="/youtube.png" alt="" width={16} height={16} />
-            <Image src="/pinterest.png" alt="" width={16} height={16} />
-            <Image src="/x.png" alt="" width={16} height={16} />
-          </div>
-        </div>
-        {/* CENTER */}
-        <div className="flex flex-row justify-stretch gap-12">
-          <div className="flex flex-col justify-between md:mb-24">
-            <h1 className="font-medium text-lg text-cyan-600">SHOP</h1>
-            <div className="flex flex-col gap-4 mt-3">
-              <Link href="/list?cat=all-products">All Products</Link>
-              <Link href="list?cat=all-products&filter=New Arrival">
-                New Arrivals
-              </Link>
-              <Link href="list?cat=all-products&filter=Sale">Deals</Link>
-            </div>
-          </div>
-          <div className="flex flex-col justify-between md:mb-24">
-            <h1 className="font-medium text-lg text-cyan-600">HELP</h1>
-            <div className="flex flex-col gap-4 mt-3">
-              <Link href="/customer-service">Customer Service</Link>
-              <Link href="/privacy-policy">Privacy Policy</Link>
-              <Link href="/faq">FAQ</Link>
-            </div>
-          </div>
-        </div>
-        {/* RIGHT */}
-        <div className="w-full md:w-1/4 flex flex-col gap-6">
-          {/* <h1 className="font-medium text-lg text-cyan-600">SUBSCRIBE</h1>
-          <p>
-            Be the first to get the latest news about trends, promotions, and
-            much more!
-          </p>
-          <div className="flex">
-            <input
-              type="text"
-              placeholder="Email address"
-              className="p-4 w-2/4 md:w-3/4"
+    <footer className="bg-sky-100 text-gray-700 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Main content */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          {/* Logo and social media */}
+          <div className="flex flex-col items-center sm:items-start">
+            <Image
+              src="/mb-logo.png"
+              alt="logo"
+              width={100}
+              height={100}
+              className="mb-4"
             />
-            <button className="w-1/4 bg-cyan-600 text-white">JOIN</button>
-          </div> */}
-          <span className="font-semibold text-cyan-600 text-center">
-            Secure Payments
-          </span>
-          <div className="flex justify-evenly mb-6">
-            <Image src="/paypal.png" alt="" width={40} height={20} />
-            <Image src="/mastercard.png" alt="" width={40} height={20} />
-            <Image src="/visa.png" alt="" width={40} height={20} />
+            <p className="font-semibold mb-4 text-sm">
+              MishBabySupport@gmail.com
+            </p>
+            <div className="flex gap-4">
+              {["facebook", "instagram", "youtube", "pinterest", "x"].map(
+                (social) => (
+                  <a
+                    key={social}
+                    href={`#${social}`}
+                    className="transition-transform hover:scale-110"
+                  >
+                    <Image
+                      src={`/${social}.png`}
+                      alt={social}
+                      width={20}
+                      height={20}
+                    />
+                  </a>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Shop and Help links */}
+          <div className="sm:col-span-1 lg:col-span-2 flex justify-center sm:justify-start w-full">
+            <div className="grid grid-cols-2 gap-8 sm:gap-4 w-full max-w-sm sm:max-w-none">
+              {/* Shop links */}
+              <div className="text-center sm:text-left">
+                <h2 className="font-medium text-base text-cyan-600 mb-3">
+                  SHOP
+                </h2>
+                <ul className="space-y-2 text-sm">
+                  {[
+                    { href: "/list?cat=all-products", label: "All Products" },
+                    {
+                      href: "/list?cat=all-products&filter=New Arrival",
+                      label: "New Arrivals",
+                    },
+                    {
+                      href: "/list?cat=all-products&filter=Sale",
+                      label: "Deals",
+                    },
+                  ].map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="hover:text-cyan-600 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Help links */}
+              <div className="text-center sm:text-left">
+                <h2 className="font-medium text-base text-cyan-600 mb-3">
+                  HELP
+                </h2>
+                <ul className="space-y-2 text-sm">
+                  {[
+                    { href: "/faq", label: "FAQ" },
+                    { href: "/customer-service", label: "Customer Service" },
+                    { href: "/privacy-policy", label: "Privacy Policy" },
+                    { href: "/terms-of-service", label: "Terms of Service" },
+                  ].map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="hover:text-cyan-600 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Payment options */}
+          <div className="sm:col-span-2 lg:col-span-1">
+            <h2 className="font-medium text-base text-cyan-600 mb-3 text-center sm:text-left">
+              Secure Payments
+            </h2>
+            <div className="flex justify-center sm:justify-start space-x-4">
+              {["paypal", "mastercard", "visa"].map((payment) => (
+                <Image
+                  key={payment}
+                  src={`/${payment}.png`}
+                  alt={payment}
+                  width={40}
+                  height={25}
+                  className="transition-transform hover:scale-110"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom section */}
+        <div className="border-t border-sky-200 pt-4 flex flex-col sm:flex-row justify-between items-center text-xs">
+          <p className="mb-2 sm:mb-0">
+            &copy; 2024 MishBaby. All rights reserved.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <div className="flex items-center">
+              <span className="text-gray-500 mr-1">Language:</span>
+              <span className="font-medium">English (US)</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-gray-500 mr-1">Currency:</span>
+              <span className="font-medium">$ USD</span>
+            </div>
           </div>
         </div>
       </div>
-      {/* BOTTOM */}
-      {/* <div className="items-center gap-6 max-sm:mt-12">
-        <div className="text-xl items-center">© 2024 MishBaby</div>
-        <div className="flex flex-col gap-8 md:flex-row">
-          <div className="">
-            <span className="text-gray-500 mr-4">Language</span>
-            <span className="font-medium">United States | English</span>
-          </div>
-          <div className="">
-            <span className="text-gray-500 mr-4">Currency</span>
-            <span className="font-medium">$ USD</span>
-          </div>
-        </div>
-      </div> */}
-    </div>
+    </footer>
   );
 };
 
