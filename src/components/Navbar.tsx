@@ -9,42 +9,67 @@ const NavIcons = dynamic(() => import("./NavIcons"), { ssr: false });
 
 const Navbar = () => {
   return (
-    <div className="h-20 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative">
-      {/* MOBILE */}
-      <div className="h-full flex items-center justify-between sm:hidden">
+    <nav className="h-20 px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-32 relative">
+      {/* Mobile and Tablet */}
+      <div className="h-full flex items-center justify-between lg:hidden">
         <Link href="/" className="flex items-center">
-          <Image src="/mb-logo.png" alt="" width={50} height={50} />
-          <div className="hidden sm:block text-2xl tracking-wide">MishBaby</div>
+          <Image
+            src="/mb-logo.png"
+            alt="MishBaby Logo"
+            width={40}
+            height={40}
+          />
+          <span className="ml-2 text-xl font-semibold">MishBaby</span>
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           <SearchBar />
           <NavIcons />
           <Menu />
         </div>
       </div>
-      {/* BIGGER SCREENS */}
-      <div className="hidden sm:flex items-center justify-between gap-8 h-full">
-        {/* LEFT */}
-        <div className="w-1/3 xl:w-1/2 flex items-center gap-12">
-          <Link href="/" className="flex items-center gap-1">
-            <Image src="/mb-logo.png" alt="" width={30} height={30} />
-            <div className="text-2xl tracking-wide">MishBaby</div>
+
+      {/* Desktop */}
+      <div className="hidden lg:flex items-center justify-between h-full">
+        {/* Left side */}
+        <div className="flex items-center gap-8">
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/mb-logo.png"
+              alt="MishBaby Logo"
+              width={50}
+              height={50}
+            />
+            <span className="ml-2 text-2xl font-semibold">MishBaby</span>
           </Link>
-          <div className="hidden xl:flex gap-4">
-            <Link href="/list?cat=all-products&filter=Sale">Deals</Link>
-            <Link href="/list?cat=all-products&filter=New Arrival">
+          <div className="hidden xl:flex gap-6 text-sm">
+            <Link
+              href="/list?cat=all-products&filter=Sale"
+              className="hover:text-cyan-600 transition-colors"
+            >
+              Deals
+            </Link>
+            <Link
+              href="/list?cat=all-products&filter=New Arrival"
+              className="hover:text-cyan-600 transition-colors"
+            >
               New Arrival
             </Link>
-            <Link href="/customer-service">Contact</Link>
+            <Link
+              href="/customer-service"
+              className="hover:text-cyan-600 transition-colors"
+            >
+              Contact
+            </Link>
           </div>
         </div>
-        {/* RIGHT */}
-        <div className="w-2/3 xl:w-1/2 flex items-center justify-between gap-8">
+
+        {/* Right side */}
+        <div className="flex items-center gap-8">
           <SearchBar />
           <NavIcons />
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 
