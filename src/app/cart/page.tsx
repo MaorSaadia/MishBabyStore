@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { X, Plus, Minus, ShoppingBag } from "lucide-react";
 import { media as wixMedia } from "@wix/sdk";
@@ -11,13 +12,25 @@ import { useCartStore } from "@/hooks/useCartStore";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import useScreenSize from "@/hooks/useScreenSize";
 
 const ViewCartPage = () => {
   const wixClient = useWixClient();
-  const { cart, isLoading, removeItem, updateItemQuantity } = useCartStore();
   const router = useRouter();
   const isLargeScreen = useScreenSize();
+  const { cart, isLoading, removeItem, updateItemQuantity } = useCartStore();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   const handleCheckout = async () => {
     try {
@@ -49,6 +62,20 @@ const ViewCartPage = () => {
     }
   };
 
+  //@ts-ignore
+  const handleDeleteClick = (item) => {
+    setItemToDelete(item);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (itemToDelete) {
+      //@ts-ignore
+      removeItem(wixClient, itemToDelete._id);
+    }
+    setIsDeleteDialogOpen(false);
+  };
+
   if (!cart.lineItems || cart.lineItems.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -64,8 +91,6 @@ const ViewCartPage = () => {
       </div>
     );
   }
-
-  // console.log(cart.lineItems);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -105,7 +130,7 @@ const ViewCartPage = () => {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => removeItem(wixClient, item._id!)}
+                        onClick={() => handleDeleteClick(item)}
                         disabled={isLoading}
                       >
                         <X size={16} />
@@ -232,6 +257,26 @@ const ViewCartPage = () => {
           </Button>
         </div>
       </div>
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will remove the item from your cart. This action cannot be
+              undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmDelete}>
+              Remove
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
