@@ -25,6 +25,8 @@ const Menu = () => {
       href: "/list?cat=all-products&filter=New Arrival",
       label: "New Arrival",
     },
+    { href: "/about-us", label: "About Us" },
+
     { href: "/customer-service", label: "Contact" },
   ];
 
