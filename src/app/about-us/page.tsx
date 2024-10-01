@@ -45,10 +45,18 @@ const AboutUs = () => {
               Welcome to Our World of Baby Bliss!
             </h2>
             <p className="text-gray-700 mb-6 text-base sm:text-lg">
-              At MishBaby, we&apos;re more than just an e-commerce store –
-              we&apos;re your partners in parenting. Our passion is to provide
-              families with a curated selection of high-quality baby products
-              that ensure comfort, safety, and joy for your little ones.
+              At MishBaby, we understand that every little one is a precious
+              miracle. Our passion is to provide parents with top-quality
+              products that ensure comfort, safety, and joy for their babies.
+              From the softest clothing to the most innovative gadgets,
+              we&apos;ve got everything you need to make parenting a delightful
+              journey.
+            </p>
+            <p className="text-gray-700 mb-6 text-base sm:text-lg">
+              We&apos;re more than just an e-commerce store – we&apos;re your
+              partners in parenting. Our curated selection of high-quality baby
+              products supports your baby&apos;s growth and development at every
+              stage.
             </p>
             <h3 className="text-xl sm:text-2xl font-semibold text-cyan-500 mb-4">
               Our Commitment to You
@@ -77,6 +85,10 @@ const AboutUs = () => {
             above and beyond to ensure your shopping experience is as smooth as
             your baby&apos;s skin. Our friendly support team is just a click
             away!
+          </p>
+          <p className="text-lg sm:text-xl text-gray-700 mb-8">
+            And we&apos;re constantly expanding! Stay tuned for more amazing
+            products coming your way.
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
             <Link href="/" passHref>
