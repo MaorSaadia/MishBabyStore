@@ -6,6 +6,11 @@ import {
   UserCheck,
   Lock,
   AlertTriangle,
+  Clock,
+  CookieIcon,
+  Globe,
+  PersonStanding,
+  ThumbsUp,
 } from "lucide-react";
 
 interface PolicySectionProps {
@@ -191,6 +196,35 @@ const PrivacyPolicy: React.FC = () => {
               content="We may update this Privacy Policy periodically. Any changes will be posted on this page with an updated effective date. We encourage you to review this policy regularly to stay informed about how we protect your information."
             />
 
+            <PolicySection
+              icon={<Clock />}
+              title="7. Data Retention"
+              content="We retain your personal data for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law. After this period, your data will be deleted or anonymized."
+            />
+
+            <PolicySection
+              icon={<CookieIcon />}
+              title="8. Cookies and Tracking Technologies"
+              content="Our website uses cookies and similar tracking technologies to enhance your browsing experience and analyze site traffic. You can manage your cookie preferences through your browser settings."
+            />
+
+            <PolicySection
+              icon={<Globe />}
+              title="9. International Data Transfers"
+              content="Your personal information may be transferred to and processed in countries other than your own. We ensure that these transfers comply with applicable data protection laws and safeguard your information accordingly."
+            />
+
+            <PolicySection
+              icon={<PersonStanding />}
+              title="10. Children's Privacy"
+              content="Our services are not directed to individuals under the age of 13, and we do not knowingly collect personal data from children. If we become aware that a child’s personal information has been collected without parental consent, we will take steps to delete it."
+            />
+
+            <PolicySection
+              icon={<ThumbsUp />}
+              title="11. Your Consent"
+              content="By using our services, you consent to the collection and use of your personal data as described in this policy. If you wish to withdraw consent, please contact us at the email provided."
+            />
             <div className="mt-12 border-t pt-8">
               <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
               <p>

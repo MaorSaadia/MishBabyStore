@@ -24,12 +24,11 @@ const AboutUs = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="w-full lg:w-1/2"
           >
-            <div className="relative w-full h-64 sm:h-80 lg:h-96 rounded-lg overflow-hidden shadow-lg">
+            <div className="relative w-full h-64 sm:h-96 lg:h-96 rounded-lg overflow-hidden shadow-lg">
               <Image
-                src="/api/placeholder/800/600"
-                alt="Happy baby with caring parent"
-                layout="fill"
-                objectFit="cover"
+                src="/about-us.png"
+                alt="about-us"
+                fill
                 className="rounded-lg"
               />
             </div>
@@ -75,7 +74,7 @@ const AboutUs = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.2 }}
-          className="mt-12 text-center"
+          className="mt-4 text-center"
         >
           <h3 className="text-xl sm:text-2xl font-semibold text-cyan-500 mb-4">
             Experience the MishBaby Difference
