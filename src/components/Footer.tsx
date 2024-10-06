@@ -104,16 +104,18 @@ const Footer = () => {
               Secure Payments
             </h2>
             <div className="flex justify-center sm:justify-start space-x-4">
-              {["paypal", "mastercard", "visa"].map((payment) => (
-                <Image
-                  key={payment}
-                  src={`/${payment}.png`}
-                  alt={payment}
-                  width={40}
-                  height={25}
-                  className="transition-transform hover:scale-110"
-                />
-              ))}
+              {["paypal", "mastercard", "visa", "american-express"].map(
+                (payment) => (
+                  <Image
+                    key={payment}
+                    src={`/${payment}.png`}
+                    alt={payment}
+                    width={35}
+                    height={35}
+                    className="transition-transform hover:scale-110"
+                  />
+                )
+              )}
             </div>
           </div>
         </div>
