@@ -1,26 +1,29 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 
 const SuccessPage = () => {
-  const searchParams = useSearchParams();
   const router = useRouter();
-
-  const orderId = searchParams.get("orderId");
+  const [orderId, setOrderId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!orderId) return;
+    // Get the orderId from the URL on the client side
+    const searchParams = new URLSearchParams(window.location.search);
+    const orderIdFromUrl = searchParams.get("orderId");
+    setOrderId(orderIdFromUrl);
+
+    if (!orderIdFromUrl) return;
 
     const timer = setTimeout(() => {
-      router.push("/orders/" + orderId);
+      router.push("/orders/" + orderIdFromUrl);
     }, 5000);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [orderId, router]);
+  }, [router]);
 
   return (
     <div className="flex flex-col gap-6 items-center justify-center h-[calc(100vh-180px)]">
