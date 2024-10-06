@@ -47,7 +47,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
         await wixClient.currentCart.createCheckoutFromCurrentCart({
           channelType: currentCart.ChannelType.WEB,
         });
-
+      console.log("1:", checkout);
       const { redirectSession } =
         await wixClient.redirects.createRedirectSession({
           ecomCheckout: { checkoutId: checkout.checkoutId },
@@ -56,6 +56,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
             thankYouPageUrl: `${window.location.origin}/success`,
           },
         });
+      console.log("2:", redirectSession);
 
       if (redirectSession?.fullUrl) {
         window.location.href = redirectSession.fullUrl;
