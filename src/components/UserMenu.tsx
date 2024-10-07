@@ -26,7 +26,13 @@ const UserMenu = () => {
   const handleLogout = async () => {
     Cookies.remove("refreshToken");
     const { logoutUrl } = await wixClient.auth.logout(window.location.href);
+    setIsOpen(false);
     router.push(logoutUrl);
+  };
+
+  const handleProfile = () => {
+    router.push("/profile");
+    setIsOpen(false);
   };
 
   return (
@@ -43,10 +49,7 @@ const UserMenu = () => {
         <div className="absolute p-3 rounded-md top-12 -left-8 bg-white text-sm shadow-[0_3px_10px_rgb(0,0,0,0.2)] z-20">
           <div className="flex flex-col cursor-pointer w-full">
             <>
-              <MenuItem
-                label="Profile"
-                onClick={() => router.push("/profile")}
-              />
+              <MenuItem label="Profile" onClick={handleProfile} />
               <MenuItem label="Logout" onClick={handleLogout} />
             </>
           </div>
