@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 
 import { WixClientContextProvider } from "@/context/wixContext";
 import Navbar from "@/components/Navbar";
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <WixClientContextProvider>
+          <Analytics />
           <LoginModal />
           <RegisterModal />
           <ResetPasswordModal />
