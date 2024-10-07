@@ -24,13 +24,13 @@ const ProfilePage = async () => {
     fieldsets: [members.Set.FULL],
   });
 
-  // if (!user.member?.contactId) {
-  //   return (
-  //     <div className="flex items-center justify-center h-screen text-2xl font-bold text-red-500">
-  //       Not logged in!
-  //     </div>
-  //   );
-  // }
+  if (!user.member?.contactId) {
+    return (
+      <div className="flex items-center justify-center h-screen text-2xl font-bold text-red-500">
+        Not logged in!
+      </div>
+    );
+  }
 
   const orderRes = await wixClient.orders.searchOrders({
     search: {
@@ -51,7 +51,7 @@ const ProfilePage = async () => {
                 type="text"
                 hidden
                 name="id"
-                value={user.member.contactId}
+                value={user?.member?.contactId}
               />
               <div className="space-y-2">
                 <Label htmlFor="username">Username</Label>
