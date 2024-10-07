@@ -19,22 +19,33 @@ import UpdateButton from "@/components/UpdateButton";
 
 const ProfilePage = async () => {
   const wixClient = await wixClientServer();
+  let user;
+  try {
+    user = await wixClient.members.getCurrentMember({
+      fieldsets: [members.Set.FULL],
+    });
 
-  const user = await wixClient.members.getCurrentMember({
-    fieldsets: [members.Set.FULL],
-  });
+    if (!user?.member?.contactId) {
+      return (
+        <div className="flex items-center justify-center h-screen text-2xl font-bold text-red-500">
+          Please log in to view your profile.
+        </div>
+      );
+    }
 
-  if (!user?.member?.contactId) {
+    // Rest of your component logic
+  } catch (error) {
+    console.error("Error fetching user data:", error);
     return (
       <div className="flex items-center justify-center h-screen text-2xl font-bold text-red-500">
-        Not logged in!
+        Unable to load profile. Please try again later.
       </div>
     );
   }
 
   const orderRes = await wixClient.orders.searchOrders({
     search: {
-      filter: { "buyerInfo.contactId": { $eq: user.member?.contactId } },
+      filter: { "buyerInfo.contactId": { $eq: user?.member?.contactId } },
     },
   });
 
