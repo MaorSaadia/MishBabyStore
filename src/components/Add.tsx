@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useCartStore } from "@/hooks/useCartStore";
 import { useWixClient } from "@/hooks/useWixClient";
 import { motion, AnimatePresence } from "framer-motion";
+import toast from "react-hot-toast";
 
 interface AddProps {
   productId: string;
@@ -21,6 +22,8 @@ const Add: React.FC<AddProps> = ({
   missingOptions,
 }) => {
   const [quantity, setQuantity] = useState(1);
+  const wixClient = useWixClient();
+  const { addItem, isLoading } = useCartStore();
 
   const handleQuantity = (type: "i" | "d") => {
     if (type === "d" && quantity > 1) {
@@ -31,9 +34,14 @@ const Add: React.FC<AddProps> = ({
     }
   };
 
-  const wixClient = useWixClient();
-
-  const { addItem, isLoading } = useCartStore();
+  const handleAddToCart = async () => {
+    const success = await addItem(wixClient, productId, variantId, quantity);
+    if (success) {
+      toast.success("Item added to cart successfully!");
+    } else {
+      toast.error("Failed to add item to cart. Please try again.");
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -58,7 +66,7 @@ const Add: React.FC<AddProps> = ({
             </button>
           </div>
           <button
-            onClick={() => addItem(wixClient, productId, variantId, quantity)}
+            onClick={handleAddToCart}
             disabled={isLoading || !allOptionsSelected}
             className="w-36 text-sm rounded-3xl ring-1 ring-slate-800 text-slate-900 py-2 px-4 hover:bg-slate-800 hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200 disabled:ring-0 disabled:text-white disabled:ring-none"
           >

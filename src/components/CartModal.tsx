@@ -23,7 +23,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
 
   const router = useRouter();
 
-  // console.log(cart);
+  console.log(cart);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -47,7 +47,6 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
         await wixClient.currentCart.createCheckoutFromCurrentCart({
           channelType: currentCart.ChannelType.WEB,
         });
-      console.log("1:", checkout);
       const { redirectSession } =
         await wixClient.redirects.createRedirectSession({
           ecomCheckout: { checkoutId: checkout.checkoutId },
@@ -56,8 +55,6 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
             thankYouPageUrl: `${window.location.origin}/success`,
           },
         });
-      console.log("2:", redirectSession);
-
       if (redirectSession?.fullUrl) {
         window.location.href = redirectSession.fullUrl;
       }
@@ -71,7 +68,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
       ref={modalRef}
       className="w-80 md:w-[26rem] absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-4 z-20 max-h-[80vh]"
     >
-      {!cart.lineItems ? (
+      {!cart.lineItems || cart.lineItems?.length === 0 ? (
         <div className="text-center py-8">Your Cart is Empty</div>
       ) : (
         <>
