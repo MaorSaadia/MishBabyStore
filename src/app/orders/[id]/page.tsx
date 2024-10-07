@@ -89,8 +89,11 @@ const OrderPage = async ({ params }: { params: { id: string } }) => {
                   Delivery Address
                 </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {order.billingInfo?.address?.addressLine1},{" "}
                   {order.billingInfo?.address?.city}
+                  {", "}
+                  {order.billingInfo?.address?.addressLine1 ||
+                    order.billingInfo?.address?.streetAddress?.name}{" "}
+                  {order.billingInfo?.address?.streetAddress?.number}
                 </dd>
               </div>
             </dl>

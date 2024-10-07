@@ -69,7 +69,7 @@ const ProfilePage = async () => {
                 <Input
                   id="username"
                   name="username"
-                  placeholder={user.member?.profile?.nickname || "Nickname"}
+                  defaultValue={user.member?.profile?.nickname || "Nickname"}
                 />
               </div>
               <div className="space-y-2">
@@ -77,15 +77,15 @@ const ProfilePage = async () => {
                 <Input
                   id="firstName"
                   name="firstName"
-                  placeholder={user.member?.contact?.firstName || "FirstName"}
+                  defaultValue={user.member?.contact?.firstName || "FirstName"}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastName">Surname</Label>
+                <Label htmlFor="lastName">Lastname</Label>
                 <Input
                   id="lastName"
                   name="lastName"
-                  placeholder={user.member?.contact?.lastName || "LastName"}
+                  defaultValue={user.member?.contact?.lastName || "LastName"}
                 />
               </div>
               <div className="space-y-2">
@@ -93,7 +93,7 @@ const ProfilePage = async () => {
                 <Input
                   id="phone"
                   name="phone"
-                  placeholder={
+                  defaultValue={
                     (user.member?.contact?.phones &&
                       user.member?.contact?.phones[0]) ||
                     "+1234567"
@@ -106,7 +106,7 @@ const ProfilePage = async () => {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder={user.member?.loginEmail || "Email"}
+                  defaultValue={user.member?.loginEmail || "Email"}
                 />
               </div>
               <UpdateButton />
@@ -116,7 +116,7 @@ const ProfilePage = async () => {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl font-bold">Orders</CardTitle>
+            <CardTitle className="text-2xl font-bold">My Orders</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
@@ -146,7 +146,9 @@ const ProfilePage = async () => {
                     <TableCell>
                       {order.recipientInfo?.address?.city}
                       {", "}
-                      {order.recipientInfo?.address?.addressLine1}
+                      {order.recipientInfo?.address?.addressLine1 ||
+                        order.recipientInfo?.address?.streetAddress?.name}{" "}
+                      {order.recipientInfo?.address?.streetAddress?.number}
                     </TableCell>
                     <TableCell>
                       {order._createdDate && format(order._createdDate)}
