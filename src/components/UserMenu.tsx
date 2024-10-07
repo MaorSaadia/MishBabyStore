@@ -40,10 +40,10 @@ const UserMenu = () => {
         </div>
       </div>
       {isOpen && (
-        <div className="absolute rounded-xl shadow-md w-auto min-w-[100px] max-w-[100px] bg-white overflow-hidden right-0 top-12 text-sm z-50">
+        <div className="absolute p-3 rounded-md top-12 -left-8 bg-white text-sm shadow-[0_3px_10px_rgb(0,0,0,0.2)] z-20">
           <div className="flex flex-col cursor-pointer w-full">
             <>
-              <MenuItem label="Favorites" onClick={() => {}} />
+              <MenuItem label="Profile" onClick={() => {}} />
               <MenuItem label="Logout" onClick={handleLogout} />
             </>
           </div>

@@ -66,10 +66,6 @@ const RegisterModal = () => {
           } else {
             toast.error("Something went wrong!");
           }
-        // case LoginState.EMAIL_VERIFICATION_REQUIRED:
-        //   setMode(MODE.EMAIL_VERIFICATION);
-        // case LoginState.OWNER_APPROVAL_REQUIRED:
-        //   setMessage("Your account is pending approval");
         default:
           break;
       }
@@ -80,6 +76,18 @@ const RegisterModal = () => {
       setIsLoading(false);
     }
   };
+
+  // AUTH WITH WIX-MANAGED AUTH
+
+  // const googleLogin = async () => {
+  //   const loginRequestData = wixClient.auth.generateOAuthData(
+  //     "http://localhost:3000"
+  //   );
+
+  //   localStorage.setItem("oAuthRedirectData", JSON.stringify(loginRequestData));
+  //   const { authUrl } = await wixClient.auth.getAuthUrl(loginRequestData);
+  //   window.location.href = authUrl;
+  // };
 
   const onToggle = useCallback(() => {
     registerModal.onClose();
@@ -119,12 +127,12 @@ const RegisterModal = () => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      <hr />
-      {/* <ModalButton
+      {/* <hr />
+      <ModalButton
         outline
         label="Continue with Google"
         icon={FcGoogle}
-        onClick={() => signIn("google")}
+        onClick={googleLogin}
       /> */}
       <div
         className="
