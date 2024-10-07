@@ -20,7 +20,7 @@ const Footer = () => {
               MishBabySupport@gmail.com
             </p>
             <div className="flex gap-4">
-              {["facebook", "instagram", "youtube", "pinterest", "x"].map(
+              {["facebook", "instagram", "youtube", "pinterest"].map(
                 (social) => (
                   <a
                     key={social}

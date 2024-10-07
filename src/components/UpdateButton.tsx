@@ -7,7 +7,7 @@ const UpdateButton = () => {
   return (
     <button
       disabled={pending}
-      className="bg-lama text-white p-2 rounded-md cursor-pointer disabled:bg-pink-200 disabled:cursor-not-allowed max-w-96"
+      className="bg-cyan-500 text-white p-2 rounded-md cursor-pointer hover:bg-cyan-600 disabled:bg-cyan-200 disabled:cursor-not-allowed max-w-96"
     >
       {pending ? "Updating..." : "Update"}
     </button>

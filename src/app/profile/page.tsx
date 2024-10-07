@@ -1,10 +1,21 @@
 import Link from "next/link";
 import { members } from "@wix/members";
 import { format } from "timeago.js";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-import UpdateButton from "@/components/UpdateButton";
 import { wixClientServer } from "@/lib/wixClientServer";
 import { updateUser } from "@/lib/actions";
+import UpdateButton from "@/components/UpdateButton";
 
 const ProfilePage = async () => {
   const wixClient = await wixClientServer();
@@ -14,7 +25,11 @@ const ProfilePage = async () => {
   });
 
   if (!user.member?.contactId) {
-    return <div className="">Not logged in!</div>;
+    return (
+      <div className="flex items-center justify-center h-screen text-2xl font-bold text-red-500">
+        Not logged in!
+      </div>
+    );
   }
 
   const orderRes = await wixClient.orders.searchOrders({
@@ -24,73 +39,126 @@ const ProfilePage = async () => {
   });
 
   return (
-    <div className="flex flex-col md:flex-row gap-24 md:h-[calc(100vh-180px)] items-center px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
-      <div className="w-full md:w-1/2">
-        <h1 className="text-2xl">Profile</h1>
-        <form action={updateUser} className="mt-12 flex flex-col gap-4">
-          <input type="text" hidden name="id" value={user.member.contactId} />
-          <label className="text-sm text-gray-700">Username</label>
-          <input
-            type="text"
-            name="username"
-            placeholder={user.member?.profile?.nickname || "john"}
-            className="ring-1 ring-gray-300 rounded-md p-2 max-w-96"
-          />
-          <label className="text-sm text-gray-700">First Name</label>
-          <input
-            type="text"
-            name="firstName"
-            placeholder={user.member?.contact?.firstName || "John"}
-            className="ring-1 ring-gray-300 rounded-md p-2 max-w-96"
-          />
-          <label className="text-sm text-gray-700">Surname</label>
-          <input
-            type="text"
-            name="lastName"
-            placeholder={user.member?.contact?.lastName || "Doe"}
-            className="ring-1 ring-gray-300 rounded-md p-2 max-w-96"
-          />
-          <label className="text-sm text-gray-700">Phone</label>
-          <input
-            type="text"
-            name="phone"
-            placeholder={
-              (user.member?.contact?.phones &&
-                user.member?.contact?.phones[0]) ||
-              "+1234567"
-            }
-            className="ring-1 ring-gray-300 rounded-md p-2 max-w-96"
-          />
-          <label className="text-sm text-gray-700">E-mail</label>
-          <input
-            type="email"
-            name="email"
-            placeholder={user.member?.loginEmail || "john@gmail.com"}
-            className="ring-1 ring-gray-300 rounded-md p-2 max-w-96"
-          />
-          <UpdateButton />
-        </form>
-      </div>
-      <div className="w-full md:w-1/2">
-        <h1 className="text-2xl">Orders</h1>
-        <div className="mt-12 flex flex-col">
-          {orderRes.orders.map((order) => (
-            <Link
-              href={`/orders/${order._id}`}
-              key={order._id}
-              className="flex justify-between px-2 py-6 rounded-md hover:bg-green-50 even:bg-slate-100"
-            >
-              <span className="w-1/4">{order._id?.substring(0, 10)}...</span>
-              <span className="w-1/4">
-                ${order.priceSummary?.subtotal?.amount}
-              </span>
-              {order._createdDate && (
-                <span className="w-1/4">{format(order._createdDate)}</span>
-              )}
-              <span className="w-1/4">{order.status}</span>
-            </Link>
-          ))}
-        </div>
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold">Profile</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form action={updateUser} className="space-y-4">
+              <input
+                type="text"
+                hidden
+                name="id"
+                value={user.member.contactId}
+              />
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  name="username"
+                  placeholder={user.member?.profile?.nickname || "Nickname"}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="firstName">First Name</Label>
+                <Input
+                  id="firstName"
+                  name="firstName"
+                  placeholder={user.member?.contact?.firstName || "FirstName"}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lastName">Surname</Label>
+                <Input
+                  id="lastName"
+                  name="lastName"
+                  placeholder={user.member?.contact?.lastName || "LastName"}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone</Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  placeholder={
+                    (user.member?.contact?.phones &&
+                      user.member?.contact?.phones[0]) ||
+                    "+1234567"
+                  }
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">E-mail</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder={user.member?.loginEmail || "Email"}
+                />
+              </div>
+              <UpdateButton />
+            </form>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold">Orders</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Order ID</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Address</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {orderRes.orders.map((order) => (
+                  <TableRow key={order._id}>
+                    <TableCell>
+                      <Link
+                        href={`/orders/${order._id}`}
+                        className="text-sky-600 hover:underline"
+                      >
+                        {order._id}
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      ${order.priceSummary?.subtotal?.amount}
+                    </TableCell>
+                    <TableCell>
+                      {order.recipientInfo?.address?.city}
+                      {", "}
+                      {order.recipientInfo?.address?.addressLine1}
+                    </TableCell>
+                    <TableCell>
+                      {order._createdDate && format(order._createdDate)}
+                    </TableCell>
+                    <TableCell>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          order.status === "APPROVED"
+                            ? "bg-green-100 text-green-800"
+                            : order.status === "INITIALIZED"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {order.status}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
