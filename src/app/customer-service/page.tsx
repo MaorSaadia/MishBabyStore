@@ -207,7 +207,7 @@ const CustomerService: React.FC = () => {
                     <SelectContent>
                       <SelectItem value="order-status">Order Status</SelectItem>
                       <SelectItem value="shipping">Shipping</SelectItem>
-                      <SelectItem value="returns">Returns</SelectItem>
+                      <SelectItem value="returns">Refunds</SelectItem>
                       <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>

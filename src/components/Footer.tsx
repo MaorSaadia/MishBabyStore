@@ -2,6 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
+  const socialIcons = [
+    { name: "TikTok", icon: "tiktok" },
+    { name: "Instagram", icon: "instagram" },
+    { name: "YouTube", icon: "youtube" },
+    { name: "Pinterest", icon: "pinterest" },
+  ];
+
   return (
     <footer className="mt-12 bg-sky-100 text-gray-700 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -18,22 +25,23 @@ const Footer = () => {
             />
             <p className="font-semibold mb-4 text-sm">mishbabyshop@gmail.com</p>
             <div className="flex gap-4">
-              {["facebook", "instagram", "youtube", "pinterest"].map(
-                (social) => (
-                  <a
-                    key={social}
-                    href={`#${social}`}
-                    className="transition-transform hover:scale-110"
-                  >
-                    <Image
-                      src={`/${social}.png`}
-                      alt={social}
-                      width={20}
-                      height={20}
-                    />
-                  </a>
-                )
-              )}
+              {socialIcons.map((social) => (
+                <a
+                  key={social.icon}
+                  href={`#${social.icon}`}
+                  className="relative group transition-transform hover:scale-110"
+                >
+                  <Image
+                    src={`/${social.icon}.png`}
+                    alt={social.name}
+                    width={20}
+                    height={20}
+                  />
+                  <span className="mb-1 absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {social.name}
+                  </span>
+                </a>
+              ))}
             </div>
           </div>
 

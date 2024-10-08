@@ -240,7 +240,7 @@ const PrivacyPolicy: React.FC = () => {
                   href="mailto:MishBabySupport@gmail.com"
                   className="text-blue-600 hover:underline"
                 >
-                  MishBabySupport@gmail.com
+                  mishbabyshop@gmail.com
                 </a>
               </p>
             </div>
