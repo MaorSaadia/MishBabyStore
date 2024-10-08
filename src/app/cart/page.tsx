@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { X, Plus, Minus, ShoppingBag } from "lucide-react";
+import { X, Plus, Minus, ShoppingBag, Trash, Trash2 } from "lucide-react";
 import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
 
@@ -133,7 +133,7 @@ const ViewCartPage = () => {
                         onClick={() => handleDeleteClick(item)}
                         disabled={isLoading}
                       >
-                        <X size={16} />
+                        <Trash2 size={20} />
                       </Button>
                     </div>
                     <p className="text-xs md:text-sm text-gray-500 mt-1">

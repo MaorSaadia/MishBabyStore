@@ -6,7 +6,7 @@ const Footer = () => {
     { name: "TikTok", icon: "tiktok" },
     { name: "Instagram", icon: "instagram" },
     { name: "YouTube", icon: "youtube" },
-    { name: "Pinterest", icon: "pinterest" },
+    // { name: "Pinterest", icon: "pinterest" },
   ];
 
   return (
