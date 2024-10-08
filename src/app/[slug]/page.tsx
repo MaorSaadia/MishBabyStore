@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { Tag, Heart, Truck, ArrowRight } from "lucide-react";
+import { Tag, Heart, Truck, ArrowRight, Clock } from "lucide-react";
 import Image from "next/image";
 import DOMPurify from "isomorphic-dompurify";
 
@@ -135,19 +135,26 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 </div>
 
                 {/* Additional Features */}
-                <div className="mt-10">
+                <div className="mt-10 space-y-4">
                   <div className="flex items-center">
                     <Truck className="w-5 h-5 mr-2 text-gray-400" />
-                    <span className="text-sm text-gray-500">Free shipping</span>
+                    <span className="text-sm text-gray-500">
+                      Free Shipping.
+                    </span>
                   </div>
-                  <div className="mt-2 flex items-center">
+                  <div className="flex items-center">
                     <Heart className="w-5 h-5 mr-2 text-gray-400" />
                     <span className="text-sm text-gray-500">
-                      Satisfaction guaranteed
+                      Satisfaction Guaranteed.
+                    </span>
+                  </div>
+                  <div className="flex items-center">
+                    <Clock className="w-5 h-5 mr-2 text-gray-400" />
+                    <span className="text-sm text-gray-500">
+                      Delivery Within 7-30 Business Days.
                     </span>
                   </div>
                 </div>
-
                 {/* Conditional Size Details section */}
                 {product.collectionIds?.[0] ===
                   "b36c1c8c-a1ac-4682-9e34-a630b932325c" && (
