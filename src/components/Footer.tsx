@@ -6,12 +6,12 @@ const Footer = () => {
     {
       name: "TikTok",
       icon: "tiktok",
-      url: "https://www.tiktok.com/@mishbabyshop",
+      url: "https://www.tiktok.com/@mishbaby_shop",
     },
     {
       name: "Instagram",
       icon: "instagram",
-      url: "https://www.instagram.com/mishbabyshop",
+      url: "https://www.instagram.com/mishbabystore",
     },
     {
       name: "YouTube",
