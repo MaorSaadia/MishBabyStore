@@ -3,9 +3,21 @@ import Link from "next/link";
 
 const Footer = () => {
   const socialIcons = [
-    { name: "TikTok", icon: "tiktok" },
-    { name: "Instagram", icon: "instagram" },
-    { name: "YouTube", icon: "youtube" },
+    {
+      name: "TikTok",
+      icon: "tiktok",
+      url: "https://www.tiktok.com/@mishbabyshop",
+    },
+    {
+      name: "Instagram",
+      icon: "instagram",
+      url: "https://www.instagram.com/mishbabyshop",
+    },
+    {
+      name: "YouTube",
+      icon: "youtube",
+      url: "https://www.youtube.com/@mishBaby-shop",
+    },
     // { name: "Pinterest", icon: "pinterest" },
   ];
 
@@ -28,7 +40,9 @@ const Footer = () => {
               {socialIcons.map((social) => (
                 <a
                   key={social.icon}
-                  href={`#${social.icon}`}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="relative group transition-transform hover:scale-110"
                 >
                   <Image
