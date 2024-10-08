@@ -16,9 +16,7 @@ const Footer = () => {
               height={100}
               className="mb-4"
             />
-            <p className="font-semibold mb-4 text-sm">
-              MishBabySupport@gmail.com
-            </p>
+            <p className="font-semibold mb-4 text-sm">mishbabyshop@gmail.com</p>
             <div className="flex gap-4">
               {["facebook", "instagram", "youtube", "pinterest"].map(
                 (social) => (

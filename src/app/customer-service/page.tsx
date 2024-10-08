@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, ChangeEvent, FormEvent } from "react";
-import { Mail, Send, Clock, MessageSquare } from "lucide-react";
+import { Send, Clock, MessageSquare } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -59,7 +59,7 @@ const CustomerService: React.FC = () => {
           name: "",
           email: "",
           orderNumber: "",
-          issueType: "",
+          issueType: "order-status",
           message: "",
         });
       })
@@ -109,13 +109,13 @@ const CustomerService: React.FC = () => {
                   />
                   <span className="ml-3">Quick Response Times</span>
                 </div>
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <Mail
                     className="flex-shrink-0 w-6 h-6 text-sky-200"
                     aria-hidden="true"
                   />
-                  <span className="ml-3">Email: support@yourdropship.com</span>
-                </div>
+                  <span className="ml-3">Email: mishbabyshop@gmail.com</span>
+                </div> */}
               </dl>
               <p className="mt-6 text-cyan-200">
                 Our dedicated team is ready to assist you with any inquiries
@@ -199,6 +199,7 @@ const CustomerService: React.FC = () => {
                   </label>
                   <Select
                     onValueChange={(value) => handleChange(value, "issueType")}
+                    required
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select an issue" />

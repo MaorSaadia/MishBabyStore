@@ -1,27 +1,40 @@
+import React from "react";
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import { render } from "@react-email/render";
 
 import CustomerService from "@/emails/CustomerService";
+import { mailOptions, transporter } from "@/app/config/nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+interface SupportTicketData {
+  name: string;
+  email: string;
+  orderNumber: string;
+  issueType: string;
+  message: string;
+}
 
 export async function POST(request: Request) {
-  const { name, email, orderNumber, issueType, message } = await request.json();
+  const { name, email, orderNumber, issueType, message }: SupportTicketData =
+    await request.json();
 
   try {
-    await resend.emails.send({
-      from: `${name} <onboarding@resend.dev>`,
-      to: "aecom024@gmail.com",
-      replyTo: email,
-      subject: `New Support Ticket: ${issueType} - Order ${orderNumber}`,
-      react: CustomerService({
+    const emailHtml = await render(
+      React.createElement(CustomerService, {
         name,
         email,
         orderNumber,
         issueType,
         message,
-      }),
+      })
+    );
+
+    await transporter.sendMail({
+      ...mailOptions,
+      subject: `New Support Ticket: ${issueType} - Order ${orderNumber}`,
+      html: emailHtml,
+      replyTo: email,
     });
+
     return NextResponse.json(
       { message: "Support ticket email sent successfully" },
       { status: 200 }
