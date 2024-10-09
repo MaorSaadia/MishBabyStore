@@ -163,10 +163,17 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                       SIZE DETAILS
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </summary>
-                    <div className="mt-2">
+                    <div className="mt-2 space-y-4">
                       <Image
                         src="/size-details.png"
                         alt="Size Details"
+                        className="w-full"
+                        width={800}
+                        height={500}
+                      />
+                      <Image
+                        src="/kid-size.png"
+                        alt="Kid Size"
                         className="w-full"
                         width={800}
                         height={500}

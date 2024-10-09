@@ -21,13 +21,13 @@ const Footer = () => {
     {
       name: "Pinterest",
       icon: "pinterest",
-      url: " https://www.pinterest.com/mishbabys",
+      url: "https://www.pinterest.com/mishbabys",
     },
-    // {
-    //   name: "facebook",
-    //   icon: "facebook",
-    //   url: " https://www.pinterest.com/mishbabys",
-    // },
+    {
+      name: "facebook",
+      icon: "facebook",
+      url: "https://www.facebook.com/profile.php?id=61567086625746",
+    },
   ];
 
   return (
