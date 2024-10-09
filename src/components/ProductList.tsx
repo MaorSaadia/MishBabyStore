@@ -151,7 +151,7 @@ const ProductList: React.FC<ProductListProps> = async ({
           </Link>
         ))}
       </div>
-      {!limit && filteredItems.length > 12 && (
+      {!limit && (
         <div className="">
           <Pagination
             currentPage={res.currentPage || 0}
