@@ -23,7 +23,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
 
   const router = useRouter();
 
-  console.log(cart);
+  // console.log(cart);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -130,19 +130,10 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                   </div>
                   {item.descriptionLines?.map((line, index) => (
                     <div key={index}>
-                      {line.name?.original === "Size" && (
-                        <div className="text-slate-500 text-xs">
-                          Size: {line.plainText?.original}
-                        </div>
-                      )}
-                      {line.name?.original === "Type" && (
-                        <div className="text-slate-500 text-xs">
-                          Type: {line.plainText?.original}
-                        </div>
-                      )}
-                      {line.colorInfo?.original && (
-                        <div className="text-slate-500 text-xs">
-                          Color: {line.colorInfo.original}
+                      {line.name?.original && (
+                        <div className="text-slate-400 text-xs">
+                          {line.name?.original}:{" "}
+                          {line.plainText?.original || line.colorInfo?.original}
                         </div>
                       )}
                     </div>

@@ -25,7 +25,7 @@ const faqs: FAQ[] = [
   {
     question: "Can I return or exchange products?",
     answer:
-      "We offer returns for damaged or incorrect items. Please contact our customer support within 14 days of receiving the product, and we'll guide you through the process. In certain cases, we may allow you to keep the item and provide a 50% refund or store credit for the full amount of your order.",
+      "We offer returns for damaged or incorrect items. Please contact our customer support within 14 days of receiving the product, send us the image of the damaged or incorrect itmes, and we'll guide you through the process. In certain cases, we may allow you to keep the item and provide a 50% refund or store credit for the full amount of your order.",
   },
   {
     question: "What happens if my items are lost or damaged?",
