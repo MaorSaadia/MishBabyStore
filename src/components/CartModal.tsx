@@ -128,26 +128,25 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                       {item.availability?.status}
                     </div>
                   </div>
-                  {item.descriptionLines?.[0]?.name?.original === "Size" && (
-                    <div className="text-slate-500 text-xs">
-                      Size: {item.descriptionLines[0]?.plainText?.original}
+                  {item.descriptionLines?.map((line, index) => (
+                    <div key={index}>
+                      {line.name?.original === "Size" && (
+                        <div className="text-slate-500 text-xs">
+                          Size: {line.plainText?.original}
+                        </div>
+                      )}
+                      {line.name?.original === "Type" && (
+                        <div className="text-slate-500 text-xs">
+                          Type: {line.plainText?.original}
+                        </div>
+                      )}
+                      {line.colorInfo?.original && (
+                        <div className="text-slate-500 text-xs">
+                          Color: {line.colorInfo.original}
+                        </div>
+                      )}
                     </div>
-                  )}
-                  {item.descriptionLines?.[0]?.name?.original === "Type" && (
-                    <div className="text-slate-500 text-xs">
-                      Type: {item.descriptionLines[0]?.plainText?.original}
-                    </div>
-                  )}
-                  {item.descriptionLines?.[0]?.colorInfo?.original && (
-                    <div className="text-slate-500 text-xs">
-                      Color: {item.descriptionLines[0].colorInfo.original}
-                    </div>
-                  )}
-                  {item.descriptionLines?.[1]?.colorInfo?.original && (
-                    <div className="text-slate-500 text-xs">
-                      Color: {item.descriptionLines[1].colorInfo.original}
-                    </div>
-                  )}
+                  ))}
                   <div className="flex justify-between text-sm mt-4">
                     <span className="text-slate-800">Qty. {item.quantity}</span>
                     <button
