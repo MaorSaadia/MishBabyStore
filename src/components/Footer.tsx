@@ -18,7 +18,16 @@ const Footer = () => {
       icon: "youtube",
       url: "https://www.youtube.com/@mishBaby-shop",
     },
-    // { name: "Pinterest", icon: "pinterest" },
+    {
+      name: "Pinterest",
+      icon: "pinterest",
+      url: " https://www.pinterest.com/mishbabys",
+    },
+    // {
+    //   name: "facebook",
+    //   icon: "facebook",
+    //   url: " https://www.pinterest.com/mishbabys",
+    // },
   ];
 
   return (
@@ -36,26 +45,29 @@ const Footer = () => {
               className="mb-4"
             />
             <p className="font-semibold mb-4 text-sm">mishbabyshop@gmail.com</p>
-            <div className="flex gap-4">
-              {socialIcons.map((social) => (
-                <a
-                  key={social.icon}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative group transition-transform hover:scale-110"
-                >
-                  <Image
-                    src={`/${social.icon}.png`}
-                    alt={social.name}
-                    width={20}
-                    height={20}
-                  />
-                  <span className="mb-1 absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {social.name}
-                  </span>
-                </a>
-              ))}
+            <div className="flex flex-col items-center sm:items-start">
+              <p className="text-cyan-600 font-medium mb-3">Follow Us On</p>
+              <div className="flex gap-4">
+                {socialIcons.map((social) => (
+                  <a
+                    key={social.icon}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative group transition-transform hover:scale-110"
+                  >
+                    <Image
+                      src={`/${social.icon}.png`}
+                      alt={social.name}
+                      width={24}
+                      height={24}
+                    />
+                    <span className="mb-1 absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {social.name}
+                    </span>
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
