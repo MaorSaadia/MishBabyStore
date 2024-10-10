@@ -141,7 +141,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   <div className="flex items-center">
                     <Truck className="w-5 h-5 mr-2 text-gray-400" />
                     <span className="text-sm text-gray-500">
-                      Free Shipping.
+                      Free Worldwide Shipping.
                     </span>
                   </div>
                   <div className="flex items-center">
@@ -153,7 +153,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   <div className="flex items-center">
                     <Clock className="w-5 h-5 mr-2 text-gray-400" />
                     <span className="text-sm text-gray-500">
-                      Delivery Within 7-30 Business Days.
+                      Delivery Within 7-21 Business Days.
                     </span>
                   </div>
                 </div>
