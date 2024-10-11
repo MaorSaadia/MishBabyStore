@@ -162,7 +162,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
               }
             </div>
             <p className="text-gray-500 text-sm mt-2 mb-6">
-              Shipping and taxes calculated at checkout.
+              {/* Shipping and taxes calculated at checkout. */}
             </p>
             <div className="flex justify-between gap-4">
               <Link href="/cart" onClick={onClose}>
