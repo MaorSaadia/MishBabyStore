@@ -30,14 +30,14 @@ const slides = [
     url: "/list?cat=toys-games",
     bg: "bg-gradient-to-r from-blue-50 to-rose-50",
   },
-  {
-    id: 4,
-    title: "Nursery & Furniture",
-    description: "Sale! Up to 30% off!",
-    img: "/slides/Nursery-Furniture.jpeg",
-    url: "/list?cat=nursery-furniture&filter=Sale",
-    bg: "bg-gradient-to-r from-yellow-50 to-pink-50",
-  },
+  // {
+  //   id: 4,
+  //   title: "Nursery & Furniture",
+  //   description: "Sale! Up to 30% off!",
+  //   img: "/slides/Nursery-Furniture.jpeg",
+  //   url: "/list?cat=nursery-furniture&filter=Sale",
+  //   bg: "bg-gradient-to-r from-yellow-50 to-pink-50",
+  // },
 ];
 
 const Slider = () => {
