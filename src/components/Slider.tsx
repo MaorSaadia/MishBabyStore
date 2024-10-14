@@ -8,8 +8,8 @@ import Link from "next/link";
 const slides = [
   {
     id: 1,
-    title: "Night Lights & Room Lighting",
-    description: "",
+    title: "Room Lighting",
+    description: "Discover Charming Night Lights",
     img: "/slides/Baby-Gadgets.jpeg",
     url: "/list?cat=consumer-electronics",
     bg: "bg-gradient-to-r from-sky-100 to-amber-100",

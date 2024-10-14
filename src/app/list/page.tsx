@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+
 import { wixClientServer } from "@/lib/wixClientServer";
 import ProductList from "@/components/ProductList";
 import Skeleton from "@/components/Skeleton";
