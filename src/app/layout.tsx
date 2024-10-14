@@ -10,6 +10,7 @@ import "./globals.css";
 import LoginModal from "@/components/modals/LoginModal";
 import RegisterModal from "@/components/modals/RegisterModal";
 import ResetPasswordModal from "@/components/modals/ResetPasswordModal";
+import PromoBanner from "@/components/PromoBanner";
 import ToastProvider from "@/providers/ToastProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -33,6 +34,7 @@ export default function RootLayout({
           <RegisterModal />
           <ResetPasswordModal />
           <ToastProvider />
+          <PromoBanner />
           <Navbar />
           {children}
           <Footer />
