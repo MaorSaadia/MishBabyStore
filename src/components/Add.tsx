@@ -68,7 +68,7 @@ const Add: React.FC<AddProps> = ({
           <button
             onClick={handleAddToCart}
             disabled={isLoading || !allOptionsSelected}
-            className="w-36 text-sm rounded-3xl ring-1 ring-slate-800 text-slate-900 py-2 px-4 hover:bg-slate-800 hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200 disabled:ring-0 disabled:text-white disabled:ring-none"
+            className="w-48 text-sm rounded-3xl ring-1 ring-slate-800 text-slate-900 py-3 px-2 hover:bg-slate-800 hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200 disabled:ring-0 disabled:text-white disabled:ring-none"
           >
             Add to Cart
           </button>
