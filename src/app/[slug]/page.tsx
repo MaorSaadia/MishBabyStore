@@ -29,7 +29,9 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 pb-24 md:pb-12">
+        {" "}
+        {/* Added pb-24 for mobile */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white shadow-xl rounded-lg overflow-hidden">
             <div className="md:flex">
@@ -275,10 +277,46 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                     </div>
                   </details>
                 </div>
+                <div className="md:hidden">
+                  <div className="h-24"></div> {/* Spacer for mobile */}
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Sticky Price and Add to Cart for mobile */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 z-50">
+        <div className="flex items-center justify-between mb-2">
+          {product.priceData?.price === product.priceData?.discountedPrice ? (
+            <span className="text-2xl font-bold text-gray-900">
+              ${product.priceData?.price}
+            </span>
+          ) : (
+            <>
+              <span className="text-2xl font-bold text-gray-900">
+                ${product.priceData?.discountedPrice}
+              </span>
+              <span className="ml-2 text-sm font-medium text-gray-500 line-through">
+                ${product.priceData?.price}
+              </span>
+            </>
+          )}
+        </div>
+        {product.variants && product.productOptions ? (
+          <CustomizeProducts
+            productId={product._id!}
+            variants={product.variants}
+            productOptions={product.productOptions}
+          />
+        ) : (
+          <Add
+            productId={product._id!}
+            variantId="00000000-0000-0000-0000-000000000000"
+            stockNumber={product.stock?.quantity || 0}
+          />
+        )}
       </div>
       <div className="mt-4 md:mt-8 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
         <h1 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800">
