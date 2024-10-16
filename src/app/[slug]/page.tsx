@@ -68,21 +68,10 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
                   {product.name}
                 </h1>
-                {product.description ? (
-                  <p
-                    className="mt-4 text-gray-500"
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(product.description),
-                    }}
-                  />
-                ) : (
-                  <p className="mt-4 text-gray-500">
-                    No description available.
-                  </p>
-                )}
+
                 {/* Price */}
                 <div className="flex flex-row justify-between items-center">
-                  <div className="mt-8 flex items-center ">
+                  <div className="mt-4 flex items-center ">
                     {product.priceData?.price ===
                     product.priceData?.discountedPrice ? (
                       <span className="text-3xl font-bold text-gray-900">
@@ -108,7 +97,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                       </>
                     )}
                   </div>
-                  <div className="mt-8 flex items-center justify-between">
+                  <div className="mt-4 flex items-center justify-between">
                     <ShareButton
                       url={`https://mish-baby-store.vercel.app/${params.slug}`}
                       title={product.name}
@@ -120,7 +109,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 </div>
 
                 {/* Customization or Add to Cart */}
-                <div className="mt-8">
+                <div className="mt-4">
                   {product.variants && product.productOptions ? (
                     <CustomizeProducts
                       productId={product._id!}
@@ -136,8 +125,21 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   )}
                 </div>
 
+                {product.description ? (
+                  <p
+                    className="mt-8 text-gray-500"
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(product.description),
+                    }}
+                  />
+                ) : (
+                  <p className="mt-4 text-gray-500">
+                    No description available.
+                  </p>
+                )}
+
                 {/* Additional Features */}
-                <div className="mt-10 space-y-4">
+                <div className="mt-6 space-y-4">
                   <div className="flex items-center">
                     <Truck className="w-5 h-5 mr-2 text-gray-400" />
                     <span className="text-sm text-gray-500">
@@ -186,7 +188,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
 
                 {/* Additional Info Sections */}
                 <div className="">
-                  <details className="mt-4 border-t border-gray-200 pt-4">
+                  <details className="mt-6 border-t border-gray-200 pt-4">
                     <summary className="font-medium text-gray-900 cursor-pointer flex items-center">
                       SHIPPING INFO
                       <ArrowRight className="w-4 h-4 ml-2" />
