@@ -164,7 +164,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   "b36c1c8c-a1ac-4682-9e34-a630b932325c" && (
                   <details className="mt-4 border-t border-gray-200 pt-4">
                     <summary className="font-medium text-gray-900 cursor-pointer flex items-center">
-                      SIZE DETAILS
+                      SIZE Guide
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </summary>
                     <div className="mt-2 space-y-4">
