@@ -11,7 +11,7 @@ const slides = [
     title: "Room Lighting",
     description: "Discover Charming Night Lights",
     img: "/slides/Baby-Gadgets.jpeg",
-    url: "/list?cat=consumer-electronics",
+    url: "/list?cat=night-lights-room-lighting",
     bg: "bg-gradient-to-r from-sky-100 to-amber-100",
   },
   {
