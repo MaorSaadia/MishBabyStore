@@ -1,21 +1,73 @@
 import Image from "next/image";
 import { Star } from "lucide-react";
-
 import { Card, CardContent } from "@/components/ui/card";
 import ReviewsImage from "./ReviewsImage";
 
-// This is your main server-side component
-const Reviews = async ({ productId }: { productId: string }) => {
+interface ReviewsProps {
+  productId: string;
+  isAverageRating?: boolean;
+}
+
+const Reviews: React.FC<ReviewsProps> = async ({
+  productId,
+  isAverageRating,
+}) => {
   const reviewRes = await fetch(
     `https://api.fera.ai/v3/public/reviews?product.id=${productId}&public_key=${process.env.NEXT_PUBLIC_FERA_ID}`
   );
   const reviews = await reviewRes.json();
 
+  // Calculate average rating
+  const averageRating =
+    reviews.data.reduce((acc: number, review: any) => acc + review.rating, 0) /
+    reviews.data.length;
+
   return (
     <div className="space-y-6">
-      {reviews.data.map((review: any) => (
-        <ReviewCard key={review.id} review={review} />
-      ))}
+      {isAverageRating ? (
+        <RatingSummary
+          averageRating={averageRating}
+          totalReviews={reviews.data.length}
+        />
+      ) : (
+        reviews.data.map((review: any) => (
+          <ReviewCard key={review.id} review={review} />
+        ))
+      )}
+    </div>
+  );
+};
+
+const RatingSummary = ({
+  averageRating,
+  totalReviews,
+}: {
+  averageRating: number;
+  totalReviews: number;
+}) => {
+  return (
+    <div className="mt-2 flex items-center space-x-2 py-2">
+      <div className="flex items-center">
+        <span className="text-2xl font-bold mr-2">
+          {averageRating.toFixed(1)}
+        </span>
+        <div className="flex">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <Star
+              key={index}
+              size={16}
+              className={
+                index < Math.round(averageRating)
+                  ? "text-yellow-400 fill-yellow-400"
+                  : "text-gray-300"
+              }
+            />
+          ))}
+        </div>
+      </div>
+      <div className="text-sm text-gray-500">
+        {totalReviews} {totalReviews === 1 ? "review" : "reviews"}
+      </div>
     </div>
   );
 };

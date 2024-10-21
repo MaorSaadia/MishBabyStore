@@ -12,6 +12,7 @@ import Skeleton from "@/components/Skeleton";
 import ProductList from "@/components/ProductList";
 import Add from "@/components/Add";
 import Reviews from "@/components/Reviews";
+import ReviewsClickable from "@/components/ReviewsClickable";
 
 const SinglePage = async ({ params }: { params: { slug: string } }) => {
   const wixClient = await wixClientServer();
@@ -108,6 +109,8 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                     />
                   </div>
                 </div>
+
+                <ReviewsClickable productId={product._id!} />
 
                 {/* Customization or Add to Cart */}
                 <div className="mt-4">
@@ -279,11 +282,13 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   </details>
 
                   {/* REVIEWS */}
-                  <hr className="mt-4" />
-                  {/* <h1 className="mt-4 mb-4 text-2xl">User Reviews</h1>
-                  <Suspense fallback="Loading...">
-                    <Reviews productId={product._id!} />
-                  </Suspense> */}
+                  <div id="full-reviews">
+                    <hr className="mt-4" />
+                    <h1 className="mt-4 mb-4 text-2xl">User Reviews</h1>
+                    <Suspense fallback="Loading...">
+                      <Reviews productId={product._id!} />
+                    </Suspense>
+                  </div>
                 </div>
               </div>
             </div>
