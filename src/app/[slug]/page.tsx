@@ -11,6 +11,7 @@ import ShareButton from "@/components/ShareButton";
 import Skeleton from "@/components/Skeleton";
 import ProductList from "@/components/ProductList";
 import Add from "@/components/Add";
+import Reviews from "@/components/Reviews";
 
 const SinglePage = async ({ params }: { params: { slug: string } }) => {
   const wixClient = await wixClientServer();
@@ -276,12 +277,20 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                       </p>
                     </div>
                   </details>
+
+                  {/* REVIEWS */}
+                  <hr className="mt-4" />
+                  {/* <h1 className="mt-4 mb-4 text-2xl">User Reviews</h1>
+                  <Suspense fallback="Loading...">
+                    <Reviews productId={product._id!} />
+                  </Suspense> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div className="mt-4 md:mt-8 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
         <h1 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800">
           Related Items
