@@ -1,7 +1,9 @@
 "use client";
 
 import { Suspense } from "react";
+
 import Reviews from "@/components/Reviews";
+import Loader from "./Loader";
 
 const ReviewsClickable = ({ productId }: { productId: string }) => {
   const scrollToReviews = () => {
@@ -10,8 +12,8 @@ const ReviewsClickable = ({ productId }: { productId: string }) => {
   };
 
   return (
-    <button onClick={scrollToReviews}>
-      <Suspense fallback="Loading...">
+    <button onClick={scrollToReviews} className="mt-2">
+      <Suspense fallback={<Loader color="text-yellow-400" />}>
         <Reviews productId={productId} isAverageRating={true} />
       </Suspense>
     </button>
