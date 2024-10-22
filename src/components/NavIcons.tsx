@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useWixClient } from "@/hooks/useWixClient";
 import { useCartStore } from "@/hooks/useCartStore";
 import useScreenSize from "@/hooks/useScreenSize";
-import CartModal from "./CartModal";
+import CartModal from "./modals/CartModal";
 import UserMenu from "./UserMenu";
 
 const NavIcons = () => {

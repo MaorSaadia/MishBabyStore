@@ -11,8 +11,8 @@ import ShareButton from "@/components/ShareButton";
 import Skeleton from "@/components/Skeleton";
 import ProductList from "@/components/ProductList";
 import Add from "@/components/Add";
-import Reviews from "@/components/Reviews";
-import ReviewsClickable from "@/components/ReviewsClickable";
+import Reviews from "@/components/reviews/Reviews";
+import ReviewsClickable from "@/components/reviews/ReviewsClickable";
 import Loader from "@/components/Loader";
 
 const SinglePage = async ({ params }: { params: { slug: string } }) => {

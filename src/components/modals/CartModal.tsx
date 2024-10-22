@@ -10,7 +10,7 @@ import Image from "next/image";
 
 import { useWixClient } from "@/hooks/useWixClient";
 import { useCartStore } from "@/hooks/useCartStore";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 interface CartModalProps {
   onClose: () => void;

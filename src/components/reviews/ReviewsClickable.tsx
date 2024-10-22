@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 
-import Reviews from "@/components/Reviews";
+import Reviews from "@/components/reviews/Reviews";
 import Loader from "./Loader";
 
 const ReviewsClickable = ({ productId }: { productId: string }) => {
