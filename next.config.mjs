@@ -18,6 +18,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "app-uploads-cdn.fera.ai",
       },
+      {
+        protocol: "https",
+        hostname: "ae01.alicdn.com",
+      },
     ],
   },
 };
