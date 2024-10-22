@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const ReviewsImage = ({ images }: { images: any[] }) => {
@@ -10,17 +9,20 @@ const ReviewsImage = ({ images }: { images: any[] }) => {
 
   return (
     <>
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {images.map((media: any) => (
-          <Image
-            src={media.url}
+          <div
             key={media.id}
-            alt=""
-            width={100}
-            height={100}
-            className="object-cover rounded-md cursor-pointer"
-            onClick={() => setSelectedImage(media.url)}
-          />
+            className="aspect-square relative overflow-hidden rounded-md"
+          >
+            <Image
+              src={media.url}
+              alt=""
+              fill
+              className="object-cover hover:scale-105 transition-transform duration-200 cursor-pointer"
+              onClick={() => setSelectedImage(media.url)}
+            />
+          </div>
         ))}
       </div>
 
@@ -28,16 +30,18 @@ const ReviewsImage = ({ images }: { images: any[] }) => {
         open={!!selectedImage}
         onOpenChange={() => setSelectedImage(null)}
       >
-        <DialogContent className="max-w-3xl">
-          {selectedImage && (
-            <Image
-              src={selectedImage}
-              alt="Enlarged review image"
-              width={800}
-              height={600}
-              className="w-full h-auto object-contain"
-            />
-          )}
+        <DialogContent className="h-[90vh] p-2">
+          <div className="relative w-full h-full">
+            {selectedImage && (
+              <Image
+                src={selectedImage}
+                alt="Enlarged review image"
+                fill
+                className="p-8"
+                priority
+              />
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </>

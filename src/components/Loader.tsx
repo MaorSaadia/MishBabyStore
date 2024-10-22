@@ -8,7 +8,7 @@ interface LoaderProps {
 
 const Loader: React.FC<LoaderProps> = ({
   color = "text-cyan-600",
-  text = "Loading reviews...",
+  text = "",
 }) => {
   return (
     <div className={`flex items-center space-x-2 ${color}`}>
