@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { createPortal } from "react-dom";
+
 import Image from "next/image";
 
 interface ProductImagesProps {
@@ -121,13 +123,13 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
         </div>
         <button
           onClick={prevImage}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200 focus:outline-none z-10"
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200 focus:outline-none"
         >
           <ChevronLeft className="w-6 h-6 text-gray-800" />
         </button>
         <button
           onClick={nextImage}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200 focus:outline-none z-10"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200 focus:outline-none"
         >
           <ChevronRight className="w-6 h-6 text-gray-800" />
         </button>
@@ -153,68 +155,73 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
         ))}
       </div>
       <AnimatePresence>
-        {isModalOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center"
-            onClick={() => {
-              setIsModalOpen(false);
-              setIsZoomed(false);
-              setPan({ x: 0, y: 0 });
-            }}
-          >
-            <motion.div
-              ref={modalRef}
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              className="relative w-[90%] h-[90%] max-w-4xl max-h-[80vh] bg-slate-50 rounded-lg overflow-hidden -mb-2"
-              onClick={(e) => e.stopPropagation()}
-              onMouseEnter={() => setIsZoomed(true)}
-              onMouseLeave={() => {
-                setIsZoomed(false);
-                setPan({ x: 0, y: 0 });
-              }}
-              onMouseMove={handleMouseMove}
-              onTouchStart={() => setIsZoomed(true)}
-              onTouchEnd={() => {
-                setIsZoomed(false);
-                setPan({ x: 0, y: 0 });
-              }}
-              onTouchMove={handleTouchMove}
-            >
+        <div className="relative">
+          {isModalOpen &&
+            createPortal(
               <motion.div
-                animate={{
-                  scale: isZoomed ? 1.2 : 1,
-                  x: isZoomed ? pan.x : 0,
-                  y: isZoomed ? pan.y : 0,
-                  transition: { duration: 0.05 },
-                }}
-                className="h-full w-full"
-              >
-                <Image
-                  src={items[index].image.url}
-                  alt=""
-                  fill
-                  sizes="(max-width: 768px) 90vw, (max-width: 1200px) 70vw, 60vw"
-                  priority={true}
-                />
-              </motion.div>
-              <button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center"
                 onClick={() => {
                   setIsModalOpen(false);
                   setIsZoomed(false);
                   setPan({ x: 0, y: 0 });
                 }}
-                className="absolute top-6 right-6 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200 focus:outline-none z-10"
               >
-                <X className="w-6 h-6 text-gray-800" />
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
+                <motion.div
+                  ref={modalRef}
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0.8 }}
+                  className="relative w-[90%] h-[90%] max-w-4xl max-h-[80vh] bg-slate-50 rounded-lg overflow-hidden -mb-2"
+                  onClick={(e) => e.stopPropagation()}
+                  onMouseEnter={() => setIsZoomed(true)}
+                  onMouseLeave={() => {
+                    setIsZoomed(false);
+                    setPan({ x: 0, y: 0 });
+                  }}
+                  onMouseMove={handleMouseMove}
+                  onTouchStart={() => setIsZoomed(true)}
+                  onTouchEnd={() => {
+                    setIsZoomed(false);
+                    setPan({ x: 0, y: 0 });
+                  }}
+                  onTouchMove={handleTouchMove}
+                >
+                  <motion.div
+                    animate={{
+                      scale: isZoomed ? 1.2 : 1,
+                      x: isZoomed ? pan.x : 0,
+                      y: isZoomed ? pan.y : 0,
+                      transition: { duration: 0.05 },
+                    }}
+                    className="h-full w-full"
+                  >
+                    <Image
+                      src={items[index].image.url}
+                      alt=""
+                      fill
+                      sizes="(max-width: 768px) 90vw, (max-width: 1200px) 70vw, 60vw"
+                      priority={true}
+                    />
+                  </motion.div>
+
+                  <button
+                    onClick={() => {
+                      setIsModalOpen(false);
+                      setIsZoomed(false);
+                      setPan({ x: 0, y: 0 });
+                    }}
+                    className="absolute top-6 right-6 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200 focus:outline-none"
+                  >
+                    <X className="w-6 h-6 text-gray-800" />
+                  </button>
+                </motion.div>
+              </motion.div>,
+              document.body
+            )}
+        </div>
       </AnimatePresence>
     </>
   );

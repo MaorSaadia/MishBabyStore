@@ -38,6 +38,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
+          <div id="portal"></div>
         </WixClientContextProvider>
       </body>
     </html>
