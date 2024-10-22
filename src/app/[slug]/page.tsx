@@ -187,6 +187,13 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                         width={800}
                         height={500}
                       />
+                      <Image
+                        src="/size-3.png"
+                        alt="Kid Information"
+                        className="w-full"
+                        width={800}
+                        height={500}
+                      />
                     </div>
                   </details>
                 )}
