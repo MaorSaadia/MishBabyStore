@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 
 import Reviews from "@/components/reviews/Reviews";
-import Loader from "./Loader";
+import Loader from "@/components/Loader";
 
 const ReviewsClickable = ({ productId }: { productId: string }) => {
   const scrollToReviews = () => {
