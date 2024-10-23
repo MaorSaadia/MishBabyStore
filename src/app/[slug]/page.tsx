@@ -223,8 +223,8 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                       </p>
                       <p>
                         We offer shipping to most countries worldwide. Delivery
-                        times typically range from 10-30 business days,
-                        depending on your location and product availability.
+                        times typically range from 7-21 business days, depending
+                        on your location and product availability.
                       </p>
                     </div>
                   </details>
