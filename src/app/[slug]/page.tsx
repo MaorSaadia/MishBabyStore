@@ -214,7 +214,12 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                     <CustomizeProducts
                       productId={product._id!}
                       variants={product.variants}
-                      productOptions={product.productOptions}
+                      productOptions={product.productOptions.map((option) => ({
+                        ...option,
+                        choices: option.choices?.filter(
+                          (choice) => choice.visible
+                        ),
+                      }))}
                     />
                   ) : (
                     <Add
