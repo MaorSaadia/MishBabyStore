@@ -33,7 +33,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({
     )} (${discountPercentage}% off)`;
   }
 
-  const shareMessage = `🛍️ Check out this Amazing Product that I found: ! "${title}" ${
+  const shareMessage = `🛍️ Check out this Amazing Product that I found: "${title}" ${
     discountedPrice && discountedPrice < price ? "🏷️ On sale!" : ""
   }\n\n${priceInfo}\n\n🎉Don't miss it! ${url}\n`;
 
