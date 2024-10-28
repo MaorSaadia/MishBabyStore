@@ -16,7 +16,10 @@ import ToastProvider from "@/providers/ToastProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MishBaby",
+  title: {
+    template: "%s | MishBaby",
+    absolute: "MishBaby",
+  },
   description: "MishBaby Store",
 };
 

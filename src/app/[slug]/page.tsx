@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { Tag, Heart, Truck, ArrowRight, Clock } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
 import DOMPurify from "isomorphic-dompurify";
 
@@ -11,27 +12,123 @@ import ShareButton from "@/components/ShareButton";
 import Skeleton from "@/components/Skeleton";
 import ProductList from "@/components/ProductList";
 import Add from "@/components/Add";
-import Reviews from "@/components/reviews/Reviews";
-import ReviewsClickable from "@/components/reviews/ReviewsClickable";
-import Loader from "@/components/Loader";
+import PolicyDetails from "@/components/PolicyDetails";
+
+interface PageProps {
+  params: { slug: string };
+}
+
+// Helper function to fetch product data with retry logic
+async function getProduct(slug: string, retryCount = 3) {
+  for (let i = 0; i < retryCount; i++) {
+    try {
+      const wixClient = await wixClientServer();
+      const products = await wixClient.products
+        .queryProducts()
+        .eq("slug", slug)
+        .find();
+
+      const product = products.items[0];
+      if (!product) notFound();
+
+      return product;
+    } catch (error: any) {
+      // If we've tried the maximum number of times, throw the error
+      if (i === retryCount - 1) {
+        throw new Error(`Failed to fetch product: ${error.message}`);
+      }
+
+      // Wait for a short time before retrying (exponential backoff)
+      await new Promise((resolve) =>
+        setTimeout(resolve, Math.pow(2, i) * 1000)
+      );
+    }
+  }
+}
+
+// Error boundary component
+const ErrorFallback = ({ error }: { error: Error }) => (
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full">
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">
+        Oops! Something went wrong
+      </h2>
+      <p className="text-gray-600 mb-4">
+        We&apos;re having trouble loading this product. Please try again later.
+      </p>
+      <button
+        onClick={() => window.location.reload()}
+        className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700 transition-colors"
+      >
+        Retry
+      </button>
+    </div>
+  </div>
+);
+
+// Loading component
+const LoadingFallback = () => (
+  <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-white shadow-xl rounded-lg overflow-hidden p-8">
+        <div className="animate-pulse">
+          <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+          <div className="h-8 bg-gray-200 rounded w-1/2 mb-6"></div>
+          <div className="space-y-3">
+            <div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+export async function generateMetadata({
+  params: { slug },
+}: PageProps): Promise<Metadata> {
+  try {
+    const product = await getProduct(slug);
+    const mainImage = product?.media?.mainMedia?.image;
+
+    return {
+      title: product?.name,
+      description: "Get this product on MishBaby",
+      openGraph: {
+        images: mainImage?.url
+          ? [
+              {
+                url: mainImage.url,
+                width: mainImage.width,
+                height: mainImage.height,
+                alt: mainImage.altText || "",
+              },
+            ]
+          : undefined,
+      },
+    };
+  } catch (error) {
+    return {
+      title: "Product Not Available",
+      description: "This product is currently unavailable",
+    };
+  }
+}
 
 const SinglePage = async ({ params }: { params: { slug: string } }) => {
-  const wixClient = await wixClientServer();
-  const products = await wixClient.products
-    .queryProducts()
-    .eq("slug", params.slug)
-    .find();
+  let product;
+  try {
+    product = await getProduct(params.slug);
+  } catch (error) {
+    return <ErrorFallback error={error as Error} />;
+  }
 
-  if (!products.items[0]) {
+  if (!product) {
     return notFound();
   }
 
-  const product = products.items[0];
-
-  // console.log(product);
-
   return (
-    <>
+    <Suspense fallback={<LoadingFallback />}>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white shadow-xl rounded-lg overflow-hidden">
@@ -102,7 +199,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   </div>
                   <div className="mt-4 flex items-center justify-between">
                     <ShareButton
-                      url={`https://mish-baby-store.vercel.app/${params.slug}`}
+                      url={`https://mishbaby.com/${params.slug}`}
                       title={product.name}
                       image={product.media?.items?.[0]?.image?.url}
                       price={product.priceData?.price}
@@ -110,8 +207,6 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                     />
                   </div>
                 </div>
-
-                {/* <ReviewsClickable productId={product._id!} /> */}
 
                 {/* Customization or Add to Cart */}
                 <div className="mt-4">
@@ -164,6 +259,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                     </span>
                   </div>
                 </div>
+
                 {/* Conditional Size Details section */}
                 {product.collectionIds?.[0] ===
                   "b36c1c8c-a1ac-4682-9e34-a630b932325c" && (
@@ -199,105 +295,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 )}
 
                 {/* Additional Info Sections */}
-                <div className="">
-                  <details className="mt-6 border-t border-gray-200 pt-4">
-                    <summary className="font-medium text-gray-900 cursor-pointer flex items-center">
-                      SHIPPING INFO
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </summary>
-                    <div className="mt-2 text-sm text-gray-500">
-                      <p>
-                        <span className="font-bold">1. Shipping Process</span>
-                      </p>
-                      <p>
-                        Once your order is placed, our fulfillment team
-                        processes it promptly, and the product is shipped
-                        directly to your address. We work closely with trusted
-                        suppliers to ensure both timely delivery and
-                        high-quality products.
-                      </p>
-                      <p className="mt-4">
-                        <span className="font-bold">
-                          2. International Shipping and Timeframes
-                        </span>
-                      </p>
-                      <p>
-                        We offer shipping to most countries worldwide. Delivery
-                        times typically range from 7-21 business days, depending
-                        on your location and product availability.
-                      </p>
-                    </div>
-                  </details>
-                </div>
-                <div className="">
-                  <details className="mt-4 border-t border-gray-200 pt-4">
-                    <summary className="font-medium text-gray-900 cursor-pointer flex items-center">
-                      RETURN & REFUND POLICY
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </summary>
-                    <div className="mt-2 text-sm text-gray-500">
-                      <p>
-                        <span className="font-bold">
-                          1. Returns & Exchanges
-                        </span>
-                      </p>
-                      <p>
-                        We want you to be completely satisfied with your
-                        purchase. If you receive a damaged or incorrect item,
-                        you may return or exchange it. Please contact our
-                        customer support team within 14 days of receiving the
-                        product to initiate the process. In certain cases, we
-                        may allow you to keep the item and provide a 50% refund
-                        or store credit for the full amount of your order. We’ll
-                        guide you through every step to ensure a smooth
-                        experience.
-                      </p>
-
-                      <p className="mt-4">
-                        <span className="font-bold">
-                          2. Damaged or Lost Items
-                        </span>
-                      </p>
-                      <p>
-                        <span className="font-bold">Damaged Items:</span> If
-                        your item arrives damaged or becomes defective within 30
-                        days of delivery, we will offer a full refund or send a
-                        free replacement.
-                      </p>
-                      <p>
-                        <span className="font-bold">Lost Items:</span> If your
-                        order is lost in transit and cannot be recovered within
-                        30 days of placing the order, we will either reship the
-                        item or offer a full refund. Your satisfaction is our
-                        priority, and we will work diligently to resolve any
-                        issues.
-                      </p>
-
-                      <p className="mt-4">
-                        <span className="font-bold">
-                          3. Refund Processing Time
-                        </span>
-                      </p>
-                      <p>
-                        Once we receive your returned item, refunds are
-                        typically processed within 5-7 business days. If there
-                        are any issues or delays, feel free to contact our
-                        support team to confirm that the refund has been
-                        initiated. If everything is correct on our end, we
-                        recommend checking with your bank for further updates.
-                      </p>
-                    </div>
-                  </details>
-
-                  {/* REVIEWS */}
-                  {/* <div id="full-reviews">
-                    <hr className="mt-4" />
-                    <h1 className="mt-4 mb-4 text-2xl">User Reviews</h1>
-                    <Suspense fallback={<Loader color="text-yellow-400" />}>
-                      <Reviews productId={product._id!} />
-                    </Suspense>
-                  </div> */}
-                </div>
+                <PolicyDetails />
               </div>
             </div>
           </div>
@@ -318,7 +316,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
           />
         </Suspense>
       </div>
-    </>
+    </Suspense>
   );
 };
 
