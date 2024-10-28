@@ -140,7 +140,7 @@ const AboutUs = () => {
             you the very best in baby care.
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Link href="/" passHref>
+            <Link href="/list?cat=all-products" passHref>
               <button className="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-4 px-8 rounded-full transition duration-300 text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                 Explore Our Products
               </button>
