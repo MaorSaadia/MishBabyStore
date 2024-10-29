@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
 
@@ -19,6 +19,11 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
   variants,
   productOptions,
 }) => {
+  // Filter out options with less than 2 choices
+  const validProductOptions = productOptions.filter(
+    (option) => option.choices && option.choices.length >= 2
+  );
+
   const [selectedOptions, setSelectedOptions] = useState<{
     [key: string]: string;
   }>({});
@@ -65,11 +70,11 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
     });
   };
 
-  const allOptionsSelected = productOptions.every(
+  const allOptionsSelected = validProductOptions.every(
     (option) => selectedOptions[option.name!]
   );
 
-  const missingOptions = productOptions
+  const missingOptions = validProductOptions
     .filter((option) => !selectedOptions[option.name!])
     .map((option) => option.name!);
 
@@ -80,7 +85,7 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
       transition={{ duration: 0.5 }}
       className="flex flex-col gap-8 bg-gray-50 p-6 rounded-lg shadow-md"
     >
-      {productOptions.map((option) => (
+      {validProductOptions.map((option) => (
         <div className="flex flex-col gap-4" key={option.name}>
           <h4 className="font-semibold text-lg text-gray-700">
             Choose {option.name}
