@@ -51,7 +51,7 @@ const Slider = () => {
     if (isAutoPlaying) {
       interval = setInterval(() => {
         setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-      }, 5000);
+      }, 9000);
     }
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
