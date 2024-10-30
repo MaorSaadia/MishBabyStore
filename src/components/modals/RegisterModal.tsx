@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from "react-hot-toast";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { LoginState } from "@wix/sdk";
@@ -13,16 +13,19 @@ import useRegisterModal from "@/hooks/useRegisterModal";
 import Modal from "./Modal";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
+import LoginModal from "./LoginModal";
+import useLoginModal from "@/hooks/useLoginModal";
 
 enum MODE {
   REGISTER = "REGISTER",
   EMAIL_VERIFICATION = "EMAIL_VERIFICATION",
 }
 
-const AuthModal = () => {
+const RegisterModal = () => {
   const wixClient = useWixClient();
   const router = useRouter();
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
 
   const [mode, setMode] = useState<MODE>(MODE.REGISTER);
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +54,7 @@ const AuthModal = () => {
         expires: 2,
       });
       wixClient.auth.setTokens(tokens);
-      toast.success("Successfully authenticated!");
+      toast.success("You have successfully authenticated!");
       router.refresh();
       registerModal.onClose();
       reset();
@@ -123,6 +126,11 @@ const AuthModal = () => {
     reset();
   };
 
+  const onToggle = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [registerModal, loginModal]);
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
@@ -178,9 +186,33 @@ const AuthModal = () => {
   );
 
   const footerContent = (
-    <div className="flex flex-col gap-4 mt-3">
+    <div className="flex flex-col gap-4 -mt-6">
       <div className="text-neutral-500 text-center mt-4 font-light">
-        {mode === MODE.EMAIL_VERIFICATION && (
+        {mode === MODE.REGISTER ? (
+          <div
+            className="
+                text-neutral-500 
+                text-center 
+                mt-4 
+                font-light
+                "
+          >
+            <p>
+              Already have an account?
+              <span
+                onClick={onToggle}
+                className="
+                        text-neutral-800
+                        cursor-pointer 
+                        hover:underline
+                        "
+              >
+                {" "}
+                Log in
+              </span>
+            </p>
+          </div>
+        ) : (
           <p>
             <span
               onClick={() => switchMode(MODE.REGISTER)}
@@ -210,4 +242,4 @@ const AuthModal = () => {
   );
 };
 
-export default AuthModal;
+export default RegisterModal;

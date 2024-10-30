@@ -143,7 +143,7 @@ const LoginModal = () => {
   );
 
   const footerContent = (
-    <div className="flex flex-col gap-4 mt-3">
+    <div className="flex flex-col gap-4 -mt-3">
       <div
         className="
       text-neutral-500 text-center mt-2 font-light"
