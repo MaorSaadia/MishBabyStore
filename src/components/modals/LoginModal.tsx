@@ -5,7 +5,6 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { LoginState } from "@wix/sdk";
-import { FcGoogle } from "react-icons/fc";
 import Cookies from "js-cookie";
 
 import { useWixClient } from "@/hooks/useWixClient";
@@ -44,7 +43,6 @@ const LoginModal = () => {
         email: data.email,
         password: data.password,
       });
-
       switch (response?.loginState) {
         case LoginState.SUCCESS:
           toast.success("Logged in");
@@ -55,7 +53,6 @@ const LoginModal = () => {
             expires: 2,
           });
           wixClient.auth.setTokens(tokens);
-          // router.push("/");
           router.refresh();
           loginModal.onClose();
           break;
@@ -147,13 +144,6 @@ const LoginModal = () => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      {/* <hr />
-      <ModalButton
-        outline
-        label="Continue with Google"
-        icon={FcGoogle}
-        onClick={googleLogin}
-      /> */}
       <div
         className="
       text-neutral-500 text-center mt-2 font-light"

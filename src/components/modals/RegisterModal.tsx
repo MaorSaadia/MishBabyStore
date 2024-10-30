@@ -1,7 +1,6 @@
 "use client";
 
 import { toast } from "react-hot-toast";
-import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -49,7 +48,7 @@ const RegisterModal = () => {
 
       switch (response?.loginState) {
         case LoginState.SUCCESS:
-          toast.success("Logged in");
+          toast.success("successfully registered!");
           const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
             response.data.sessionToken!
           );
@@ -127,13 +126,6 @@ const RegisterModal = () => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      {/* <hr />
-      <ModalButton
-        outline
-        label="Continue with Google"
-        icon={FcGoogle}
-        onClick={googleLogin}
-      /> */}
       <div
         className="
                 text-neutral-500 
