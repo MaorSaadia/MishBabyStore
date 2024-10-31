@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from "react-hot-toast";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { LoginState } from "@wix/sdk";
@@ -9,7 +9,6 @@ import Cookies from "js-cookie";
 
 import { useWixClient } from "@/hooks/useWixClient";
 import useRegisterModal from "@/hooks/useRegisterModal";
-
 import Modal from "./Modal";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
@@ -19,7 +18,10 @@ import useLoginModal from "@/hooks/useLoginModal";
 enum MODE {
   REGISTER = "REGISTER",
   EMAIL_VERIFICATION = "EMAIL_VERIFICATION",
+  RESEND_VERIFICATION = "RESEND_VERIFICATION",
 }
+
+const COOLDOWN_DURATION = 30; // Cooldown duration in seconds
 
 const RegisterModal = () => {
   const wixClient = useWixClient();
@@ -30,12 +32,16 @@ const RegisterModal = () => {
   const [mode, setMode] = useState<MODE>(MODE.REGISTER);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [currentEmail, setCurrentEmail] = useState("");
+  const [cooldownTimer, setCooldownTimer] = useState(0);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    getValues,
+    setValue,
   } = useForm<FieldValues>({
     defaultValues: {
       name: "",
@@ -44,6 +50,27 @@ const RegisterModal = () => {
       verificationCode: "",
     },
   });
+
+  // Cooldown timer effect
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    if (cooldownTimer > 0) {
+      interval = setInterval(() => {
+        setCooldownTimer((current) => Math.max(0, current - 1));
+      }, 1000);
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [cooldownTimer]);
+
+  const startCooldown = () => {
+    setCooldownTimer(COOLDOWN_DURATION);
+  };
 
   const handleSuccessfulLogin = async (response: any) => {
     try {
@@ -54,13 +81,37 @@ const RegisterModal = () => {
         expires: 2,
       });
       wixClient.auth.setTokens(tokens);
-      toast.success("You have successfully authenticated!");
+      toast.success("You have successfully registered!");
       router.refresh();
       registerModal.onClose();
       reset();
     } catch (error) {
       console.error("Error setting tokens:", error);
       toast.error("Error completing authentication");
+    }
+  };
+
+  const handleEmailAlreadyExists = async (email: string) => {
+    try {
+      const response = await wixClient.auth.login({
+        email,
+        password: getValues().password,
+      });
+
+      if (response.loginState === LoginState.EMAIL_VERIFICATION_REQUIRED) {
+        setCurrentEmail(email);
+        setMode(MODE.EMAIL_VERIFICATION);
+        setMessage("A new verification code has been sent to your email");
+        startCooldown();
+        return true;
+      } else {
+        toast.error("This email is already registered and verified");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error handling existing email:", error);
+      toast.error("Something went wrong. Please try again.");
+      return false;
     }
   };
 
@@ -78,12 +129,53 @@ const RegisterModal = () => {
             password: data.password,
             profile: { nickname: data.name },
           });
+
+          if (
+            response?.loginState === LoginState.FAILURE &&
+            response?.errorCode === "emailAlreadyExists"
+          ) {
+            const handled = await handleEmailAlreadyExists(data.email);
+            if (!handled) {
+              setIsLoading(false);
+              return;
+            }
+          } else if (
+            response?.loginState === LoginState.EMAIL_VERIFICATION_REQUIRED
+          ) {
+            startCooldown();
+          }
           break;
 
         case MODE.EMAIL_VERIFICATION:
           response = await wixClient.auth.processVerification({
             verificationCode: data.verificationCode,
           });
+          break;
+
+        case MODE.RESEND_VERIFICATION:
+          if (cooldownTimer > 0) {
+            toast.error(
+              `Please wait ${cooldownTimer} seconds before requesting a new code`
+            );
+            setIsLoading(false);
+            return;
+          }
+
+          const loginResponse = await wixClient.auth.login({
+            email: currentEmail || data.email,
+            password: data.password,
+          });
+
+          if (
+            loginResponse.loginState === LoginState.EMAIL_VERIFICATION_REQUIRED
+          ) {
+            setMode(MODE.EMAIL_VERIFICATION);
+            setMessage("A new verification code has been sent to your email");
+            startCooldown();
+            setIsLoading(false);
+            return;
+          }
+          response = loginResponse;
           break;
       }
 
@@ -93,13 +185,15 @@ const RegisterModal = () => {
           break;
 
         case LoginState.EMAIL_VERIFICATION_REQUIRED:
+          setCurrentEmail(data.email);
           setMode(MODE.EMAIL_VERIFICATION);
           setMessage("Please check your email for verification code");
+          startCooldown();
           break;
 
         case LoginState.FAILURE:
           if (response.errorCode === "emailAlreadyExists") {
-            toast.error("Email already exists!");
+            await handleEmailAlreadyExists(data.email);
           } else {
             toast.error("Something went wrong!");
           }
@@ -123,7 +217,11 @@ const RegisterModal = () => {
   const switchMode = (newMode: MODE) => {
     setMode(newMode);
     setMessage("");
-    reset();
+    if (newMode === MODE.REGISTER) {
+      setCurrentEmail("");
+      setCooldownTimer(0);
+      reset();
+    }
   };
 
   const onToggle = useCallback(() => {
@@ -136,7 +234,11 @@ const RegisterModal = () => {
       <Heading
         title="Welcome to MishBaby"
         subtitle={
-          mode === MODE.REGISTER ? "Create an account!" : "Verify your email"
+          mode === MODE.REGISTER
+            ? "Create an account!"
+            : mode === MODE.EMAIL_VERIFICATION
+            ? "Verify your email"
+            : "Resend verification code"
         }
       />
 
@@ -181,47 +283,104 @@ const RegisterModal = () => {
         />
       )}
 
-      {message && <div className="text-sm text-green-600 mt-2">{message}</div>}
+      {message && (
+        <div className="text-md text-green-600 -mt-2 -mb-8">{message}</div>
+      )}
     </div>
   );
 
   const footerContent = (
     <div className="flex flex-col gap-4 -mt-6">
       <div className="text-neutral-500 text-center mt-4 font-light">
-        {mode === MODE.REGISTER ? (
+        {mode === MODE.REGISTER && (
           <div className="text-neutral-500 text-center mt-4 font-light">
             <p>
               Already have an account?
               <span
                 onClick={onToggle}
-                className="text-neutral-800cursor-pointer hover:underline"
+                className="text-neutral-800 cursor-pointer hover:underline ml-1"
               >
-                {" "}
                 Log in
               </span>
             </p>
           </div>
-        ) : (
-          <p>
-            <span
-              onClick={() => switchMode(MODE.REGISTER)}
-              className="text-neutral-800 cursor-pointer hover:underline"
-            >
-              Back to register
-            </span>
-          </p>
+        )}
+        {mode === MODE.EMAIL_VERIFICATION && (
+          <div className="flex flex-col gap-2">
+            <p>
+              <span
+                onClick={() => switchMode(MODE.REGISTER)}
+                className="text-neutral-800 cursor-pointer hover:underline"
+              >
+                Back to register
+              </span>
+            </p>
+            <p>
+              Didn&apos;t receive the code?
+              {cooldownTimer > 0 ? (
+                <span className="text-neutral-400 ml-1">
+                  Wait {cooldownTimer}s to resend
+                </span>
+              ) : (
+                <span
+                  onClick={() => switchMode(MODE.RESEND_VERIFICATION)}
+                  className="text-neutral-800 cursor-pointer hover:underline ml-1"
+                >
+                  Resend verification code
+                </span>
+              )}
+            </p>
+          </div>
+        )}
+        {mode === MODE.RESEND_VERIFICATION && (
+          <div className="flex flex-col gap-2">
+            <p>
+              <span
+                onClick={() => switchMode(MODE.REGISTER)}
+                className="text-neutral-800 cursor-pointer hover:underline"
+              >
+                Back to register
+              </span>
+            </p>
+            <p>
+              <span
+                onClick={() => switchMode(MODE.EMAIL_VERIFICATION)}
+                className="text-neutral-800 cursor-pointer hover:underline"
+              >
+                Back to verification
+              </span>
+            </p>
+            {cooldownTimer > 0 && (
+              <p className="text-neutral-400">
+                Wait {cooldownTimer}s to resend code
+              </p>
+            )}
+          </div>
         )}
       </div>
     </div>
   );
 
-  const actionLabel = mode === MODE.REGISTER ? "Register" : "Verify";
+  const actionLabel =
+    mode === MODE.REGISTER
+      ? "Register"
+      : mode === MODE.EMAIL_VERIFICATION
+      ? "Verify"
+      : "Resend Code";
 
   return (
     <Modal
-      disabled={isLoading}
+      disabled={
+        isLoading || (mode === MODE.RESEND_VERIFICATION && cooldownTimer > 0)
+      }
       isOpen={registerModal.isOpen}
-      title={mode === MODE.REGISTER ? "Register" : "Verify Email"}
+      title={
+        mode === MODE.REGISTER
+          ? "Register"
+          : mode === MODE.EMAIL_VERIFICATION
+          ? "Verify Email"
+          : "Resend Verification"
+      }
       actionLabel={actionLabel}
       onClose={registerModal.onClose}
       onSubmit={handleSubmit(onSubmit)}

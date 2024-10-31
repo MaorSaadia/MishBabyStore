@@ -23,6 +23,7 @@ const LoginModal = () => {
   const registerModal = useRegisterModal();
   const resetPasswordModal = useResetPasswordModal();
   const [isLoading, setIsLoading] = useState(false);
+  const [verificationMessage, setVerificationMessage] = useState("");
 
   const {
     register,
@@ -37,12 +38,15 @@ const LoginModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
+    setVerificationMessage(""); // Clear any existing message
+
     try {
       let response;
       response = await wixClient.auth.login({
         email: data.email,
         password: data.password,
       });
+
       switch (response?.loginState) {
         case LoginState.SUCCESS:
           toast.success("Logged in");
@@ -56,6 +60,13 @@ const LoginModal = () => {
           router.refresh();
           loginModal.onClose();
           break;
+
+        case LoginState.EMAIL_VERIFICATION_REQUIRED:
+          setVerificationMessage(
+            "This email address is not yet verified. Please check your email for the verification code or register again to receive a new verification code."
+          );
+          break;
+
         case LoginState.FAILURE:
           if (
             response.errorCode === "invalidEmail" ||
@@ -65,6 +76,8 @@ const LoginModal = () => {
           } else {
             toast.error("Something went wrong!");
           }
+          break;
+
         default:
           break;
       }
@@ -75,20 +88,6 @@ const LoginModal = () => {
       setIsLoading(false);
     }
   };
-
-  // AUTH WITH WIX-MANAGED AUTH
-
-  // const googleLogin = async () => {
-  //   const loginRequestData = wixClient.auth.generateOAuthData(
-  //     "http://localhost:3000"
-  //   );
-
-  //   // console.log(loginRequestData);
-
-  //   localStorage.setItem("oAuthRedirectData", JSON.stringify(loginRequestData));
-  //   const { authUrl } = await wixClient.auth.getAuthUrl(loginRequestData);
-  //   window.location.href = authUrl;
-  // };
 
   const onToggle = useCallback(
     (type: string) => {
@@ -120,19 +119,23 @@ const LoginModal = () => {
         errors={errors}
         required
       />
-      <div
-        className="
-      text-neutral-500 font-light -mb-8"
-      >
+      {verificationMessage && (
+        <div className="text-amber-600 text-sm font-medium bg-amber-50 p-3 rounded-md">
+          {verificationMessage}
+          <button
+            onClick={() => onToggle("register")}
+            className="text-amber-800 underline ml-1 hover:text-amber-900"
+          >
+            Register again
+          </button>
+        </div>
+      )}
+      <div className="text-neutral-500 font-light -mb-8">
         <p>
           Forgot Password?
           <span
             onClick={() => onToggle("reset")}
-            className="
-              text-neutral-800
-              cursor-pointer 
-              hover:underline
-            "
+            className="text-neutral-800 cursor-pointer hover:underline"
           >
             {" "}
             Press here
@@ -144,19 +147,12 @@ const LoginModal = () => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 -mt-3">
-      <div
-        className="
-      text-neutral-500 text-center mt-2 font-light"
-      >
+      <div className="text-neutral-500 text-center mt-2 font-light">
         <p>
           First time here?
           <span
             onClick={() => onToggle("register")}
-            className="
-              text-neutral-800
-              cursor-pointer 
-              hover:underline
-            "
+            className="text-neutral-800 cursor-pointer hover:underline"
           >
             {" "}
             Create an account
