@@ -46,7 +46,7 @@ const Pagination: React.FC<PaginationProps> = ({
           className={`hidden md:flex h-10 w-10 items-center justify-center rounded-md transition-colors
             ${
               currentPage === i
-                ? "bg-cyan-600 text-white font-medium hover:bg-cyan-700"
+                ? "bg-cyan-500 text-white font-medium hover:bg-cyan-700"
                 : "text-gray-600 hover:bg-gray-100"
             }`}
         >
@@ -65,7 +65,7 @@ const Pagination: React.FC<PaginationProps> = ({
             ${
               hasPrev
                 ? "bg-cyan-600 text-white hover:bg-cyan-700"
-                : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-gray-100 text-gray-400"
             }`}
           disabled={!hasPrev}
           onClick={() => createPageUrl(currentPage - 1)}
@@ -81,7 +81,7 @@ const Pagination: React.FC<PaginationProps> = ({
             ${
               hasNext
                 ? "bg-cyan-600 text-white hover:bg-cyan-700"
-                : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-gray-100 text-gray-400"
             }`}
           disabled={!hasNext}
           onClick={() => createPageUrl(currentPage + 1)}
