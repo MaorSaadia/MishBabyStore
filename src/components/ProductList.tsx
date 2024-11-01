@@ -127,15 +127,6 @@ const ProductList: React.FC<ProductListProps> = async ({
                       <span className="text-sm text-gray-500 line-through">
                         ${product.priceData?.price}
                       </span>
-                      {/* <span className="text-xs font-medium text-green-500 bg-green-100 px-2 py-1 rounded-full">
-                        {Math.round(
-                          (1 -
-                            Number(product.priceData?.discountedPrice) /
-                              Number(product.priceData?.price)) *
-                            100
-                        )}
-                        % OFF
-                      </span> */}
                     </>
                   ) : (
                     <span className="text-lg font-bold text-gray-900">
@@ -143,9 +134,6 @@ const ProductList: React.FC<ProductListProps> = async ({
                     </span>
                   )}
                 </div>
-                {/* <button className="mt-2 rounded-full bg-cyan-500 text-white w-full py-2 px-4 text-sm transition-all duration-300 ease-in-out hover:bg-cyan-600">
-                  Add to Cart
-                </button> */}
               </div>
             </div>
           </Link>
