@@ -8,6 +8,7 @@ import Pagination from "./Pagination";
 const PRODUCT_PER_PAGE = 12;
 
 interface ProductListProps {
+  pagination?: boolean;
   categoryId: string;
   limit?: number;
   searchParams?: any;
@@ -15,6 +16,7 @@ interface ProductListProps {
 }
 
 const ProductList: React.FC<ProductListProps> = async ({
+  pagination = true,
   categoryId,
   limit,
   searchParams,
@@ -139,7 +141,7 @@ const ProductList: React.FC<ProductListProps> = async ({
           </Link>
         ))}
       </div>
-      {!limit && (
+      {!limit && pagination && (
         <div className="">
           <Pagination
             currentPage={res.currentPage || 0}

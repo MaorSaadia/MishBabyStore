@@ -313,6 +313,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
         </h1>
         <Suspense fallback={<Skeleton />}>
           <ProductList
+            pagination={false}
             categoryId={
               product.collectionIds?.[0] ||
               "00000000-000000-000000-000000000001"
