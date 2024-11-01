@@ -94,13 +94,12 @@ const AboutUs = () => {
               <p className="text-gray-700 text-lg leading-relaxed">
                 From premium clothing to innovative baby gear, each item in our
                 collection is thoughtfully selected to support your baby&apos;s
-                growth and development. We believe in creating a world where
-                every parent feels confident and supported. In addition, we
-                bring beloved video game characters to life through
-                baby-friendly designs, allowing parents to share childhood
-                favorites like Pokémon, Mario, and Sonic with their little ones.
-                This creates magical bonds between generations, with characters
-                adored by both parents and babies alike.
+                growth and development. In addition, we bring beloved video game
+                characters to life through baby-friendly designs, allowing
+                parents to share childhood favorites like Pokémon, Mario, and
+                Sonic with their little ones. This creates magical bonds between
+                generations, with characters adored by both parents and babies
+                alike.
               </p>
             </div>
           </motion.div>
