@@ -1,10 +1,11 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
+
 import { wixClientServer } from "@/lib/wixClientServer";
 import ProductList from "@/components/ProductList";
 import Skeleton from "@/components/Skeleton";
 import Filter from "@/components/Filter";
-import { notFound } from "next/navigation";
 
 interface PageProps {
   searchParams: {

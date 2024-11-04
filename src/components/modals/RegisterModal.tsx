@@ -12,7 +12,6 @@ import useRegisterModal from "@/hooks/useRegisterModal";
 import Modal from "./Modal";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
-import LoginModal from "./LoginModal";
 import useLoginModal from "@/hooks/useLoginModal";
 
 enum MODE {
@@ -41,7 +40,6 @@ const RegisterModal = () => {
     formState: { errors },
     reset,
     getValues,
-    setValue,
   } = useForm<FieldValues>({
     defaultValues: {
       name: "",
