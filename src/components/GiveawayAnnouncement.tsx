@@ -82,14 +82,16 @@ const GiveawayAnnouncement = () => {
               <Image
                 src="/announcement-giveaway.png"
                 alt="Giveaway announcement"
-                className="w-full h-full rounded-lg shadow-lg object-cover"
+                className="rounded-lg shadow-lg object-cover"
                 width={500}
                 height={500}
               />
             </div>
             <div className="space-y-2">
               <h3 className="text-lg font-semibold">Enter Our Lucky Draw!</h3>
-              <p className="text-sm">Join our exciting giveaway event!</p>
+              <p className="text-sm">
+                How to participate and join our exciting giveaway event!
+              </p>
               <ul className="text-sm list-disc list-inside space-y-1">
                 <li>Sign up for an account</li>
                 <li>Make a purchase over $9.99</li>
@@ -98,6 +100,9 @@ const GiveawayAnnouncement = () => {
               <p className="text-sm mt-4 font-medium text-primary">
                 Don&apos;t miss out on your chance to win up to $30 in
                 giftcards!
+              </p>
+              <p className="text-xs text-gray-400">
+                The giveaway ends on November 30, 2024.
               </p>
             </div>
           </div>

@@ -14,7 +14,7 @@ const slides = [
     description: "Win Amazing Prizes!",
     img: "/announcement-giveaway.png",
     url: "#",
-    bg: "bg-gradient-to-r from-gray-100 to-cyan-100",
+    bg: "bg-gradient-to-r from-gray-50 to-cyan-100",
     isGiveaway: true,
   },
   {
