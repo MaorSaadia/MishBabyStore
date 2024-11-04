@@ -78,7 +78,7 @@ const GiveawayAnnouncement = () => {
         </DialogHeader>
         <DialogDescription className="text-center">
           <div className="space-y-6">
-            <div className="relative w-full h-64 sm:h-80">
+            <div className="relative w-full h-80 sm:h-96">
               <Image
                 src="/announcement-giveaway.png"
                 alt="Giveaway announcement"
