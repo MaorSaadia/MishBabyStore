@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const ReviewsImage = ({ images }: { images: any[] }) => {

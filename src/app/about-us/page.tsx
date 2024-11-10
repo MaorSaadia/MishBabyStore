@@ -97,9 +97,9 @@ const AboutUs = () => {
                 growth and development. In addition, we bring beloved video game
                 characters to life through baby-friendly designs, allowing
                 parents to share childhood favorites like Pokémon, Mario, Sonic
-                and more with their little ones. This creates magical bonds
-                between generations, with characters adored by both parents and
-                babies alike.
+                and more loveable characters with their little ones. This
+                creates magical bonds between generations, with characters
+                adored by both parents and babies alike.
               </p>
             </div>
           </motion.div>

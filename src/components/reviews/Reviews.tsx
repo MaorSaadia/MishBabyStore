@@ -1,6 +1,15 @@
 import Image from "next/image";
 import { Star } from "lucide-react";
+
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import ReviewsImage from "./ReviewsImage";
 
 interface ReviewsProps {
@@ -20,7 +29,10 @@ const Reviews: React.FC<ReviewsProps> = async ({
   // Calculate average rating
   const averageRating =
     reviews.data.reduce((acc: number, review: any) => acc + review.rating, 0) /
-    reviews.data.length;
+      reviews.data.length || 0;
+
+  const initialReviews = reviews.data.slice(0, 5);
+  const hasMoreReviews = reviews.data.length > 5;
 
   return (
     <div className="space-y-6">
@@ -30,9 +42,33 @@ const Reviews: React.FC<ReviewsProps> = async ({
           totalReviews={reviews.data.length}
         />
       ) : (
-        reviews.data.map((review: any) => (
-          <ReviewCard key={review.id} review={review} />
-        ))
+        <div>
+          <div className="space-y-6">
+            {initialReviews.map((review: any) => (
+              <ReviewCard key={review.id} review={review} />
+            ))}
+          </div>
+
+          {hasMoreReviews && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full mt-6">
+                  View All {reviews.data.length} Reviews
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>All Reviews</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-6 py-4">
+                  {reviews.data.map((review: any) => (
+                    <ReviewCard key={review.id} review={review} />
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
+        </div>
       )}
     </div>
   );
