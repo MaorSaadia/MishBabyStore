@@ -13,6 +13,7 @@ import Skeleton from "@/components/Skeleton";
 import ProductList from "@/components/ProductList";
 import Add from "@/components/Add";
 import PolicyDetails from "@/components/PolicyDetails";
+import SizeGuide from "@/components/SizeGuide";
 // import Reviews from "@/components/reviews/Reviews";
 // import ReviewsClickable from "@/components/reviews/ReviewsClickable";
 // import Loader from "@/components/Loader";
@@ -270,38 +271,9 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   </div>
                 </div>
 
-                {/* Conditional Size Details section */}
-                {product.collectionIds?.[0] ===
-                  "b36c1c8c-a1ac-4682-9e34-a630b932325c" && (
-                  <details className="mt-4 border-t border-gray-200 pt-4">
-                    <summary className="font-medium text-gray-900 cursor-pointer flex items-center">
-                      SIZE Guide
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </summary>
-                    <div className="mt-2 space-y-4">
-                      <Image
-                        src="/size-details.png"
-                        alt="Size Details"
-                        className="w-full"
-                        width={800}
-                        height={500}
-                      />
-                      <Image
-                        src="/kid-size.png"
-                        alt="Kid Size"
-                        className="w-full"
-                        width={800}
-                        height={500}
-                      />
-                      <Image
-                        src="/size-3.png"
-                        alt="Kid Information"
-                        className="w-full"
-                        width={800}
-                        height={500}
-                      />
-                    </div>
-                  </details>
+                {/* Size Guide */}
+                {product.collectionIds?.[0] && (
+                  <SizeGuide collectionId={product.collectionIds[0]} />
                 )}
 
                 {/* Additional Info Sections */}
