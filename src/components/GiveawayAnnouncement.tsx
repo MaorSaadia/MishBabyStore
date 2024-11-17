@@ -78,15 +78,15 @@ const GiveawayAnnouncement = () => {
         </DialogHeader>
         <DialogDescription className="text-center">
           <div className="space-y-6">
-            <div className="relative w-full h-80 sm:h-96">
+            {/* <div className="relative w-full h-80 sm:h-96">
               <Image
                 src="/announcement-giveaway.png"
                 alt="Giveaway announcement"
                 className="rounded-lg shadow-lg object-cover"
-                width={500}
-                height={500}
+                width={940}
+                height={788}
               />
-            </div>
+            </div> */}
             <div className="space-y-2">
               <h3 className="text-lg font-semibold">Enter Our Lucky Draw!</h3>
               <p className="text-sm">

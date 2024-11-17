@@ -1,8 +1,7 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { Tag, Heart, Truck, ArrowRight, Clock } from "lucide-react";
+import { Tag, Heart, Truck, Clock } from "lucide-react";
 import { Metadata } from "next";
-import Image from "next/image";
 import DOMPurify from "isomorphic-dompurify";
 
 import { wixClientServer } from "@/lib/wixClientServer";
