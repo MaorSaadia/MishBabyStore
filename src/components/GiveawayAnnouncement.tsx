@@ -56,7 +56,7 @@ export const useGiveawayStore = () => {
 };
 
 const GiveawayAnnouncement = () => {
-  const [hasShownInitial, setHasShownInitial] = useState(false);
+  const [hasShownInitial, setHasShownInitial] = useState(true);
   const { isOpen, setIsOpen } = useGiveawayStore();
 
   useEffect(() => {
