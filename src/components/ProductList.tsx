@@ -5,7 +5,7 @@ import { wixClientServer } from "@/lib/wixClientServer";
 import { products } from "@wix/stores";
 import Pagination from "./Pagination";
 
-const PRODUCT_PER_PAGE = 12;
+const PRODUCT_PER_PAGE = 16;
 
 interface ProductListProps {
   pagination?: boolean;
