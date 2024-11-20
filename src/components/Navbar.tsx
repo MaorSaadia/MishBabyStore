@@ -54,12 +54,12 @@ const Navbar = () => {
             >
               New Arrival
             </Link>
-            {/* <Link
-              href="/about-us"
-              className="hover:text-cyan-600 transition-colors"
+            <Link
+              href="/affiliate-program"
+              className="hover:text-cyan-600 transition-colors flex items-center gap-1"
             >
-              About Us
-            </Link> */}
+              Become an Affiliate
+            </Link>
             <Link
               href="/customer-service"
               className="hover:text-cyan-600 transition-colors"

@@ -113,6 +113,10 @@ const Footer = () => {
                     { href: "/faq", label: "FAQ" },
                     { href: "/about-us", label: "About Us" },
                     { href: "/customer-service", label: "Customer Service" },
+                    {
+                      href: "/affiliate-program",
+                      label: "Become an Affiliate",
+                    },
                     { href: "/privacy-policy", label: "Privacy Policy" },
                     { href: "/terms-of-service", label: "Terms of Service" },
                   ].map((link) => (

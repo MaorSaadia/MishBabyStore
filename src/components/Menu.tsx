@@ -26,7 +26,7 @@ const Menu = () => {
       label: "New Arrival",
     },
     { href: "/about-us", label: "About Us" },
-
+    { href: "/affiliate-program", label: "Become an Affiliate" },
     { href: "/customer-service", label: "Contact" },
   ];
 
