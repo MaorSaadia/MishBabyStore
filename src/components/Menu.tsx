@@ -20,6 +20,7 @@ const Menu = () => {
 
   const menuItems = [
     { href: "/", label: "Shop" },
+    { href: "/list?cat=all-products", label: "All Products" },
     { href: "/list?cat=all-products&filter=Sale", label: "Deals" },
     {
       href: "/list?cat=all-products&filter=New Arrival",

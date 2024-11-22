@@ -43,6 +43,12 @@ const Navbar = () => {
           </Link>
           <div className="hidden xl:flex gap-6 text-sm">
             <Link
+              href="/list?cat=all-products"
+              className="hover:text-cyan-600 transition-colors"
+            >
+              All Products
+            </Link>
+            <Link
               href="/list?cat=all-products&filter=Sale"
               className="hover:text-cyan-600 transition-colors"
             >
