@@ -114,13 +114,13 @@ const ReviewCard = ({ review }: { review: any }) => {
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4">
-            <Image
+            {/* <Image
               src={review.customer.avatar_url}
               alt=""
               width={40}
               height={40}
               className="rounded-full"
-            />
+            /> */}
             <div>
               <h3 className="font-semibold text-lg">
                 {review.customer.display_name === "AliExpress S."
