@@ -42,7 +42,7 @@ const Footer = () => {
               alt="logo"
               width={100}
               height={100}
-              className="mb-4"
+              className="mb-4 w-auto h-auto"
             />
             <p className="font-semibold mb-4 text-sm">mishbabyshop@gmail.com</p>
             <div className="flex flex-col items-center sm:items-start">
@@ -153,7 +153,7 @@ const Footer = () => {
                   alt={payment}
                   width={35}
                   height={35}
-                  className="transition-transform hover:scale-110"
+                  className="transition-transform hover:scale-110 w-auto h-auto"
                 />
               ))}
             </div>

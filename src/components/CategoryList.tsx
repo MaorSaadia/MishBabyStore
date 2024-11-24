@@ -29,6 +29,10 @@ const CategoryList = async () => {
                   }
                   alt=""
                   fill
+                  sizes="(max-width: 640px) 100vw, 
+                  (max-width: 1024px) 50vw,
+                  (max-width: 1280px) 33vw,
+                  25vw"
                   className="transition-transform duration-300 ease-in-out group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 ease-in-out" />
