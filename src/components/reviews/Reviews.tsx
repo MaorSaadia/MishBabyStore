@@ -140,9 +140,9 @@ const ReviewCard = ({ review }: { review: any }) => {
               </div>
             </div>
           </div>
-          <span className="text-sm text-gray-500">
+          {/* <span className="text-sm text-gray-500">
             {new Date(review.created_at).toLocaleDateString()}
-          </span>
+          </span> */}
         </div>
 
         {review.heading && (
