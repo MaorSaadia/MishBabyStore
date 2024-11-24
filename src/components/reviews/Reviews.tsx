@@ -123,7 +123,9 @@ const ReviewCard = ({ review }: { review: any }) => {
             />
             <div>
               <h3 className="font-semibold text-lg">
-                {review.customer.display_name}
+                {review.customer.display_name === "AliExpress S."
+                  ? "Anonymous"
+                  : review.customer.display_name}
               </h3>
               <div className="flex items-center">
                 {Array.from({ length: 5 }).map((_, index) => (
