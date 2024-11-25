@@ -1,8 +1,8 @@
 "use client";
 
 import { Suspense } from "react";
+
 import Reviews from "@/components/reviews/Reviews";
-import Loader from "@/components/Loader";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const ReviewsClickable = ({ productId }: { productId: string }) => {

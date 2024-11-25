@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Star } from "lucide-react";
+import { Star, StarHalf } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -74,6 +74,39 @@ const Reviews: React.FC<ReviewsProps> = async ({
   );
 };
 
+const StarRating = ({ rating }: { rating: number }) => {
+  return (
+    <div className="flex">
+      {Array.from({ length: 5 }).map((_, index) => {
+        const difference = rating - index;
+
+        if (difference >= 1) {
+          // Full star
+          return (
+            <Star
+              key={index}
+              size={16}
+              className="text-yellow-400 fill-yellow-400"
+            />
+          );
+        } else if (difference > 0 && difference < 1) {
+          // Half star
+          return (
+            <StarHalf
+              key={index}
+              size={16}
+              className="text-yellow-400 fill-yellow-400"
+            />
+          );
+        } else {
+          // Empty star
+          return <Star key={index} size={16} className="text-gray-300" />;
+        }
+      })}
+    </div>
+  );
+};
+
 const RatingSummary = ({
   averageRating,
   totalReviews,
@@ -87,19 +120,7 @@ const RatingSummary = ({
         <span className="text-2xl font-bold mr-2">
           {averageRating.toFixed(1)}
         </span>
-        <div className="flex">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <Star
-              key={index}
-              size={16}
-              className={
-                index < Math.round(averageRating)
-                  ? "text-yellow-400 fill-yellow-400"
-                  : "text-gray-300"
-              }
-            />
-          ))}
-        </div>
+        <StarRating rating={averageRating} />
       </div>
       <div className="text-sm text-gray-500">
         {totalReviews} {totalReviews === 1 ? "review" : "reviews"}
@@ -114,37 +135,15 @@ const ReviewCard = ({ review }: { review: any }) => {
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4">
-            {/* <Image
-              src={review.customer.avatar_url}
-              alt=""
-              width={40}
-              height={40}
-              className="rounded-full"
-            /> */}
             <div>
               <h3 className="font-semibold text-lg">
                 {review.customer.display_name === "AliExpress S."
                   ? "Anonymous"
                   : review.customer.display_name}
               </h3>
-              <div className="flex items-center">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <Star
-                    key={index}
-                    size={16}
-                    className={
-                      index < review.rating
-                        ? "text-yellow-400 fill-yellow-400"
-                        : "text-gray-300"
-                    }
-                  />
-                ))}
-              </div>
+              <StarRating rating={review.rating} />
             </div>
           </div>
-          {/* <span className="text-sm text-gray-500">
-            {new Date(review.created_at).toLocaleDateString()}
-          </span> */}
         </div>
 
         {review.heading && (

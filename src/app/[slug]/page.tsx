@@ -5,8 +5,6 @@ import { Metadata } from "next";
 import DOMPurify from "isomorphic-dompurify";
 
 import { wixClientServer } from "@/lib/wixClientServer";
-import { Skeleton as shSkeleton } from "@/components/ui/skeleton";
-
 import CustomizeProducts from "@/components/CustomizeProducts";
 import ProductImages from "@/components/ProductImages";
 import ShareButton from "@/components/ShareButton";
