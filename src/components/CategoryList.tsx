@@ -27,6 +27,7 @@ const CategoryList = async () => {
                     item.media?.mainMedia?.image?.url ||
                     "/placeholder-image.jpg"
                   }
+                  quality={100}
                   alt=""
                   fill
                   sizes="(max-width: 640px) 100vw, 

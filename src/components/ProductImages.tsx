@@ -116,6 +116,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
           <Image
             src={items[index].image.url}
             alt=""
+            quality={100}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority={true}
@@ -146,6 +147,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
             <Image
               src={item.image.url}
               alt=""
+              quality={100}
               fill
               sizes="96px"
               className="object-cover"
@@ -201,6 +203,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
                     <Image
                       src={items[index].image.url}
                       alt=""
+                      quality={100}
                       fill
                       sizes="(max-width: 768px) 90vw, (max-width: 1200px) 70vw, 60vw"
                       priority={true}
