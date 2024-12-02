@@ -19,14 +19,6 @@ const slides = [
   // },
   {
     id: 1,
-    title: "Room Lighting",
-    description: "Discover Charming Night Lights",
-    img: "/slides/Baby-Gadgets.jpeg",
-    url: "/list?cat=night-lights-room-lighting",
-    bg: "bg-gradient-to-r from-sky-100 to-amber-100",
-  },
-  {
-    id: 2,
     title: "Baby Clothing",
     description: "Sale! Up to 50% off!",
     img: "/slides/Baby-Clothing.jpeg",
@@ -34,7 +26,7 @@ const slides = [
     bg: "bg-gradient-to-r from-cyan-50 to-blue-100",
   },
   {
-    id: 3,
+    id: 2,
     title: "Toys & Games",
     description: "Explore Our Collection",
     img: "/slides/Toys-Games.jpeg",
@@ -42,12 +34,20 @@ const slides = [
     bg: "bg-gradient-to-r from-blue-50 to-rose-50",
   },
   {
-    id: 4,
+    id: 3,
     title: "Nursery Decor",
     description: "Create Magical Spaces",
     img: "/slides/Nursery-Decor.jpeg",
     url: "/list?cat=nursery-decor",
     bg: "bg-gradient-to-r from-gray-50 to-orange-100",
+  },
+  {
+    id: 4,
+    title: "Room Lighting",
+    description: "Discover Charming Night Lights",
+    img: "/slides/Baby-Gadgets.jpeg",
+    url: "/list?cat=night-lights-room-lighting",
+    bg: "bg-gradient-to-r from-sky-100 to-amber-100",
   },
 ];
 
