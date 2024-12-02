@@ -8,15 +8,15 @@ import Link from "next/link";
 import { useGiveawayStore } from "./GiveawayAnnouncement";
 
 const slides = [
-  {
-    id: 0,
-    title: "Special Giveaway",
-    description: "Win Amazing Prizes!",
-    img: "/announcement-giveaway.png",
-    url: "#",
-    bg: "bg-gradient-to-r from-gray-50 to-cyan-100",
-    isGiveaway: true,
-  },
+  // {
+  //   id: 0,
+  //   title: "Special Giveaway",
+  //   description: "Win Amazing Prizes!",
+  //   img: "/announcement-giveaway.png",
+  //   url: "#",
+  //   bg: "bg-gradient-to-r from-gray-50 to-cyan-100",
+  //   isGiveaway: true,
+  // },
   {
     id: 1,
     title: "Room Lighting",
@@ -124,21 +124,11 @@ const Slider = () => {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                 {slide.title}
               </h1>
-
-              {slide.isGiveaway ? (
-                <button
-                  onClick={() => handleSlideClick(slide)}
-                  className="bg-black text-white py-3 px-6 rounded-full hover:bg-gray-800 transition-colors duration-300"
-                >
-                  LEARN MORE
+              <Link href={slide.url}>
+                <button className="bg-black text-white py-3 px-6 rounded-full hover:bg-gray-800 transition-colors duration-300">
+                  SHOP NOW
                 </button>
-              ) : (
-                <Link href={slide.url}>
-                  <button className="bg-black text-white py-3 px-6 rounded-full hover:bg-gray-800 transition-colors duration-300">
-                    SHOP NOW
-                  </button>
-                </Link>
-              )}
+              </Link>
             </div>
             <div className="w-full md:w-1/2 h-64 md:h-full relative">
               <Image
