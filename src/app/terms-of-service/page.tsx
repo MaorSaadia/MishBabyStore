@@ -9,7 +9,7 @@ const TermsOfService: React.FC = () => {
         <meta name="description" content="Terms of Service" />
       </Head>
 
-      <h1 className="text-3xl font-bold mb-6">Terms of Service for Mishbaby</h1>
+      <h1 className="text-3xl font-bold mb-6">Terms of Service</h1>
 
       <section className="mb-6">
         <p className="text-sm text-gray-500 mb-4">
