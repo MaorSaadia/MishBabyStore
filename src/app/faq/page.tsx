@@ -23,6 +23,11 @@ const faqs: FAQ[] = [
       "Shipping times depend on your location and the product's availability. Typically, orders are delivered within 7-21 business days.",
   },
   {
+    question: "Will I receive a tracking number for my order?",
+    answer:
+      "Yes, once your order has been shipped, you will receive an email with your tracking number so you can monitor the delivery progress of your order.",
+  },
+  {
     question: "Can I return or exchange products?",
     answer:
       "We offer returns for damaged or incorrect items. Please contact our customer support within 14 days of receiving the product, send us the image of the damaged or incorrect itmes, and we'll guide you through the process. In certain cases, we may allow you to keep the item and provide a 50% refund or store credit for the full amount of your order.",

@@ -25,7 +25,6 @@ const TrackingPage = () => {
       return;
     }
 
-    // Redirect to Cainiao tracking page
     window.open(
       `https://global.cainiao.com/newDetail.htm?mailNoList=${trackingNumber}`,
       "_blank",
@@ -34,22 +33,22 @@ const TrackingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-36 mr-2 px-6 sm:px-6 lg:px-8 -mb-14">
+    <div className="min-h-screen bg-gray-50 py-20 sm:py-36 px-4 sm:px-6 lg:px-8 -mb-14">
       <div className="max-w-3xl mx-auto">
         <Card className="bg-white shadow-xl shadow-cyan-100">
-          <CardHeader className="text-center py-8">
-            <div className="mx-auto w-20 h-20 bg-cyan-100 rounded-full flex items-center justify-center mb-6">
-              <Package className="w-10 h-10 text-cyan-500" />
+          <CardHeader className="text-center py-6 sm:py-8">
+            <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 bg-cyan-100 rounded-full flex items-center justify-center mb-4 sm:mb-6">
+              <Package className="w-8 h-8 sm:w-10 sm:h-10 text-cyan-500" />
             </div>
-            <CardTitle className="text-4xl font-bold text-gray-900 mb-4">
+            <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-4">
               Track Your Order
             </CardTitle>
-            <CardDescription className="text-lg text-gray-600">
+            <CardDescription className="text-base sm:text-lg text-gray-600">
               Enter your tracking number to see the latest delivery status
             </CardDescription>
           </CardHeader>
-          <CardContent className="px-6">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <CardContent className="px-4 sm:px-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               <div className="relative">
                 <Input
                   type="text"
@@ -59,25 +58,31 @@ const TrackingPage = () => {
                     setTrackingNumber(e.target.value);
                     setError("");
                   }}
-                  className={`pl-12 h-16 text-lg ${
+                  className={`pl-12 h-12 sm:h-16 text-base sm:text-lg ${
                     error ? "border-red-500" : "border-gray-300"
                   }`}
                 />
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 sm:w-6 sm:h-6" />
               </div>
-              {error && <p className="text-red-500 text-base mt-2">{error}</p>}
+              {error && (
+                <p className="text-red-500 text-sm sm:text-base mt-2">
+                  {error}
+                </p>
+              )}
               <Button
                 type="submit"
-                className="w-full h-16 bg-cyan-500 hover:bg-cyan-600 text-white flex items-center justify-center space-x-3 text-lg"
+                className="w-full h-12 sm:h-16 bg-cyan-500 hover:bg-cyan-600 text-white flex items-center justify-center space-x-2 sm:space-x-3 text-base sm:text-lg"
               >
                 <span>Track Package</span>
-                <ArrowRight className="w-6 h-6" />
+                <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
               </Button>
             </form>
           </CardContent>
-          <CardFooter className="text-center text-base text-gray-500">
-            <TruckIcon className="mr-1 text-cyan-500" /> Track your package
-            delivery status anytime, anywhere.
+          <CardFooter className="text-center text-sm sm:text-base text-gray-500 py-4 sm:py-6">
+            <TruckIcon className="mr-1 text-cyan-500 w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="text-sm sm:text-base">
+              Track your package delivery status anytime, anywhere.
+            </span>
           </CardFooter>
         </Card>
       </div>
