@@ -54,11 +54,17 @@ const Navbar = () => {
             >
               Deals
             </Link>
-            <Link
+            {/* <Link
               href="/list?cat=all-products&filter=New Arrival"
               className="hover:text-cyan-600 transition-colors"
             >
               New Arrival
+            </Link> */}
+            <Link
+              href="/order-tracking"
+              className="hover:text-cyan-600 transition-colors"
+            >
+              Order Tracking
             </Link>
             <Link
               href="/affiliate-program"

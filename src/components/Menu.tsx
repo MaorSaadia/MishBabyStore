@@ -22,11 +22,11 @@ const Menu = () => {
     { href: "/", label: "Shop" },
     { href: "/list?cat=all-products", label: "All Products" },
     { href: "/list?cat=all-products&filter=Sale", label: "Deals" },
-    {
-      href: "/list?cat=all-products&filter=New Arrival",
-      label: "New Arrival",
-    },
-    { href: "/about-us", label: "About Us" },
+    // {
+    //   href: "/list?cat=all-products&filter=New Arrival",
+    //   label: "New Arrival",
+    // },
+    { href: "/order-tracking", label: "Order Tracking" },
     { href: "/affiliate-program", label: "Become an Affiliate" },
     { href: "/customer-service", label: "Contact" },
   ];

@@ -83,13 +83,25 @@ const Footer = () => {
                   {[
                     { href: "/list?cat=all-products", label: "All Products" },
                     {
-                      href: "/list?cat=all-products&filter=New Arrival",
-                      label: "New Arrivals",
-                    },
-                    {
                       href: "/list?cat=all-products&filter=Sale",
                       label: "Deals",
                     },
+                    // {
+                    //   href: "/list?cat=all-products&filter=New Arrival",
+                    //   label: "New Arrivals",
+                    // },
+                    { href: "/list?cat=baby-cares", label: "Baby Cares" },
+                    { href: "/list?cat=baby-clothing", label: "Baby Clothing" },
+                    {
+                      href: "/list?cat=characters-collectibles",
+                      label: "Characters & Collectibles",
+                    },
+                    { href: "/list?cat=nursery-decor", label: "Nursery Decor" },
+                    {
+                      href: "/list?cat=night-lights-room-lighting",
+                      label: "Room Lighting",
+                    },
+                    { href: "/list?cat=toys-games", label: "Toys & Games" },
                   ].map((link) => (
                     <li key={link.href}>
                       <Link
@@ -112,6 +124,7 @@ const Footer = () => {
                   {[
                     { href: "/faq", label: "FAQ" },
                     { href: "/about-us", label: "About Us" },
+                    { href: "/order-tracking", label: "Order Tracking" },
                     { href: "/customer-service", label: "Customer Service" },
                     {
                       href: "/affiliate-program",
