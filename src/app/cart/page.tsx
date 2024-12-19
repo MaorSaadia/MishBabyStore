@@ -239,6 +239,9 @@ const ViewCartPage = () => {
                   <span>${cart.subtotal?.amount}</span>
                 }
               </div>
+              <p className="text-sm text-gray-500 mt-2">
+                Tax included in the price.
+              </p>
               <Button
                 className="w-full mt-6"
                 onClick={handleCheckout}
@@ -248,6 +251,7 @@ const ViewCartPage = () => {
               </Button>
             </CardContent>
           </Card>
+
           <Button
             variant="outline"
             className="w-full mt-4"

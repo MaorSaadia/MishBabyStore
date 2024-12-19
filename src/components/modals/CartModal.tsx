@@ -161,16 +161,15 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                 <span>${cart.subtotal?.amount}</span>
               }
             </div>
-            <p className="text-gray-500 text-sm mt-2 mb-6">
-              {/* Shipping and taxes calculated at checkout. */}
+            <p className="text-gray-500 text-sm mt-2">
+              Tax included in the price.
             </p>
-            <div className="flex justify-between gap-4">
+            <div className="flex justify-between gap-4 mt-6">
               <Link href="/cart" onClick={onClose}>
                 <Button className="flex-1 rounded-md py-3 px-4 ring-1 bg-white text-black ring-gray-300 hover:bg-slate-100 transition-colors">
                   View Cart
                 </Button>
               </Link>
-
               <Button
                 className="flex-1 rounded-md py-3 px-4 bg-black text-white hover:bg-slate-800 transition-colors disabled:cursor-not-allowed disabled:opacity-75"
                 disabled={isLoading}
