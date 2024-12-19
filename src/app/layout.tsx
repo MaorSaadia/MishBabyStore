@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
 
 import { WixClientContextProvider } from "@/context/wixContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 import LoginModal from "@/components/modals/LoginModal";
 import RegisterModal from "@/components/modals/RegisterModal";
 import ResetPasswordModal from "@/components/modals/ResetPasswordModal";
@@ -24,7 +24,43 @@ export const metadata: Metadata = {
     template: "%s | MishBaby",
     absolute: "MishBaby",
   },
-  description: "MishBaby Store",
+  description:
+    "Premium baby products, toys, clothing, and accessories. Shop our curated collection of safe and high-quality items for your little ones.",
+  keywords:
+    "baby store, baby products, baby clothes, baby toys, baby accessories",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  viewport: "width=device-width, initial-scale=1",
+  openGraph: {
+    title: "MishBaby - Baby Products Store",
+    description: "Premium baby products, toys, clothing, and accessories",
+    url: "https://www.mishbaby.com",
+    siteName: "MishBaby",
+    images: [
+      {
+        url: "https://www.mishbaby.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MishBaby - Baby Products Store",
+    description: "Premium baby products, toys, clothing, and accessories",
+    images: ["https://www.mishbaby.com/twitter-image.jpg"],
+  },
 };
 
 export default function RootLayout({
@@ -50,6 +86,38 @@ export default function RootLayout({
             <div id="portal"></div>
           </GiveawayProvider>
         </WixClientContextProvider>
+        <Script
+          id="structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "OnlineStore",
+              name: "MishBaby",
+              description: "Premium baby products store",
+              url: "https://www.mishbaby.com",
+              priceRange: "$$",
+              image: "https://www.mishbaby.com/og-image.jpg",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate:
+                    "https://www.mishbaby.com/search?q={search_term_string}",
+                },
+                "query-input": "required name=search_term_string",
+              },
+              sameAs: [
+                // Add your social media URLs here
+                "https://www.tiktok.com/@mishbaby_shop",
+                "https://www.instagram.com/mishbabystore",
+                "https://www.youtube.com/@mishBaby-shop",
+                "https://www.facebook.com/profile.php?id=61567086625746",
+                "https://www.pinterest.com/mishbabys",
+              ],
+            }),
+          }}
+        />
       </body>
     </html>
   );

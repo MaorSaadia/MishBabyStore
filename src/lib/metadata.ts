@@ -8,7 +8,7 @@ export const trackingPageMetadata: Metadata = {
   keywords:
     "order tracking, package tracking, shipping status, delivery tracking, track shipment",
   openGraph: {
-    title: "Track Your Order | Your Company Name",
+    title: "Track Your Order",
     description:
       "Track your package delivery status in real-time. Get instant updates on your shipment location and estimated delivery time.",
     type: "website",
