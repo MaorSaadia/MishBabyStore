@@ -78,8 +78,8 @@ const TrackingPage = () => {
               </Button>
             </form>
           </CardContent>
-          <CardFooter className="text-center text-sm sm:text-base text-gray-500 py-4 sm:py-6">
-            <TruckIcon className="mr-1 text-cyan-500 w-4 h-4 sm:w-5 sm:h-5" />
+          <CardFooter className="text-center text-sm sm:text-base text-gray-500 py-4 sm:py-6 -mt-6">
+            <TruckIcon className="mr-1 text-cyan-500" />
             <span className="text-sm sm:text-base">
               Track your package delivery status anytime, anywhere.
             </span>

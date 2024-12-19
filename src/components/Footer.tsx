@@ -92,10 +92,10 @@ const Footer = () => {
                     // },
                     { href: "/list?cat=baby-cares", label: "Baby Cares" },
                     { href: "/list?cat=baby-clothing", label: "Baby Clothing" },
-                    {
-                      href: "/list?cat=characters-collectibles",
-                      label: "Characters & Collectibles",
-                    },
+                    // {
+                    //   href: "/list?cat=characters-collectibles",
+                    //   label: "Characters & Collectibles",
+                    // },
                     { href: "/list?cat=nursery-decor", label: "Nursery Decor" },
                     {
                       href: "/list?cat=night-lights-room-lighting",
