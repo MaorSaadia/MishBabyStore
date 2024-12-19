@@ -35,7 +35,7 @@ const TrackingPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-20 sm:py-36 px-4 sm:px-6 lg:px-8 -mb-14">
       <div className="max-w-3xl mx-auto">
-        <Card className="bg-white shadow-xl shadow-cyan-100">
+        <Card className="bg-white shadow-xl shadow-cyan-100 md:-mt-6">
           <CardHeader className="text-center py-6 sm:py-8">
             <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 bg-cyan-100 rounded-full flex items-center justify-center mb-4 sm:mb-6">
               <Package className="w-8 h-8 sm:w-10 sm:h-10 text-cyan-500" />
