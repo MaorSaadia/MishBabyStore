@@ -16,10 +16,10 @@ const Navbar = () => {
           <Image
             src="/mb-logo.png"
             alt="MishBaby Logo"
-            width={40}
-            height={40}
+            width={50}
+            height={50}
           />
-          <span className="ml-2 text-xl font-semibold">MishBaby</span>
+          {/* <span className="ml-2 text-xl font-semibold">MishBaby</span> */}
         </Link>
         <div className="flex items-center gap-4">
           <SearchBar />
@@ -36,10 +36,10 @@ const Navbar = () => {
             <Image
               src="/mb-logo.png"
               alt="MishBaby Logo"
-              width={50}
-              height={50}
+              width={60}
+              height={60}
             />
-            <span className="ml-2 text-2xl font-semibold">MishBaby</span>
+            {/* <span className="ml-2 text-2xl font-semibold">MishBaby</span> */}
           </Link>
           <div className="hidden xl:flex gap-6 text-sm">
             <Link
