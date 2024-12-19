@@ -1,9 +1,10 @@
 "use client";
 
+import { Suspense } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { usePathname, useSearchParams } from "next/navigation";
 
 import Menu from "./Menu";
 import SearchBar from "./SearchBar";
@@ -101,11 +102,15 @@ const Navbar = () => {
             />
           </Link>
           <div className="hidden xl:flex gap-8">
-            <NavLink href="/list?cat=all-products">All Products</NavLink>
-            <NavLink href="/list?cat=all-products&filter=Sale">Deals</NavLink>
-            <NavLink href="/order-tracking">Order Tracking</NavLink>
-            <NavLink href="/affiliate-program">Become an Affiliate</NavLink>
-            <NavLink href="/customer-service">Contact</NavLink>
+            <Suspense
+              fallback={<div className="h-8 w-8 bg-gray-200 rounded-full" />}
+            >
+              <NavLink href="/list?cat=all-products">All Products</NavLink>
+              <NavLink href="/list?cat=all-products&filter=Sale">Deals</NavLink>
+              <NavLink href="/order-tracking">Order Tracking</NavLink>
+              <NavLink href="/affiliate-program">Become an Affiliate</NavLink>
+              <NavLink href="/customer-service">Contact</NavLink>
+            </Suspense>
           </div>
         </div>
 
