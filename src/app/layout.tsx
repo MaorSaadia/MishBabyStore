@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     "Premium baby products, toys, clothing, and accessories. Shop our curated collection of safe and high-quality items for your little ones.",
   keywords:
     "baby store, baby products, baby clothes, baby toys, baby accessories",
+  alternates: {
+    canonical: "https://www.mishbaby.com",
+  },
   robots: {
     index: true,
     follow: true,
