@@ -19,6 +19,8 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const viewport = "width=device-width, initial-scale=1";
+
 export const metadata: Metadata = {
   title: {
     template: "%s | MishBaby",
@@ -42,7 +44,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  viewport: "width=device-width, initial-scale=1",
   openGraph: {
     title: "MishBaby - Baby Products Store",
     description: "Premium baby products, toys, clothing, and accessories",
