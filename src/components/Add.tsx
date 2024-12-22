@@ -18,10 +18,11 @@ const Add: React.FC<AddProps> = ({
   productId,
   variantId,
   stockNumber,
-  allOptionsSelected,
-  missingOptions,
+  allOptionsSelected = true,
+  missingOptions = [],
 }) => {
   const [quantity, setQuantity] = useState(1);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const wixClient = useWixClient();
   const { addItem, isLoading } = useCartStore();
 
@@ -35,13 +36,47 @@ const Add: React.FC<AddProps> = ({
   };
 
   const handleAddToCart = async () => {
-    const success = await addItem(wixClient, productId, variantId, quantity);
-    if (success) {
-      toast.success("Item added to cart successfully!");
-    } else {
-      toast.error("Failed to add item to cart. Please try again.");
+    if (!productId || !wixClient) {
+      toast.error("Unable to add to cart: Missing required information");
+      return;
+    }
+
+    try {
+      setIsAddingToCart(true);
+
+      // Validate stock before adding
+      if (quantity > stockNumber) {
+        toast.error(`Sorry, only ${stockNumber} items available`);
+        return;
+      }
+
+      const success = await addItem(wixClient, productId, variantId, quantity);
+
+      if (success) {
+        toast.success("Item added to cart successfully!");
+        // Optionally reset quantity after successful add
+        setQuantity(1);
+      } else {
+        throw new Error("Failed to add item to cart");
+      }
+    } catch (error) {
+      console.error("Add to cart error:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to add item to cart. Please try again."
+      );
+    } finally {
+      setIsAddingToCart(false);
     }
   };
+
+  const isDisabled =
+    isLoading ||
+    isAddingToCart ||
+    !allOptionsSelected ||
+    quantity > stockNumber ||
+    !productId;
 
   return (
     <div className="flex flex-col gap-4">
@@ -52,25 +87,27 @@ const Add: React.FC<AddProps> = ({
             <button
               className="cursor-pointer text-xl disabled:cursor-not-allowed disabled:opacity-20"
               onClick={() => handleQuantity("d")}
-              disabled={quantity === 1}
+              disabled={quantity === 1 || isAddingToCart}
+              aria-label="Decrease quantity"
             >
               -
             </button>
-            {quantity}
+            <span aria-label="Current quantity">{quantity}</span>
             <button
               className="cursor-pointer text-xl disabled:cursor-not-allowed disabled:opacity-20"
               onClick={() => handleQuantity("i")}
-              disabled={quantity === stockNumber}
+              disabled={quantity === stockNumber || isAddingToCart}
+              aria-label="Increase quantity"
             >
               +
             </button>
           </div>
           <button
             onClick={handleAddToCart}
-            disabled={isLoading || !allOptionsSelected}
+            disabled={isDisabled}
             className="w-48 text-sm rounded-3xl ring-1 ring-slate-800 text-slate-900 py-3 px-2 hover:bg-slate-800 hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200 disabled:ring-0 disabled:text-white disabled:ring-none"
           >
-            Add to Cart
+            {isAddingToCart ? "Adding..." : "Add to Cart"}
           </button>
         </div>
         <AnimatePresence>
@@ -79,7 +116,8 @@ const Add: React.FC<AddProps> = ({
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="text-xs text-slate-700 mt-2"
+              className="text-xs text-red-600 mt-2"
+              role="alert"
             >
               Please select {missingOptions?.join(" and ")} to add to cart.
             </motion.div>
