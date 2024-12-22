@@ -271,7 +271,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   <div className="flex items-center">
                     <Package className="w-5 h-5 mr-2 text-gray-400" />
                     <span className="text-sm text-gray-500">
-                      Order tracking number provided upon shipment.
+                      Order Tracking Number Provided Upon Shipment.
                     </span>
                   </div>
                 </div>
