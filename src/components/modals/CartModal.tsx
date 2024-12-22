@@ -68,7 +68,7 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
       ref={modalRef}
       className="w-80 md:w-[26rem] absolute p-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-4 z-20 max-h-[80vh]"
     >
-      {!cart.lineItems || cart.lineItems?.length === 0 ? (
+      {!cart || !cart.lineItems || cart.lineItems?.length === 0 ? (
         <div className="text-center py-8">Your Cart is Empty</div>
       ) : (
         <>
