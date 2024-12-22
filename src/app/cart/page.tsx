@@ -76,7 +76,7 @@ const ViewCartPage = () => {
     setIsDeleteDialogOpen(false);
   };
 
-  if (!cart.lineItems || cart.lineItems.length === 0) {
+  if (!cart || !cart.lineItems || cart.lineItems.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
         <Alert>
