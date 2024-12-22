@@ -9,7 +9,7 @@ const PolicyDetails = () => {
         {
           title: "1. Shipping Process",
           content:
-            "Once your order is placed, our fulfillment team processes it promptly, and the product is shipped directly to your address. We work closely with trusted suppliers to ensure both timely delivery and high-quality products.",
+            "Once your order is placed, our fulfillment team processes it promptly, and the product is shipped directly to your address. We work closely with trusted suppliers to ensure both timely delivery and high-quality products. Once your order has been shipped, you will receive an email with your order tracking number to monitor your delivery status.",
         },
         {
           title: "2. International Shipping and Timeframes",
