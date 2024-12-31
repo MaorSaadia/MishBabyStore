@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     siteName: "MishBaby",
     images: [
       {
-        url: "https://www.mishbaby.com/og-image.jpg",
+        url: "https://www.mishbaby.com/og-image.png",
         width: 1200,
         height: 630,
       },
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "MishBaby - Baby Products Store",
     description: "Premium baby products, toys, clothing, and accessories",
-    images: ["https://www.mishbaby.com/twitter-image.jpg"],
+    images: ["https://www.mishbaby.com/twitter-image.png"],
   },
 };
 
@@ -101,7 +101,7 @@ export default function RootLayout({
               description: "Premium baby products store",
               url: "https://www.mishbaby.com",
               priceRange: "$$",
-              image: "https://www.mishbaby.com/og-image.jpg",
+              image: "https://www.mishbaby.com/og-image.png",
               potentialAction: {
                 "@type": "SearchAction",
                 target: {
