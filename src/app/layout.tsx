@@ -33,6 +33,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.mishbaby.com",
   },
+  verification: {
+    google: "Oxr0dTqwTA6RsfU0Z2PurQ_CNXOpZeDq-WfL-YTv0Ms",
+  },
   robots: {
     index: true,
     follow: true,
