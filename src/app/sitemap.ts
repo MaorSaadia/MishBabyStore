@@ -7,7 +7,7 @@ async function getWixProducts() {
     // Fetch all products with pagination
     const { items } = await wixClient.products
       .queryProducts()
-      .limit(150)
+      .limit(100)
       .find();
 
     return items || [];
