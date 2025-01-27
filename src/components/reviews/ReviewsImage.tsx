@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
@@ -16,11 +17,10 @@ const ReviewsImage = ({ images }: { images: any[] }) => {
             key={media.id}
             className="aspect-square relative overflow-hidden rounded-md"
           >
-            <Image
+            <img
               src={media.url}
               alt=""
-              fill
-              className="object-cover hover:scale-105 transition-transform duration-200 cursor-pointer"
+              className="object-cover hover:scale-105 transition-transform duration-200 cursor-pointer w-full h-full"
               onClick={() => setSelectedImage(media.url)}
             />
           </div>
@@ -31,15 +31,13 @@ const ReviewsImage = ({ images }: { images: any[] }) => {
         open={!!selectedImage}
         onOpenChange={() => setSelectedImage(null)}
       >
-        <DialogContent className="h-[90vh] p-2">
-          <div className="relative w-full h-full">
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] p-4">
+          <div className="relative flex items-center justify-center w-full h-full">
             {selectedImage && (
-              <Image
+              <img
                 src={selectedImage}
                 alt="Enlarged review image"
-                fill
-                className="p-8"
-                priority
+                className="max-w-full max-h-[80vh] object-contain rounded-lg"
               />
             )}
           </div>
