@@ -18,6 +18,11 @@ const faqs: FAQ[] = [
       "Once you place an order, our fulfillment team processes it, and the product is shipped directly to your address. We work with trusted suppliers to ensure prompt delivery and high-quality products.",
   },
   {
+    question: "Do you ship internationally?",
+    answer:
+      "Yes, we offer free international shipping to most countries. Delivery times may vary based on your location. However, please note that there are some countries we cannot ship to due to regulations. You can check our shipping restrictions page for the complete list.",
+  },
+  {
     question: "How long does shipping take?",
     answer:
       "Shipping times depend on your location and the product's availability. Typically, orders are delivered within 7-21 business days.",
@@ -75,7 +80,7 @@ const faqs: FAQ[] = [
   {
     question: "How do I contact customer support?",
     answer:
-      "You can reach our customer support team through the Customer Support page or by emailing support@[yourwebsite].com. We aim to respond to all inquiries within 24 hours.",
+      "You can reach our customer support team through the Customer Support page. We aim to respond to all inquiries within 24 hours.",
   },
   {
     question: "Do you offer discounts or promotions?",

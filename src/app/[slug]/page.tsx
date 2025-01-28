@@ -16,6 +16,7 @@ import SizeGuide from "@/components/SizeGuide";
 import Reviews from "@/components/reviews/Reviews";
 import ReviewsClickable from "@/components/reviews/ReviewsClickable";
 import Loader from "@/components/Loader";
+import Link from "next/link";
 
 interface PageProps {
   params: { slug: string };
@@ -253,7 +254,13 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   <div className="flex items-center">
                     <Truck className="w-5 h-5 mr-2 text-gray-400" />
                     <span className="text-sm text-gray-500">
-                      Free Shipping.
+                      <Link
+                        href="/shipping-restrictions"
+                        className="text-cyan-600 hover:underline"
+                      >
+                        Free Shipping
+                      </Link>{" "}
+                      on all orders. Check if your country is eligible.
                     </span>
                   </div>
                   <div className="flex items-center">

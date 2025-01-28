@@ -123,9 +123,12 @@ const Footer = () => {
                 <ul className="space-y-2 text-sm">
                   {[
                     { href: "/faq", label: "FAQ" },
-                    { href: "/about-us", label: "About Us" },
                     { href: "/order-tracking", label: "Order Tracking" },
                     { href: "/customer-service", label: "Customer Service" },
+                    {
+                      href: "/shipping-restrictions",
+                      label: "Shipping Restrictionss",
+                    },
                     {
                       href: "/affiliate-program",
                       label: "Become an Affiliate",
