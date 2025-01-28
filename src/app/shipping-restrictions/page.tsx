@@ -25,7 +25,7 @@ const NonShippingCountriesPage = () => {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-4">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Shipping Restrictions
           </h1>
@@ -36,7 +36,7 @@ const NonShippingCountriesPage = () => {
         </div>
 
         {/* Free Shipping Alert */}
-        <Alert className="mb-8 bg-green-50 border-green-200">
+        {/* <Alert className="mb-8 bg-green-50 border-green-200">
           <Truck className="h-5 w-5 text-green-600" />
           <AlertTitle className="text-green-800">
             Free Worldwide Shipping
@@ -46,7 +46,7 @@ const NonShippingCountriesPage = () => {
             typically range from 7-21 business days, depending on your location
             and product availability.
           </AlertDescription>
-        </Alert>
+        </Alert> */}
 
         {/* Main Alert */}
         <Alert className="mb-8 bg-yellow-50 border-yellow-200">
