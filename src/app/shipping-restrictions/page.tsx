@@ -11,6 +11,7 @@ const NonShippingCountriesPage = () => {
     "Cuba",
     "French Southern and Antarctic Lands",
     "Heard Island and McDonald Islands",
+    "India",
     "Iran",
     "North Korea",
     "Pitcairn Islands",
@@ -18,7 +19,6 @@ const NonShippingCountriesPage = () => {
     "Syria",
     "Tokelau",
     "Western Sahara",
-    "India",
   ];
 
   return (
