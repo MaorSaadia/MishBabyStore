@@ -16,15 +16,13 @@ const wixClient = createClient({
     currentCart,
     redirects,
   },
-  auth: refreshToken
-    ? OAuthStrategy({
-        clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID!,
-        tokens: {
-          refreshToken,
-          accessToken: { value: "", expiresAt: 0 },
-        },
-      })
-    : undefined, // Don't use OAuth strategy if no refresh token exists
+  auth: OAuthStrategy({
+    clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID!,
+    tokens: {
+      refreshToken,
+      accessToken: { value: "", expiresAt: 0 },
+    },
+  }),
 });
 
 export type WixClient = typeof wixClient;
