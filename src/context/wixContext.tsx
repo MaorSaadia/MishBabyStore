@@ -7,7 +7,10 @@ import { currentCart } from "@wix/ecom";
 import { redirects } from "@wix/redirects";
 import Cookies from "js-cookie";
 
-const refreshToken = JSON.parse(Cookies.get("refreshToken") || "{}");
+// Only get the refresh token if it exists
+const refreshToken = Cookies.get("refreshToken")
+  ? JSON.parse(Cookies.get("refreshToken")!)
+  : null;
 
 const wixClient = createClient({
   modules: {
@@ -16,13 +19,16 @@ const wixClient = createClient({
     currentCart,
     redirects,
   },
-  auth: OAuthStrategy({
-    clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID!,
-    tokens: {
-      refreshToken,
-      accessToken: { value: "", expiresAt: 0 },
-    },
-  }),
+  auth: refreshToken
+    ? OAuthStrategy({
+        clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID!,
+
+        tokens: {
+          refreshToken,
+          accessToken: { value: "", expiresAt: 0 },
+        },
+      })
+    : undefined, // Don't use OAuth strategy if no refresh token exists
 });
 
 export type WixClient = typeof wixClient;
