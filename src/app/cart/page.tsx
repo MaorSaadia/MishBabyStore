@@ -33,24 +33,27 @@ const ViewCartPage = () => {
   const [itemToDelete, setItemToDelete] = useState(null);
 
   const handleCheckout = async () => {
-    const checkout = await wixClient.currentCart.createCheckoutFromCurrentCart({
-      channelType: currentCart.ChannelType.WEB,
-    });
+    try {
+      const checkout =
+        await wixClient.currentCart.createCheckoutFromCurrentCart({
+          channelType: currentCart.ChannelType.WEB,
+        });
 
-    const { redirectSession } = await wixClient.redirects.createRedirectSession(
-      {
-        ecomCheckout: { checkoutId: checkout.checkoutId },
-        callbacks: {
-          postFlowUrl: window.location.href,
-          thankYouPageUrl: process.env.SITE_URL + "/success",
-        },
+      const { redirectSession } =
+        await wixClient.redirects.createRedirectSession({
+          ecomCheckout: { checkoutId: checkout.checkoutId },
+          callbacks: {
+            postFlowUrl: window.location.origin,
+            thankYouPageUrl: `${window.location.origin}/success`,
+          },
+        });
+
+      if (redirectSession?.fullUrl) {
+        window.location.href = redirectSession.fullUrl;
       }
-    );
-
-    if (!redirectSession) {
-      throw Error("Failed to create redirect session");
+    } catch (err) {
+      console.error(err);
     }
-    return redirectSession.fullUrl;
   };
 
   const handleQuantityChange = (itemId: string, newQuantity: number) => {
