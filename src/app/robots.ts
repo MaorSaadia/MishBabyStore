@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/admin/", "/private/"],
+      // disallow: ["/api/", "/admin/", "/private/"],
     },
     sitemap: "https://www.mishbaby.com/sitemap.xml",
   };

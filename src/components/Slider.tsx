@@ -1,179 +1,268 @@
 "use client";
 
-import { useState, useEffect, useRef, TouchEvent } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence, PanInfo, Variants } from "framer-motion";
+import { ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { useGiveawayStore } from "./GiveawayAnnouncement";
+interface Slide {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  img: string;
+  url: string;
+  accent: string;
+  bg: string;
+}
 
-const slides = [
-  // {
-  //   id: 0,
-  //   title: "Special Giveaway",
-  //   description: "Win Amazing Prizes!",
-  //   img: "/announcement-giveaway.png",
-  //   url: "#",
-  //   bg: "bg-gradient-to-r from-gray-50 to-cyan-100",
-  //   isGiveaway: true,
-  // },
+const slides: Slide[] = [
   {
     id: 1,
     title: "Baby Clothing",
-    description: "Sale! Up to 50% off!",
+    subtitle: "NEW COLLECTION 2025",
+    description: "Luxury Organic Cotton | Up to 50% Off",
     img: "/slides/Baby-Clothing.jpeg",
     url: "/list?cat=baby-clothing&filter=Sale",
-    bg: "bg-gradient-to-r from-cyan-50 to-blue-100",
+    accent: "text-rose-600",
+    bg: "bg-rose-50",
   },
   {
     id: 2,
     title: "Toys & Games",
-    description: "Explore Our Collection",
+    subtitle: "PLAYTIME ESSENTIALS",
+    description: "Educational & Fun | Premium Selection",
     img: "/slides/Toys-Games.jpeg",
     url: "/list?cat=toys-games",
-    bg: "bg-gradient-to-r from-blue-50 to-rose-50",
+    accent: "text-blue-600",
+    bg: "bg-blue-50",
   },
   {
     id: 3,
     title: "Nursery Decor",
-    description: "Create Magical Spaces",
+    subtitle: "DESIGNER COLLECTION",
+    description: "Transform Their Space | Limited Time",
     img: "/slides/Nursery-Decor.jpeg",
     url: "/list?cat=nursery-decor",
-    bg: "bg-gradient-to-r from-gray-50 to-orange-100",
+    accent: "text-amber-600",
+    bg: "bg-amber-50",
   },
   {
     id: 4,
     title: "Room Lighting",
-    description: "Discover Charming Night Lights",
+    subtitle: "AMBIENT SERIES",
+    description: "Smart & Stylish | New Arrivals",
     img: "/slides/Baby-Gadgets.jpeg",
     url: "/list?cat=night-lights-room-lighting",
-    bg: "bg-gradient-to-r from-sky-100 to-amber-100",
+    accent: "text-purple-600",
+    bg: "bg-purple-50",
   },
 ];
 
-const Slider = () => {
-  const [current, setCurrent] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
+const slideVariants: Variants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 1000 : -1000,
+    opacity: 0,
+    scale: 0.9,
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+    scale: 1,
+  },
+  exit: (direction: number) => ({
+    zIndex: 0,
+    x: direction < 0 ? 1000 : -1000,
+    opacity: 0,
+    scale: 0.9,
+  }),
+};
 
-  const { showGiveaway } = useGiveawayStore();
+const textVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      delay: 0.2,
+    },
+  },
+};
 
-  const handleSlideClick = (slide: { isGiveaway: any }) => {
-    if (slide.isGiveaway) {
-      showGiveaway();
-    }
+const imageVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 1.1,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+    },
+  },
+};
+
+const Slider: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [direction, setDirection] = useState<number>(0);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
+  const swipeConfidenceThreshold = 10000;
+  const swipePower = (offset: number, velocity: number): number => {
+    return Math.abs(offset) * velocity;
+  };
+
+  const paginate = (newDirection: number): void => {
+    setDirection(newDirection);
+    setCurrentIndex(
+      (prevIndex) => (prevIndex + newDirection + slides.length) % slides.length
+    );
   };
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | undefined;
-    if (isAutoPlaying) {
-      interval = setInterval(() => {
-        setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-      }, 9000);
-    }
-    return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+    if (isHovered) return;
+    const timer = setInterval(() => paginate(1), 5000);
+    return () => clearInterval(timer);
+  }, [isHovered]);
 
-  const nextSlide = () => {
-    setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  };
-
-  const prevSlide = () => {
-    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
-
-  const handleTouchStart = (e: TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchMove = (e: TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    if (touchStartX.current - touchEndX.current > 75) {
-      nextSlide();
-    }
-
-    if (touchEndX.current - touchStartX.current > 75) {
-      prevSlide();
+  const handleDragEnd = (
+    _: MouseEvent | TouchEvent | PointerEvent,
+    { offset, velocity }: PanInfo
+  ): void => {
+    const swipe = swipePower(offset.x, velocity.x);
+    if (swipe < -swipeConfidenceThreshold) {
+      paginate(1);
+    } else if (swipe > swipeConfidenceThreshold) {
+      paginate(-1);
     }
   };
 
   return (
     <div
-      className="relative h-[calc(100vh-80px)] md:h-[calc(70vh-80px)] overflow-hidden"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      className="relative h-[calc(100vh-80px)] md:h-[calc(80vh-80px)] overflow-hidden bg-gray-50"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <div
-        className="w-full h-full flex transition-transform duration-700 ease-in-out"
-        style={{ transform: `translateX(-${current * 100}%)` }}
-      >
-        {slides.map((slide) => (
+      <AnimatePresence initial={false} custom={direction} mode="wait">
+        <motion.div
+          key={currentIndex}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: "spring", stiffness: 300, damping: 30 },
+            opacity: { duration: 0.4 },
+            scale: { duration: 0.4 },
+          }}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={1}
+          onDragEnd={handleDragEnd}
+          className="absolute w-full h-full"
+        >
           <div
-            className={`${slide.bg} w-full h-full flex-shrink-0 flex flex-col md:flex-row items-center justify-center p-8 md:p-16`}
-            key={slide.id}
+            className={`w-full h-full flex flex-col md:flex-row ${slides[currentIndex].bg}`}
           >
-            <div className="w-full md:w-1/2 text-center md:text-left mb-8 md:mb-0">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl mb-4">
-                {slide.description}
-              </h2>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                {slide.title}
-              </h1>
-              <Link href={slide.url}>
-                <button className="bg-black text-white py-3 px-6 rounded-full hover:bg-gray-800 transition-colors duration-300">
-                  SHOP NOW
-                </button>
-              </Link>
+            <div className="relative w-full md:w-1/2 h-1/2 md:h-full order-2 md:order-1">
+              <motion.div
+                variants={textVariants}
+                initial="hidden"
+                animate="visible"
+                className="absolute inset-0 p-8 md:p-16 flex flex-col justify-center"
+              >
+                <span
+                  className={`text-sm md:text-base font-medium tracking-widest ${slides[currentIndex].accent}`}
+                >
+                  {slides[currentIndex].subtitle}
+                </span>
+                <h1 className="mt-4 text-4xl md:text-7xl font-bold text-gray-900 leading-tight">
+                  {slides[currentIndex].title}
+                </h1>
+                <p className="mt-4 text-lg md:text-xl text-gray-600">
+                  {slides[currentIndex].description}
+                </p>
+                <Link href={slides[currentIndex].url} className="mt-8">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group relative flex items-center gap-2 px-8 py-4 bg-gray-900 text-white rounded-full overflow-hidden"
+                  >
+                    <span className="relative z-10">Shop Collection</span>
+                    <ShoppingBag className="w-5 h-5 relative z-10" />
+                    <motion.div
+                      className={`absolute inset-0 ${slides[currentIndex].accent} opacity-0 group-hover:opacity-100`}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </motion.button>
+                </Link>
+              </motion.div>
             </div>
-            <div className="w-full md:w-1/2 h-64 md:h-full relative">
-              <Image
-                src={slide.img}
-                alt={slide.title}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="rounded-lg shadow-lg"
-              />
+
+            <div className="relative w-full md:w-1/2 h-1/2 md:h-full order-1 md:order-2">
+              <motion.div
+                variants={imageVariants}
+                initial="hidden"
+                animate="visible"
+                className="relative w-full h-full"
+              >
+                <Image
+                  src={slides[currentIndex].img}
+                  alt={slides[currentIndex].title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+              </motion.div>
             </div>
           </div>
-        ))}
-      </div>
+        </motion.div>
+      </AnimatePresence>
 
-      <button
-        onClick={prevSlide}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/50 hover:bg-white/80 rounded-full p-2 transition-colors duration-300"
-      >
-        <ChevronLeft size={24} />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/50 hover:bg-white/80 rounded-full p-2 transition-colors duration-300"
-      >
-        <ChevronRight size={24} />
-      </button>
-
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
         {slides.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrent(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              current === index ? "bg-black scale-125" : "bg-gray-300"
+            onClick={() => {
+              setDirection(index > currentIndex ? 1 : -1);
+              setCurrentIndex(index);
+            }}
+            className={`h-1 transition-all duration-300 rounded-full ${
+              index === currentIndex
+                ? "w-8 bg-gray-900"
+                : "w-4 bg-gray-400 hover:bg-gray-600"
             }`}
           />
         ))}
       </div>
 
-      <button
-        onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-        className="absolute bottom-4 right-4 bg-white/50 hover:bg-white/80 rounded-full p-2 transition-colors duration-300"
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => paginate(-1)}
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg z-10"
       >
-        {isAutoPlaying ? "❚❚" : "▶"}
-      </button>
+        <ChevronLeft className="w-6 h-6" />
+      </motion.button>
+
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => paginate(1)}
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg z-10"
+      >
+        <ChevronRight className="w-6 h-6" />
+      </motion.button>
     </div>
   );
 };
