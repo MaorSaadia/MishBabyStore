@@ -26,7 +26,7 @@ const slides: Slide[] = [
     img: "/slides/Baby-Clothing.jpeg",
     url: "/list?cat=baby-clothing&filter=Sale",
     accent: "text-rose-600",
-    bg: "bg-rose-50",
+    bg: "bg-cyan-50",
   },
   {
     id: 2,
