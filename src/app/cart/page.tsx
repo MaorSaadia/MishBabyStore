@@ -42,10 +42,10 @@ const ViewCartPage = () => {
       const { redirectSession } =
         await wixClient.redirects.createRedirectSession({
           ecomCheckout: { checkoutId: checkout.checkoutId },
-          callbacks: {
-            postFlowUrl: window.location.origin,
-            thankYouPageUrl: `${window.location.origin}/success`,
-          },
+          // callbacks: {
+          //   postFlowUrl: window.location.origin,
+          //   thankYouPageUrl: `${window.location.origin}/success`,
+          // },
         });
 
       if (redirectSession?.fullUrl) {
