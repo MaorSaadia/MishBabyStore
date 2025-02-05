@@ -80,6 +80,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <WixClientContextProvider>
           <GiveawayProvider>
+            <Script
+              src="https://cloud.umami.is/script.js"
+              data-website-id="7e575a4d-d8b0-4ff1-9600-11b31543ae15"
+              strategy="beforeInteractive"
+            />
             <Analytics />
             <LoginModal />
             <RegisterModal />
