@@ -41,7 +41,8 @@ export async function POST(request: Request) {
         address: "no-reply@mishbabyshop.com",
       },
       to: data.customerEmail,
-      subject: "Complete Your Purchase - Special Discount Inside!",
+      subject:
+        "We Noticed You Left Something Behind! - Special Discount Inside!",
       html: emailHtml,
     });
 
