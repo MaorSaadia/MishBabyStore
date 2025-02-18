@@ -22,7 +22,7 @@ interface AbandonedCartEmailProps {
 
 export const AbandonedCartEmail: React.FC<AbandonedCartEmailProps> = ({
   customerName = "",
-  discountCode = "discount15",
+  discountCode = "dbrt15dis",
   cartUrl = "",
 }) => (
   <Html>
