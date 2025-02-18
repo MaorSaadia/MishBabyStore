@@ -1,4 +1,3 @@
-// app/api/emails/abandoned-cart/route.ts
 import React from "react";
 import { NextResponse } from "next/server";
 import { render } from "@react-email/render";
@@ -11,15 +10,6 @@ interface AbandonedCartData {
   customerName?: string;
   discountCode: string;
   cartUrl: string;
-  items?: {
-    name: string;
-    quantity: number;
-    price: number;
-    size?: string;
-    color?: string;
-    type?: string;
-  }[];
-  orderTotal?: number;
 }
 
 export async function POST(request: Request) {
@@ -46,8 +36,12 @@ export async function POST(request: Request) {
     // Send email
     await transporter.sendMail({
       ...mailOptions,
+      from: {
+        name: "MishBaby",
+        address: "mishbabyshop@gmail.com",
+      },
       to: data.customerEmail,
-      subject: "Complete Your Purchase - Special Discount Inside! 🛍️",
+      subject: "Complete Your Purchase - Special Discount Inside!",
       html: emailHtml,
     });
 

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 
 interface FormData {
   customerEmail: string;
+  customerName?: string;
   discountCode: string;
   cartUrl: string;
 }
@@ -42,6 +43,7 @@ const AbandonedCartEmailForm = () => {
 
       toast.success("Recovery email sent successfully!");
       setFormData({
+        customerName: "",
         customerEmail: "",
         discountCode: "",
         cartUrl: "",
@@ -74,6 +76,21 @@ const AbandonedCartEmailForm = () => {
           </CardHeader>
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Customer Name
+                </label>
+                <Input
+                  type="text"
+                  value={formData.customerName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, customerEmail: e.target.value })
+                  }
+                  className="h-12"
+                  placeholder="Full Name"
+                  required
+                />
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Customer Email
