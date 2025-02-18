@@ -3,6 +3,7 @@ import {
   Container,
   Head,
   Heading,
+  Hr,
   Html,
   Img,
   Link,
@@ -10,6 +11,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import { Tailwind } from "@react-email/tailwind";
 import * as React from "react";
 
 interface AbandonedCartEmailProps {
@@ -19,79 +21,82 @@ interface AbandonedCartEmailProps {
 }
 
 export const AbandonedCartEmail: React.FC<AbandonedCartEmailProps> = ({
-  customerName = "there",
-  discountCode = "WELCOME10",
-  cartUrl = "https://mishbaby.com/cart",
+  customerName = "",
+  discountCode = "discount15",
+  cartUrl = "",
 }) => (
   <Html>
     <Head />
-    <Preview>
-      Don&apos;t miss out! Complete your purchase and save {discountCode} today!
-    </Preview>
-    <Body className="bg-gray-50 font-sans">
-      <Container className="bg-white mx-auto p-8 max-w-[600px] rounded-lg shadow-sm">
-        {/* Header Section */}
-        <Section className="text-center mb-8">
+    <Preview>Complete your purchase and save {discountCode} today!</Preview>
+    <Tailwind>
+      <Body className="bg-white font-sans">
+        <Container className="mx-auto px-4 py-6 max-w-[500px]">
+          {/* Logo */}
           <Img
-            src="/mb-logo.png"
-            width="120"
-            height="120"
+            src="https://static.wixstatic.com/media/f33a90_eae077b5b3c2407582b7eb6ad1db5934~mv2.png"
+            width="80"
+            height="80"
             alt="MishBaby"
             className="mx-auto mb-6"
           />
-          <Heading className="text-3xl font-bold text-gray-900 mb-2">
-            Your Cart Misses You!
-          </Heading>
-          <Text className="text-gray-500 text-lg">
-            We saved your items just for you
-          </Text>
-        </Section>
 
-        {/* Main Content */}
-        <Section className="my-8">
-          <Text className="text-gray-700 text-lg mb-4">
-            Hello {customerName},
-          </Text>
-          <Text className="text-gray-700 text-lg leading-relaxed mb-4">
-            We noticed you haven&apos;t completed your purchase. The items in
-            your cart are waiting for you, and we want to make sure you
-            don&apos;t miss out on these amazing products.
-          </Text>
-
-          {/* Discount Section */}
-          <Section className="bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-xl my-8 p-8 text-center">
-            <Text className="text-gray-700 text-lg mb-4">
-              Here&apos;s an exclusive discount code just for you:
-            </Text>
-            <Text className="text-cyan-600 text-4xl font-bold mb-2">
-              {discountCode}
-            </Text>
-            <Text className="text-gray-500 text-sm">
-              Use this code at checkout to save on your purchase
+          {/* Main Content */}
+          <Section className="text-center mb-6">
+            <Heading className="text-2xl font-bold text-cyan-900 mb-3">
+              Your Cart Misses You!
+            </Heading>
+            <Text className="text-gray-600 text-base mb-6 px-2">
+              Looks like you left something behind. Return to your cart to
+              complete your MishBaby purchase.
             </Text>
           </Section>
 
-          {/* CTA Button */}
-          <Section className="text-center my-8">
-            <Link
-              href={cartUrl}
-              className="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-cyan-600 hover:to-blue-600 transition-colors duration-200 no-underline"
-            >
-              Complete Your Purchase →
-            </Link>
-          </Section>
+          {/* Centered Sections Container */}
+          <Section className="text-center mb-6 justify-center">
+            {/* Discount and Button grouped together */}
+            <div className="w-full max-w-[500px] mx-auto">
+              {/* Discount Section */}
+              <Section className="bg-cyan-50 rounded-lg p-5 mb-6 text-center">
+                <Text className="text-cyan-900 text-lg mb-3">
+                  Exclusive offer just for you:
+                </Text>
+                <Text className="text-cyan-700 text-3xl font-bold mb-2 tracking-wide">
+                  {discountCode}
+                </Text>
+                <Text className="text-cyan-600 text-base mb-2">
+                  Use this code at checkout to save on your purchase
+                </Text>
+                <Text className="text-gray-500 text-sm font-medium">
+                  This exclusive offer is valid for the next 48 hours.
+                </Text>
+              </Section>
 
-          {/* Footer Section */}
-          <Section className="mt-12 pt-8 border-t border-gray-200">
-            <Text className="text-gray-500 text-sm text-center">
-              This exclusive offer is valid for the next 48 hours. If you have
-              any questions, please don&apos;t hesitate to contact our customer
-              support team.
+              {/* CTA Button */}
+              <Link
+                href={cartUrl}
+                className="inline-block bg-cyan-600 text-white px-6 py-3 rounded-lg font-semibold text-base text-center no-underline"
+              >
+                RETURN TO CART
+              </Link>
+            </div>
+          </Section>
+          <Hr className="border-gray-500 my-2" />
+
+          {/* Footer */}
+          <Section className="text-center text-gray-500 text-sm">
+            <Text>
+              Need help? Contact us at our{" "}
+              <Link
+                href="https://mishbaby.com/customer-service"
+                className="text-cyan-600 no-underline"
+              >
+                Customer Support
+              </Link>
             </Text>
           </Section>
-        </Section>
-      </Container>
-    </Body>
+        </Container>
+      </Body>
+    </Tailwind>
   </Html>
 );
 

@@ -17,6 +17,7 @@ interface FormData {
 
 const AbandonedCartEmailForm = () => {
   const [formData, setFormData] = useState<FormData>({
+    customerName: "",
     customerEmail: "",
     discountCode: "",
     cartUrl: "",
@@ -76,7 +77,7 @@ const AbandonedCartEmailForm = () => {
           </CardHeader>
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Customer Name
                 </label>
@@ -88,9 +89,8 @@ const AbandonedCartEmailForm = () => {
                   }
                   className="h-12"
                   placeholder="Full Name"
-                  required
                 />
-              </div>
+              </div> */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Customer Email

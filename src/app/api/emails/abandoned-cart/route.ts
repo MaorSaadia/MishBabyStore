@@ -38,7 +38,7 @@ export async function POST(request: Request) {
       ...mailOptions,
       from: {
         name: "MishBaby",
-        address: "mishbabyshop@gmail.com",
+        address: "no-reply@mishbabyshop.com",
       },
       to: data.customerEmail,
       subject: "Complete Your Purchase - Special Discount Inside!",
