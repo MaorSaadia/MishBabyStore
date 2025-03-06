@@ -21,13 +21,14 @@ interface AbandonedCartEmailProps {
 }
 
 export const AbandonedCartEmail: React.FC<AbandonedCartEmailProps> = ({
-  customerName = "",
+  customerName = "there",
   discountCode = "dbrt15dis",
   cartUrl = "",
 }) => (
   <Html>
     <Head />
-    <Preview>Complete your purchase and save {discountCode} today!</Preview>
+    <Preview>Complete your MishBaby purchase with code {discountCode}</Preview>
+
     <Tailwind>
       <Body className="bg-white font-sans">
         <Container className="mx-auto px-4 py-6 max-w-[500px]">
@@ -40,16 +41,12 @@ export const AbandonedCartEmail: React.FC<AbandonedCartEmailProps> = ({
             className="mx-auto mb-6"
           />
 
-          {/* Main Content */}
-          <Section className="text-center mb-6">
-            <Heading className="text-2xl font-bold text-cyan-900 mb-3">
-              Your Cart Misses You!
-            </Heading>
-            <Text className="text-gray-600 text-base mb-6 px-2">
-              Looks like you left something behind. Return to your cart to
-              complete your MishBaby purchase.
-            </Text>
-          </Section>
+          <Text className="text-cyan-900 text-xl mb-3">Hi {customerName},</Text>
+          <Text className="text-cyan-700 text-base mb-2">
+            We noticed that you left some items in your MishBaby cart. To
+            encourage you to complete your purchase, we&apos;re offering you a
+            special discount code:
+          </Text>
 
           {/* Centered Sections Container */}
           <Section className="text-center mb-6 justify-center">
@@ -58,16 +55,13 @@ export const AbandonedCartEmail: React.FC<AbandonedCartEmailProps> = ({
               {/* Discount Section */}
               <Section className="bg-cyan-50 rounded-lg p-5 mb-6 text-center">
                 <Text className="text-cyan-900 text-lg mb-3">
-                  Exclusive offer just for you:
+                  Your special discount:
                 </Text>
                 <Text className="text-cyan-700 text-3xl font-bold mb-2 tracking-wide">
                   {discountCode}
                 </Text>
                 <Text className="text-cyan-600 text-base mb-2">
                   Use this code at checkout to save on your purchase
-                </Text>
-                <Text className="text-gray-500 text-sm font-medium">
-                  This exclusive offer is valid for the next 48 hours.
                 </Text>
               </Section>
 
@@ -76,7 +70,7 @@ export const AbandonedCartEmail: React.FC<AbandonedCartEmailProps> = ({
                 href={cartUrl}
                 className="inline-block bg-cyan-600 text-white px-6 py-3 rounded-lg font-semibold text-base text-center no-underline"
               >
-                RETURN TO CART
+                Return to Cart
               </Link>
             </div>
           </Section>
@@ -94,6 +88,16 @@ export const AbandonedCartEmail: React.FC<AbandonedCartEmailProps> = ({
               </Link>
             </Text>
           </Section>
+          {/* <Text className="text-gray-500 text-sm">
+            If you no longer wish to receive these emails, please{" "}
+            <Link
+              href="https://mishbaby.com/unsubscribe"
+              className="text-cyan-600 no-underline"
+            >
+              click here
+            </Link>
+            to opt out.
+          </Text> */}
         </Container>
       </Body>
     </Tailwind>

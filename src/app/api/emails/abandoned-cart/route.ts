@@ -38,12 +38,12 @@ export async function POST(request: Request) {
       ...mailOptions,
       from: {
         name: "MishBaby",
-        address: "no-reply@mishbabyshop.com",
+        address: "mishbabyshop@gmail.com",
       },
       to: data.customerEmail,
-      subject:
-        "We Noticed You Left Something Behind! - Special Discount Inside!",
+      subject: `Complete your MishBaby purchase with ${data.discountCode}`,
       html: emailHtml,
+      replyTo: "mishbabyshop@gmail.com",
     });
 
     return NextResponse.json(
