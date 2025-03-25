@@ -1,162 +1,266 @@
-import Image from "next/image";
-import { Star, StarHalf } from "lucide-react";
+/* eslint-disable @next/next/no-img-element */
+"use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import ReviewsImage from "./ReviewsImage";
+import { useState, useEffect } from "react";
+
+import { Review } from "@/lib/reviewUtils";
+import StarRating from "./StarRating";
 
 interface ReviewsProps {
   productId: string;
-  isAverageRating?: boolean;
+  productSlug?: string;
 }
 
-const Reviews: React.FC<ReviewsProps> = async ({
-  productId,
-  isAverageRating,
-}) => {
-  const reviewRes = await fetch(
-    `https://api.fera.ai/v3/public/reviews?product.id=${productId}&public_key=${process.env.NEXT_PUBLIC_FERA_ID}`
+interface ReviewsData {
+  reviews: Review[];
+  totalReviews: number;
+  averageRating: number;
+  ratingDistribution: Record<number, number>;
+}
+
+const Reviews = ({ productId, productSlug }: ReviewsProps) => {
+  const [data, setData] = useState<ReviewsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState(0); // 0 means all reviews
+  const [helpfulClicked, setHelpfulClicked] = useState<Record<string, boolean>>(
+    {}
   );
-  const reviews = await reviewRes.json();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Calculate average rating
-  const averageRating =
-    reviews.data.reduce((acc: number, review: any) => acc + review.rating, 0) /
-      reviews.data.length || 0;
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        if (!productSlug) return;
 
-  const initialReviews = reviews.data.slice(0, 5);
-  const hasMoreReviews = reviews.data.length > 5;
+        const response = await fetch(`/api/reviews/${productSlug}`);
+        const responseData = await response.json();
+
+        if (responseData.success) {
+          setData(responseData.data);
+        }
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, [productId, productSlug]);
+
+  const handleHelpfulClick = (reviewId: string) => {
+    if (!helpfulClicked[reviewId]) {
+      setHelpfulClicked((prev) => ({ ...prev, [reviewId]: true }));
+
+      // Update the vote count in the UI
+      if (data) {
+        const updatedReviews = data.reviews.map((review) => {
+          if (review.id === reviewId) {
+            return {
+              ...review,
+              voteCount: (review.voteCount || 0) + 1,
+            };
+          }
+          return review;
+        });
+
+        setData({
+          ...data,
+          reviews: updatedReviews,
+        });
+      }
+    }
+  };
+
+  const filteredReviews =
+    data?.reviews.filter(
+      (review) => filter === 0 || review.rating === filter
+    ) || [];
+
+  if (loading) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-6 bg-gray-200 rounded w-1/4"></div>
+        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+        <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+      </div>
+    );
+  }
+
+  if (!data || data.totalReviews === 0) {
+    return (
+      <div className="p-4 bg-gray-50 rounded-lg">
+        <p className="text-center text-gray-500">No reviews yet.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
-      {isAverageRating ? (
-        <RatingSummary
-          averageRating={averageRating}
-          totalReviews={reviews.data.length}
-        />
-      ) : (
-        <div>
-          <div className="space-y-6">
-            {initialReviews.map((review: any) => (
-              <ReviewCard key={review.id} review={review} />
-            ))}
+      {/* Summary */}
+      <div className="md:flex items-start">
+        <div className="md:w-1/3">
+          <div className="flex flex-col items-center p-4 bg-gray-50 rounded-lg">
+            <h3 className="text-2xl font-bold">
+              {data.averageRating.toFixed(1)}
+            </h3>
+            <StarRating
+              rating={data.averageRating}
+              size={24}
+              className="my-2"
+            />
+            <p className="text-sm text-gray-500">
+              Based on {data.totalReviews}{" "}
+              {data.totalReviews === 1 ? "review" : "reviews"}
+            </p>
           </div>
+        </div>
 
-          {hasMoreReviews && (
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="w-full mt-6">
-                  View All {reviews.data.length} Reviews
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle>All Reviews</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-6 py-4">
-                  {reviews.data.map((review: any) => (
-                    <ReviewCard key={review.id} review={review} />
-                  ))}
+        <div className="md:w-2/3 md:pl-8 mt-4 md:mt-0">
+          <h3 className="text-lg font-medium mb-2">Rating Distribution</h3>
+          {[5, 4, 3, 2, 1].map((stars) => {
+            const count = data.ratingDistribution[stars] || 0;
+            const percentage =
+              data.totalReviews > 0 ? (count / data.totalReviews) * 100 : 0;
+
+            return (
+              <div key={`star-${stars}`} className="flex items-center mb-1">
+                <button
+                  onClick={() => setFilter(filter === stars ? 0 : stars)}
+                  className={`text-sm mr-2 ${
+                    filter === stars ? "font-bold" : ""
+                  }`}
+                >
+                  {stars} star{stars !== 1 ? "s" : ""}
+                </button>
+                <div className="flex-grow h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-yellow-400 rounded-full"
+                    style={{ width: `${percentage}%` }}
+                  ></div>
                 </div>
-              </DialogContent>
-            </Dialog>
+                <span className="text-sm ml-2 w-8 text-right">{count}</span>
+              </div>
+            );
+          })}
+
+          {filter > 0 && (
+            <button
+              onClick={() => setFilter(0)}
+              className="text-sm text-cyan-600 hover:underline mt-2"
+            >
+              Show all reviews
+            </button>
           )}
+        </div>
+      </div>
+
+      {/* Filter info */}
+      {filter > 0 && (
+        <div className="text-sm text-gray-600 italic">
+          Showing only {filter}-star reviews ({filteredReviews.length} of{" "}
+          {data.totalReviews})
+        </div>
+      )}
+
+      {/* Reviews list */}
+      <div className="space-y-6 mt-6">
+        {filteredReviews.length === 0 ? (
+          <p className="text-center text-gray-500 py-4">
+            No reviews match the current filter.
+          </p>
+        ) : (
+          filteredReviews.map((review) => (
+            <div key={review.id} className="border-b pb-6">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center">
+                  <div>
+                    <div className="flex items-center">
+                      <span className="font-medium mr-2">
+                        {review.userName}
+                      </span>
+                      {review.country && (
+                        <span className="text-xs text-gray-500">
+                          {review.country}
+                        </span>
+                      )}
+                    </div>
+                    <StarRating rating={review.rating} className="mt-1" />
+                  </div>
+                </div>
+                <div className="text-sm text-gray-500">{review.date}</div>
+              </div>
+
+              {review.skuInfo && (
+                <div className="text-sm text-gray-500 mt-2">
+                  Purchased: {review.skuInfo}
+                </div>
+              )}
+
+              <div className="mt-3">
+                <p className="text-gray-700">{review.translationReview}</p>
+                {/* {review.translationReview &&
+                  review.translationReview !== review.content && (
+                    <div className="mt-1 text-gray-500 text-sm italic">
+                      <span className="font-medium">Translated:</span>{" "}
+                      {review.translationReview}
+                    </div>
+                  )} */}
+              </div>
+
+              {review.images && review.images.length > 0 && (
+                <div className="mt-3">
+                  <div className="flex flex-wrap gap-2">
+                    {review.images.map((image, idx) => (
+                      <div
+                        key={`${review.id}-img-${idx}`}
+                        className="w-16 h-16 rounded overflow-hidden cursor-pointer"
+                        onClick={() => setSelectedImage(image)}
+                      >
+                        <img
+                          src={image}
+                          alt={`Review by ${review.userName}`}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = "/images/placeholder.jpg";
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Image modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div
+            className="relative max-w-3xl max-h-[80vh] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-2 right-2 bg-black bg-opacity-50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-75"
+              onClick={() => setSelectedImage(null)}
+            >
+              ✕
+            </button>
+            <img
+              src={selectedImage}
+              alt="Review image"
+              className="max-w-full max-h-[80vh] object-contain"
+            />
+          </div>
         </div>
       )}
     </div>
-  );
-};
-
-const StarRating = ({ rating }: { rating: number }) => {
-  return (
-    <div className="flex">
-      {Array.from({ length: 5 }).map((_, index) => {
-        const difference = rating - index;
-
-        if (difference >= 1) {
-          // Full star
-          return (
-            <Star
-              key={index}
-              size={16}
-              className="text-yellow-400 fill-yellow-400"
-            />
-          );
-        } else if (difference > 0 && difference < 1) {
-          // Half star
-          return (
-            <StarHalf
-              key={index}
-              size={16}
-              className="text-yellow-400 fill-yellow-400"
-            />
-          );
-        } else {
-          // Empty star
-          return <Star key={index} size={16} className="text-gray-300" />;
-        }
-      })}
-    </div>
-  );
-};
-
-const RatingSummary = ({
-  averageRating,
-  totalReviews,
-}: {
-  averageRating: number;
-  totalReviews: number;
-}) => {
-  return (
-    <div className="mt-2 flex items-center space-x-2 py-2">
-      <div className="flex items-center">
-        <span className="text-2xl font-bold mr-2">
-          {averageRating.toFixed(1)}
-        </span>
-        <StarRating rating={averageRating} />
-      </div>
-      <div className="text-sm text-gray-500">
-        {totalReviews} {totalReviews === 1 ? "review" : "reviews"}
-      </div>
-    </div>
-  );
-};
-
-const ReviewCard = ({ review }: { review: any }) => {
-  return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-4">
-            <div>
-              <h3 className="font-semibold text-lg">
-                {review.customer.display_name === "AliExpress S."
-                  ? "Anonymous"
-                  : review.customer.display_name}
-              </h3>
-              <StarRating rating={review.rating} />
-            </div>
-          </div>
-        </div>
-
-        {review.heading && (
-          <h4 className="font-medium text-lg mb-2">{review.heading}</h4>
-        )}
-
-        <p className="text-gray-700">{review.body}</p>
-
-        {review.media && review.media.length > 0 && (
-          <ReviewsImage images={review.media} />
-        )}
-      </CardContent>
-    </Card>
   );
 };
 

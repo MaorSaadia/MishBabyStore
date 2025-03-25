@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Tag, Heart, Truck, Clock, Package } from "lucide-react";
 import { Metadata } from "next";
 import DOMPurify from "isomorphic-dompurify";
+import Link from "next/link";
 
 import { wixClientServer } from "@/lib/wixClientServer";
 import CustomizeProducts from "@/components/CustomizeProducts";
@@ -13,10 +14,9 @@ import ProductList from "@/components/ProductList";
 import Add from "@/components/Add";
 import PolicyDetails from "@/components/PolicyDetails";
 import SizeGuide from "@/components/SizeGuide";
-// import Reviews from "@/components/reviews/Reviews";
 import ReviewsClickable from "@/components/reviews/ReviewsClickable";
+import Reviews from "@/components/reviews/Reviews";
 import Loader from "@/components/Loader";
-import Link from "next/link";
 
 interface PageProps {
   params: { slug: string };
@@ -213,6 +213,10 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 </div>
 
                 {/* <ReviewsClickable productId={product._id!} /> */}
+                {/* <ReviewsClickable
+                  productId={product._id!}
+                  productSlug={params.slug}
+                /> */}
 
                 {/* Customization or Add to Cart */}
                 <div className="mt-4">
@@ -295,7 +299,10 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   <hr className="mt-4" />
                   <h1 className="mt-4 mb-4 text-2xl">Customer Reviews</h1>
                   <Suspense fallback={<Loader color="text-yellow-400" />}>
-                    <Reviews productId={product._id!} />
+                    <Reviews
+                      productId={product._id!}
+                      productSlug={params.slug}
+                    />
                   </Suspense>
                 </div> */}
               </div>
