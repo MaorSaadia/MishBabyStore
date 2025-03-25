@@ -35,14 +35,6 @@ export async function getProductReviews(
       "reviews.csv"
     );
 
-    console.log("Current working directory:", process.cwd());
-    console.log("Full path being checked:", filePath);
-
-    console.log("Attempting to read reviews from:", filePath);
-
-    const fileExists = fs.existsSync(filePath);
-    console.log("File exists:", fileExists);
-
     // Check if the file exists
     if (!fs.existsSync(filePath)) {
       console.log(`No reviews found for product: ${productSlug}`);
