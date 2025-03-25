@@ -69,31 +69,49 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
 
   // Pagination controls logic
   const renderPaginationButtons = () => {
+    // If totalPages is 5 or less, just show all pages
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1).map(
+        (pageNum) => (
+          <button
+            key={pageNum}
+            onClick={() => paginate(pageNum)}
+            className={`w-6 h-6 sm:w-8 sm:h-8 rounded text-sm ${
+              currentPage === pageNum
+                ? "bg-cyan-600 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            {pageNum}
+          </button>
+        )
+      );
+    }
+
+    // Otherwise, show first page button, ellipses, etc.
     const buttons = [];
     const range = 1; // Number of pages to show around current page
 
     // First page button
-    if (totalPages > 5) {
-      buttons.push(
-        <button
-          key="first"
-          onClick={() => paginate(1)}
-          className={`w-6 h-6 sm:w-8 sm:h-8 rounded text-sm ${
-            currentPage === 1
-              ? "bg-cyan-600 text-white"
-              : "bg-gray-200 text-gray-700"
-          }`}
-        >
-          1
-        </button>
-      );
-    }
+    buttons.push(
+      <button
+        key="first"
+        onClick={() => paginate(1)}
+        className={`w-6 h-6 sm:w-8 sm:h-8 rounded text-sm ${
+          currentPage === 1
+            ? "bg-cyan-600 text-white"
+            : "bg-gray-200 text-gray-700"
+        }`}
+      >
+        1
+      </button>
+    );
 
     // Left ellipsis
     if (currentPage > range + 2) {
       buttons.push(
         <span key="left-ellipsis" className="mx-1">
-          ..
+          ...
         </span>
       );
     }
@@ -122,27 +140,25 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
     if (currentPage < totalPages - (range + 1)) {
       buttons.push(
         <span key="right-ellipsis" className="mx-1">
-          ..
+          ...
         </span>
       );
     }
 
     // Last page button
-    if (totalPages > 5) {
-      buttons.push(
-        <button
-          key="last"
-          onClick={() => paginate(totalPages)}
-          className={`w-6 h-6 sm:w-8 sm:h-8 rounded text-sm ${
-            currentPage === totalPages
-              ? "bg-cyan-600 text-white"
-              : "bg-gray-200 text-gray-700"
-          }`}
-        >
-          {totalPages}
-        </button>
-      );
-    }
+    buttons.push(
+      <button
+        key="last"
+        onClick={() => paginate(totalPages)}
+        className={`w-6 h-6 sm:w-8 sm:h-8 rounded text-sm ${
+          currentPage === totalPages
+            ? "bg-cyan-600 text-white"
+            : "bg-gray-200 text-gray-700"
+        }`}
+      >
+        {totalPages}
+      </button>
+    );
 
     return buttons;
   };
