@@ -177,7 +177,9 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
                   <div>
                     <div className="flex items-center">
                       <span className="font-medium mr-2">
-                        {review.userName}
+                        {review.userName === "AliExpress Shopper"
+                          ? "Anonymous"
+                          : review.userName}
                       </span>
                       {review.country && (
                         <span className="text-xs text-gray-500">
@@ -191,11 +193,11 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
                 <div className="text-sm text-gray-500">{review.date}</div>
               </div>
 
-              {review.skuInfo && (
+              {/* {review.skuInfo && (
                 <div className="text-sm text-gray-500 mt-2">
                   Purchased: {review.skuInfo}
                 </div>
-              )}
+              )} */}
 
               <div className="mt-3">
                 <p className="text-gray-700">{review.translationReview}</p>
@@ -221,10 +223,10 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
                           src={image}
                           alt={`Review by ${review.userName}`}
                           className="w-full h-full object-cover"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = "/images/placeholder.jpg";
-                          }}
+                          // onError={(e) => {
+                          //   const target = e.target as HTMLImageElement;
+                          //   target.src = "/images/placeholder.jpg";
+                          // }}
                         />
                       </div>
                     ))}

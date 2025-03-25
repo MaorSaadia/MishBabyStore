@@ -213,10 +213,10 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 </div>
 
                 {/* <ReviewsClickable productId={product._id!} /> */}
-                {/* <ReviewsClickable
+                <ReviewsClickable
                   productId={product._id!}
                   productSlug={params.slug}
-                /> */}
+                />
 
                 {/* Customization or Add to Cart */}
                 <div className="mt-4">
@@ -295,7 +295,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 {/* Additional Info Sections */}
                 <PolicyDetails />
                 {/* REVIEWS */}
-                {/* <div id="full-reviews">
+                <div id="full-reviews">
                   <hr className="mt-4" />
                   <h1 className="mt-4 mb-4 text-2xl">Customer Reviews</h1>
                   <Suspense fallback={<Loader color="text-yellow-400" />}>
@@ -304,7 +304,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                       productSlug={params.slug}
                     />
                   </Suspense>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
