@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "lucide-react";
 
 import { Review } from "@/lib/reviewUtils";
 import StarRating from "./StarRating";
@@ -24,6 +24,12 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState(0); // 0 means all reviews
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  // New states for image modal
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [reviewImagesForModal, setReviewImagesForModal] = useState<string[]>(
+    []
+  );
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,6 +56,20 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
     fetchReviews();
   }, [productId, productSlug]);
 
+  // Prevent scrolling when modal is open
+  useEffect(() => {
+    if (selectedImage) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    // Cleanup on component unmount
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedImage]);
+
   // Filter reviews based on star rating
   const filteredReviews =
     data?.reviews.filter(
@@ -67,7 +87,27 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
   // Calculate total pages
   const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
 
-  // Pagination controls logic
+  // Image click handler
+  const handleImageClick = (image: string, images: string[], index: number) => {
+    setSelectedImage(image);
+    setReviewImagesForModal(images);
+    setCurrentImageIndex(index);
+  };
+
+  // Image navigation handlers
+  const navigateImages = (direction: "prev" | "next") => {
+    if (direction === "prev") {
+      setCurrentImageIndex((prev) =>
+        prev === 0 ? reviewImagesForModal.length - 1 : prev - 1
+      );
+    } else {
+      setCurrentImageIndex((prev) =>
+        prev === reviewImagesForModal.length - 1 ? 0 : prev + 1
+      );
+    }
+  };
+
+  // Pagination controls logic (previous implementation remains the same)
   const renderPaginationButtons = () => {
     // If totalPages is 5 or less, just show all pages
     if (totalPages <= 5) {
@@ -171,6 +211,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
     setCurrentPage(1);
   }, [filter]);
 
+  // Loading state
   if (loading) {
     return (
       <div className="space-y-4 animate-pulse">
@@ -181,6 +222,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
     );
   }
 
+  // No reviews state
   if (!data || data.totalReviews === 0) {
     return (
       <div className="p-4 bg-gray-50 rounded-lg">
@@ -191,8 +233,9 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
 
   return (
     <div className="space-y-6">
-      {/* Summary - Modified for better mobile responsiveness */}
+      {/* Summary Section */}
       <div className="flex flex-col md:flex-row items-start">
+        {/* Average Rating Section */}
         <div className="w-full md:w-1/3 mb-4 md:mb-0">
           <div className="flex flex-col items-center p-4 bg-gray-50 rounded-lg">
             <h3 className="text-2xl font-bold">
@@ -210,6 +253,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
           </div>
         </div>
 
+        {/* Rating Distribution Section */}
         <div className="w-full md:w-2/3 md:pl-8 mt-4 md:mt-0">
           <h3 className="text-lg font-medium mb-2">Rating Distribution</h3>
           {[5, 4, 3, 2, 1].map((stars) => {
@@ -249,7 +293,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
         </div>
       </div>
 
-      {/* Filter info */}
+      {/* Filter Info */}
       {filter > 0 && (
         <div className="text-sm text-gray-600 italic">
           Showing only {filter}-star reviews ({filteredReviews.length} of{" "}
@@ -257,7 +301,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
         </div>
       )}
 
-      {/* Reviews list */}
+      {/* Reviews List */}
       <div className="space-y-6 mt-6">
         {filteredReviews.length === 0 ? (
           <p className="text-center text-gray-500 py-4">
@@ -298,8 +342,10 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
                     {review.images.map((image, idx) => (
                       <div
                         key={`${review.id}-img-${idx}`}
-                        className="w-16 h-16 rounded overflow-hidden cursor-pointer"
-                        onClick={() => setSelectedImage(image)}
+                        className="w-16 h-16 rounded overflow-hidden cursor-pointer hover:opacity-75 transition-opacity"
+                        onClick={() =>
+                          handleImageClick(image, review.images || [], idx)
+                        }
                       >
                         <img
                           src={image}
@@ -316,7 +362,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
         )}
       </div>
 
-      {/* Pagination Controls - Improved with dynamic page range */}
+      {/* Pagination Controls */}
       {filteredReviews.length > reviewsPerPage && (
         <div className="flex justify-center items-center gap-1 mt-6">
           <button
@@ -341,27 +387,71 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
         </div>
       )}
 
-      {/* Image modal - Improved for mobile */}
+      {/* Improved Image Modal */}
       {selectedImage && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
-          onClick={() => setSelectedImage(null)}
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 overflow-hidden"
+          onClick={() => {
+            setSelectedImage(null);
+            setCurrentImageIndex(0);
+          }}
         >
           <div
-            className="relative w-full max-w-3xl max-h-[80vh] overflow-hidden"
+            className="relative w-full max-w-5xl max-h-[90vh] flex items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Close Button */}
             <button
-              className="absolute top-2 right-2 bg-black bg-opacity-50 text-white w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center hover:bg-opacity-75"
-              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-white w-10 h-10 rounded-full flex items-center justify-center z-60"
+              onClick={() => {
+                setSelectedImage(null);
+                setCurrentImageIndex(0);
+              }}
             >
-              ✕
+              <XIcon className="w-6 h-6" />
             </button>
-            <img
-              src={selectedImage}
-              alt="Review image"
-              className="max-w-full max-h-[80vh] object-contain"
-            />
+
+            {/* Previous Image Button */}
+            {reviewImagesForModal.length > 1 && (
+              <button
+                className="absolute left-4 bg-white/20 hover:bg-white/40 text-white w-10 h-10 rounded-full flex items-center justify-center z-60"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigateImages("prev");
+                }}
+              >
+                <ArrowLeftIcon className="w-6 h-6" />
+              </button>
+            )}
+
+            {/* Image Container */}
+            <div className="relative max-w-full max-h-[90vh] flex items-center justify-center">
+              <img
+                src={reviewImagesForModal[currentImageIndex]}
+                alt="Review image"
+                className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+              />
+            </div>
+
+            {/* Next Image Button */}
+            {reviewImagesForModal.length > 1 && (
+              <button
+                className="absolute right-4 bg-white/20 hover:bg-white/40 text-white w-10 h-10 rounded-full flex items-center justify-center z-60"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigateImages("next");
+                }}
+              >
+                <ArrowRightIcon className="w-6 h-6" />
+              </button>
+            )}
+
+            {/* Image Counter */}
+            {reviewImagesForModal.length > 1 && (
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full">
+                {currentImageIndex + 1} / {reviewImagesForModal.length}
+              </div>
+            )}
           </div>
         </div>
       )}
