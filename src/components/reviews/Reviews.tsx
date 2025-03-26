@@ -406,7 +406,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
           >
             {/* Close Button */}
             <button
-              className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-white w-10 h-10 rounded-full flex items-center justify-center z-60"
+              className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-white w-10 h-10 rounded-full flex items-center justify-center z-50"
               onClick={() => {
                 setSelectedImage(null);
                 setCurrentImageIndex(0);
@@ -418,7 +418,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
             {/* Previous Image Button */}
             {reviewImagesForModal.length > 1 && (
               <button
-                className="absolute left-4 bg-white/20 hover:bg-white/40 text-white w-10 h-10 rounded-full flex items-center justify-center z-60"
+                className="absolute left-4 bg-white/20 hover:bg-white/40 text-white w-10 h-10 rounded-full flex items-center justify-center z-50"
                 onClick={(e) => {
                   e.stopPropagation();
                   navigateImages("prev");
@@ -428,7 +428,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
               </button>
             )}
 
-            {/* Image Container */}
+            {/* Image */}
             <div className="relative max-w-full max-h-[90vh] flex items-center justify-center">
               <img
                 src={reviewImagesForModal[currentImageIndex]}
@@ -440,7 +440,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
             {/* Next Image Button */}
             {reviewImagesForModal.length > 1 && (
               <button
-                className="absolute right-4 bg-white/20 hover:bg-white/40 text-white w-10 h-10 rounded-full flex items-center justify-center z-60"
+                className="absolute right-4 bg-white/20 hover:bg-white/40 text-white w-10 h-10 rounded-full flex items-center justify-center z-50"
                 onClick={(e) => {
                   e.stopPropagation();
                   navigateImages("next");

@@ -256,7 +256,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 {/* Additional Features */}
                 <div className="mt-6 space-y-4">
                   <div className="flex items-center">
-                    <Truck className="w-5 h-5 mr-2 text-gray-400" />
+                    <Truck className="w-8 h-8 sm:w-5 sm:h-5 mr-2 text-gray-400" />
                     <span className="text-sm text-gray-500">
                       <Link
                         href="/shipping-restrictions"
@@ -280,7 +280,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                     </span>
                   </div>
                   <div className="flex items-center">
-                    <Package className="w-5 h-5 mr-2 text-gray-400" />
+                    <Package className="w-7 h-7 sm:w-5 sm:h-5 mr-2 text-gray-400" />
                     <span className="text-sm text-gray-500">
                       Order Tracking Number Provided Upon Shipment.
                     </span>
