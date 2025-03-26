@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "lucide-react";
 
 import { Review } from "@/lib/reviewUtils";
+import { AddReviewDialog } from "./AddReviewDialog";
 import StarRating from "./StarRating";
 
 interface ReviewsProps {
@@ -233,6 +234,9 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
 
   return (
     <div className="space-y-6">
+      {/* <div className="flex justify-end mb-4">
+        <AddReviewDialog productSlug={productSlug || ""} />
+      </div> */}
       {/* Summary Section */}
       <div className="flex flex-col md:flex-row items-start">
         {/* Average Rating Section */}
