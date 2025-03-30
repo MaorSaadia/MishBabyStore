@@ -45,7 +45,7 @@ const slides: Slide[] = [
     description: "Smart Solutions | For Modern Parents",
     img: "/slides/Baby-Gadgets.jpeg",
     url: "/list?cat=consumer-electronics",
-    accent: "text-indigo-600",
+    accent: "text-orange-600",
     bg: "bg-gradient-to-r from-orange-50 to-white-400",
   },
   {
@@ -148,7 +148,7 @@ const Slider: React.FC = () => {
 
   useEffect(() => {
     if (isHovered) return;
-    const timer = setInterval(() => paginate(1), 5000);
+    const timer = setInterval(() => paginate(1), 10000);
     return () => clearInterval(timer);
   }, [isHovered]);
 
