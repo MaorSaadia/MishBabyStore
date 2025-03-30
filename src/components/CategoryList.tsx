@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 import { wixClientServer } from "@/lib/wixClientServer";
 
@@ -12,44 +13,42 @@ const CategoryList = async () => {
   const visibleCategories = cats.items.filter((item) => item.visible);
 
   return (
-    <div className="container mx-auto px-4 py-4 bg-gray-50">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {visibleCategories.map((item) => (
-          <Link
-            href={`/list?cat=${item.slug}`}
-            key={item._id}
-            className="block group"
-          >
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2">
-              <div className="relative h-64 w-full overflow-hidden">
-                <Image
-                  src={
-                    item.media?.mainMedia?.image?.url ||
-                    "/placeholder-image.jpg"
-                  }
-                  quality={100}
-                  alt=""
-                  fill
-                  sizes="(max-width: 640px) 100vw, 
-                  (max-width: 1024px) 50vw,
-                  (max-width: 1280px) 33vw,
-                  25vw"
-                  className="transition-transform duration-300 ease-in-out group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 ease-in-out" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-semibold text-gray-800 mb-2 group-hover:text-cyan-600 transition-colors duration-300">
-                  {item.name}
-                </h3>
-                <span className="inline-block text-cyan-600 font-medium group-hover:text-black transition-colors duration-300">
-                  Explore →
-                </span>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+      {visibleCategories.map((item) => (
+        <Link
+          href={`/list?cat=${item.slug}`}
+          key={item._id}
+          className="block group"
+        >
+          <div className="bg-white rounded-lg overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg relative">
+            <div className="relative aspect-[4/3] w-full overflow-hidden">
+              <Image
+                src={
+                  item.media?.mainMedia?.image?.url || "/placeholder-image.jpg"
+                }
+                quality={90}
+                alt="Category Image"
+                fill
+                sizes="(max-width: 640px) 100vw, 
+                (max-width: 1024px) 50vw,
+                (max-width: 1280px) 33vw,
+                25vw"
+                className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-60 group-hover:opacity-70 transition-opacity duration-300" />
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 text-white">
+              <h3 className="text-lg md:text-xl font-medium mb-1 group-hover:translate-x-1 transition-transform duration-300">
+                {item.name}
+              </h3>
+              <div className="flex items-center text-sm font-medium text-white/80 group-hover:text-white transition-colors duration-300">
+                <span>Explore</span>
+                <ArrowRight className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-300" />
               </div>
             </div>
-          </Link>
-        ))}
-      </div>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 };

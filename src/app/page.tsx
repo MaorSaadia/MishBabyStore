@@ -7,10 +7,12 @@ import Slider from "@/components/Slider";
 
 const HomePage = async () => {
   return (
-    <div className="">
-      <Slider />
-      <div className="mt-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
-        <h1 className="text-2xl md:text-4xl font-bold mb-8 text-gray-800">
+    <div className="bg-white">
+      <div className="container mx-auto">
+        <Slider />
+      </div>
+      <div className="container mx-auto mt-10 px-4 md:px-8">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
           Featured Products
         </h1>
         <Suspense fallback={<Skeleton />}>
@@ -20,13 +22,15 @@ const HomePage = async () => {
           />
         </Suspense>
       </div>
-      <div className="mt-4 md:mt-8 container mx-auto px-4 py-12 bg-gray-50">
-        <h2 className="text-2xl md:text-4xl font-bold mb-8 text-gray-800">
-          Explore Categories
-        </h2>
-        <Suspense fallback={<Skeleton />}>
-          <CategoryList />
-        </Suspense>
+      <div className="mt-12 bg-gray-50 py-10">
+        <div className="container mx-auto px-4 md:px-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
+            Explore Categories
+          </h2>
+          <Suspense fallback={<Skeleton />}>
+            <CategoryList />
+          </Suspense>
+        </div>
       </div>
     </div>
   );

@@ -30,7 +30,6 @@ const ProductList: React.FC<ProductListProps> = async ({
     .eq("collectionIds", categoryId)
     .gt("priceData.price", searchParams?.min || 0)
     .lt("priceData.price", searchParams?.max || 999999)
-
     .limit(limit || PRODUCT_PER_PAGE)
     .skip(
       searchParams?.page
@@ -62,18 +61,18 @@ const ProductList: React.FC<ProductListProps> = async ({
 
   if (res.items.length === 0) {
     return (
-      <div className="mt-6 flex flex-col items-center justify-center h-56 bg-slate-100 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+      <div className="mt-6 flex flex-col items-center justify-center h-56 bg-gray-50 rounded-lg border border-gray-100">
+        <h2 className="text-xl font-medium text-gray-800 mb-2">
           No products found
         </h2>
-        <p className="text-gray-600 text-center max-w-md">
+        <p className="text-gray-500 text-center max-w-md px-4">
           {searchParams?.name
             ? `We couldn't find any products matching "${searchParams.name}".`
             : "We couldn't find any products matching your search criteria."}
         </p>
         <Link
           href="/"
-          className="mt-4 px-6 py-2 bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition-colors"
+          className="mt-4 px-5 py-2 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 transition-colors"
         >
           Back to Home
         </Link>
@@ -83,55 +82,53 @@ const ProductList: React.FC<ProductListProps> = async ({
 
   return (
     <div className="flex flex-col">
-      <div className="flex-grow mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
         {filteredItems.map((product: products.Product) => (
-          <Link
-            href={"/" + product.slug}
-            className="group flex flex-col h-70 md:h-80"
-            key={product._id}
-          >
-            <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl flex flex-col">
-              <div className="relative w-full h-40 md:h-60 overflow-hidden">
+          <Link href={"/" + product.slug} className="group" key={product._id}>
+            <div className="h-full bg-white rounded-lg overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-md flex flex-col">
+              <div className="relative aspect-square w-full overflow-hidden bg-gray-50">
                 <Image
                   src={
                     product.media?.mainMedia?.image?.url ||
                     product.media?.items?.[1]?.image?.url ||
                     "/product.png"
                   }
-                  alt=""
+                  alt={product.name || "Product image"}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+                  className="object-cover transition-all duration-500 group-hover:scale-105"
                 />
-                {product.priceData?.price !==
-                  product.priceData?.discountedPrice && (
-                  <div className="absolute top-0 left-0 bg-rose-500 text-white px-2 py-1 text-xs font-bold">
-                    SALE
-                  </div>
-                )}
-                {product.ribbon === "New Arrival" && (
-                  <div className="absolute top-0 left-0 bg-sky-500 text-white px-2 py-1 text-xs font-bold">
-                    NEW
-                  </div>
-                )}
+                <div className="absolute top-0 left-0 flex flex-col gap-1 p-2">
+                  {product.priceData?.price !==
+                    product.priceData?.discountedPrice && (
+                    <div className="bg-rose-500 text-white text-xs font-medium px-2 py-1 rounded">
+                      SALE
+                    </div>
+                  )}
+                  {product.ribbon === "New Arrival" && (
+                    <div className="bg-sky-500 text-white text-xs font-medium px-2 py-1 rounded">
+                      NEW
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="p-4 flex flex-col gap-2 flex-grow">
-                <h3 className="font-medium text-gray-800 truncate">
+              <div className="p-3 flex flex-col gap-1 flex-grow">
+                <h3 className="font-medium text-gray-800 text-sm line-clamp-2 group-hover:text-gray-900 transition-colors">
                   {product.name}
                 </h3>
-                <div className="flex items-center space-x-2 flex-wrap">
+                <div className="mt-auto pt-2 flex items-center gap-2">
                   {product.priceData?.price !==
                   product.priceData?.discountedPrice ? (
                     <>
-                      <span className="text-lg font-bold text-rose-600">
+                      <span className="text-base font-semibold text-rose-600">
                         ${product.priceData?.discountedPrice}
                       </span>
-                      <span className="text-sm text-gray-500 line-through">
+                      <span className="text-xs text-gray-400 line-through">
                         ${product.priceData?.price}
                       </span>
                     </>
                   ) : (
-                    <span className="text-lg font-bold text-gray-900">
+                    <span className="text-base font-semibold text-gray-900">
                       ${product.priceData?.price}
                     </span>
                   )}
@@ -142,7 +139,7 @@ const ProductList: React.FC<ProductListProps> = async ({
         ))}
       </div>
       {!limit && pagination && (
-        <div className="">
+        <div className="mt-8">
           <Pagination
             currentPage={res.currentPage || 0}
             hasPrev={res.hasPrev()}

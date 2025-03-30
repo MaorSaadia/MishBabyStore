@@ -20,51 +20,71 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    title: "Baby Clothing",
-    subtitle: "NEW COLLECTION 2025",
-    description: "Luxury Organic Cotton | Up to 50% Off",
-    img: "/slides/Baby-Clothing.jpeg",
-    url: "/list?cat=baby-clothing&filter=Sale",
-    accent: "text-rose-600",
-    bg: "bg-cyan-50",
+    title: "Baby Cares",
+    subtitle: "ESSENTIAL CARE PRODUCTS",
+    description: "Gentle & Safe | For Everyday Needs",
+    img: "/slides/Baby-Cares.jpeg",
+    url: "/list?cat=baby-cares",
+    accent: "text-teal-600",
+    bg: "bg-gradient-to-r from-rose-50 to-cyan-100",
   },
   {
     id: 2,
-    title: "Toys & Games",
-    subtitle: "PLAYTIME ESSENTIALS",
-    description: "Educational & Fun | Premium Selection",
-    img: "/slides/Toys-Games.jpeg",
-    url: "/list?cat=toys-games",
-    accent: "text-blue-600",
-    bg: "bg-blue-50",
+    title: "Baby Clothing",
+    subtitle: "NEW COLLECTION 2025",
+    description: "Luxury Organic Cotton | Up to 50% Off",
+    img: "/slides/Baby-Clothing-2.jpeg",
+    url: "/list?cat=baby-clothing&filter=Sale",
+    accent: "text-rose-600",
+    bg: "bg-gradient-to-r from-orange-50 to-gray-50",
   },
   {
     id: 3,
+    title: "Baby Gadgets",
+    subtitle: "INNOVATIVE TECHNOLOGY",
+    description: "Smart Solutions | For Modern Parents",
+    img: "/slides/Baby-Gadgets.jpeg",
+    url: "/list?cat=consumer-electronics",
+    accent: "text-indigo-600",
+    bg: "bg-gradient-to-r from-orange-50 to-white-400",
+  },
+  {
+    id: 4,
+    title: "Toys & Games",
+    subtitle: "PLAYTIME ESSENTIALS",
+    description: "Educational & Fun | Premium Selection",
+    img: "/slides/Toys-Games-2.jpeg",
+    url: "/list?cat=toys-games",
+    accent: "text-blue-600",
+    bg: "bg-gradient-to-r from-cyan-50 to-blue-200",
+  },
+  {
+    id: 5,
     title: "Nursery Decor",
     subtitle: "DESIGNER COLLECTION",
     description: "Transform Their Space | Limited Time",
     img: "/slides/Nursery-Decor.jpeg",
     url: "/list?cat=nursery-decor",
     accent: "text-amber-600",
-    bg: "bg-amber-50",
+    bg: "bg-gradient-to-r from-amber-50 to-white-50",
   },
-  {
-    id: 4,
-    title: "Room Lighting",
-    subtitle: "AMBIENT SERIES",
-    description: "Smart & Stylish | New Arrivals",
-    img: "/slides/Baby-Gadgets.jpeg",
-    url: "/list?cat=night-lights-room-lighting",
-    accent: "text-purple-600",
-    bg: "bg-purple-50",
-  },
+  // {
+  //   id: 6,
+  //   title: "Room Lighting",
+  //   subtitle: "AMBIENT SERIES",
+  //   description: "Smart & Stylish | New Arrivals",
+  //   img: "/slides/Room-Lighting.jpeg", // Updated from Baby-Gadgets.jpeg
+  //   url: "/list?cat=night-lights-room-lighting",
+  //   accent: "text-purple-600",
+  //   bg: "bg-purple-50",
+  // },
 ];
 
 const slideVariants: Variants = {
   enter: (direction: number) => ({
     x: direction > 0 ? 1000 : -1000,
     opacity: 0,
-    scale: 0.9,
+    scale: 0.95,
   }),
   center: {
     zIndex: 1,
@@ -76,20 +96,20 @@ const slideVariants: Variants = {
     zIndex: 0,
     x: direction < 0 ? 1000 : -1000,
     opacity: 0,
-    scale: 0.9,
+    scale: 0.95,
   }),
 };
 
 const textVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 20,
+    y: 15,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: 0.4,
       delay: 0.2,
     },
   },
@@ -98,13 +118,13 @@ const textVariants: Variants = {
 const imageVariants: Variants = {
   hidden: {
     opacity: 0,
-    scale: 1.1,
+    scale: 1.05,
   },
   visible: {
     opacity: 1,
     scale: 1,
     transition: {
-      duration: 0.6,
+      duration: 0.5,
     },
   },
 };
@@ -146,7 +166,7 @@ const Slider: React.FC = () => {
 
   return (
     <div
-      className="relative h-[calc(100vh-80px)] md:h-[calc(80vh-80px)] overflow-hidden bg-gray-50"
+      className="relative h-[50vh] md:h-[60vh] overflow-hidden bg-gray-50 rounded-b-2xl shadow-sm"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -177,27 +197,29 @@ const Slider: React.FC = () => {
                 variants={textVariants}
                 initial="hidden"
                 animate="visible"
-                className="absolute inset-0 p-8 md:p-16 flex flex-col justify-center"
+                className="absolute inset-0 p-6 md:p-12 flex flex-col justify-center"
               >
                 <span
-                  className={`text-sm md:text-base font-medium tracking-widest ${slides[currentIndex].accent}`}
+                  className={`text-xs md:text-sm font-semibold tracking-widest ${slides[currentIndex].accent}`}
                 >
                   {slides[currentIndex].subtitle}
                 </span>
-                <h1 className="mt-4 text-4xl md:text-7xl font-bold text-gray-900 leading-tight">
+                <h1 className="mt-2 text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
                   {slides[currentIndex].title}
                 </h1>
-                <p className="mt-4 text-lg md:text-xl text-gray-600">
+                <p className="mt-2 text-base md:text-lg text-gray-600">
                   {slides[currentIndex].description}
                 </p>
-                <Link href={slides[currentIndex].url} className="mt-8">
+                <Link href={slides[currentIndex].url} className="mt-4 md:mt-6">
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="group relative flex items-center gap-2 px-8 py-4 bg-gray-900 text-white rounded-full overflow-hidden"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="group relative flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg overflow-hidden"
                   >
-                    <span className="relative z-10">Shop Collection</span>
-                    <ShoppingBag className="w-5 h-5 relative z-10" />
+                    <span className="relative z-10 text-sm font-medium">
+                      Shop Collection
+                    </span>
+                    <ShoppingBag className="w-4 h-4 relative z-10" />
                     <motion.div
                       className={`absolute inset-0 ${slides[currentIndex].accent} opacity-0 group-hover:opacity-100`}
                       transition={{ duration: 0.3 }}
@@ -229,7 +251,7 @@ const Slider: React.FC = () => {
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
         {slides.map((_, index) => (
           <button
             key={index}
@@ -239,29 +261,29 @@ const Slider: React.FC = () => {
             }}
             className={`h-1 transition-all duration-300 rounded-full ${
               index === currentIndex
-                ? "w-8 bg-gray-900"
-                : "w-4 bg-gray-400 hover:bg-gray-600"
+                ? "w-6 bg-gray-900"
+                : "w-3 bg-gray-400 hover:bg-gray-600"
             }`}
           />
         ))}
       </div>
 
       <motion.button
-        // whileHover={{ scale: 1.1 }}
-        // whileTap={{ scale: 0.9 }}
+        // whileHover={{ scale: 1.05 }}
+        // whileTap={{ scale: 0.95 }}
         onClick={() => paginate(-1)}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg z-10"
+        className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md z-10 text-gray-800"
       >
-        <ChevronLeft className="w-6 h-6" />
+        <ChevronLeft className="w-5 h-5" />
       </motion.button>
 
       <motion.button
-        // whileHover={{ scale: 1.1 }}
-        // whileTap={{ scale: 0.9 }}
+        // whileHover={{ scale: 1.05 }}
+        // whileTap={{ scale: 0.95 }}
         onClick={() => paginate(1)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg z-10"
+        className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md z-10 text-gray-800"
       >
-        <ChevronRight className="w-6 h-6" />
+        <ChevronRight className="w-5 h-5" />
       </motion.button>
     </div>
   );

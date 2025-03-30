@@ -10,9 +10,6 @@ import LoginModal from "@/components/modals/LoginModal";
 import RegisterModal from "@/components/modals/RegisterModal";
 import ResetPasswordModal from "@/components/modals/ResetPasswordModal";
 import PromoBanner from "@/components/PromoBanner";
-import GiveawayAnnouncement, {
-  GiveawayProvider,
-} from "@/components/GiveawayAnnouncement";
 import ToastProvider from "@/providers/ToastProvider";
 
 import "./globals.css";
@@ -79,24 +76,21 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <WixClientContextProvider>
-          <GiveawayProvider>
-            <Script
-              src="https://cloud.umami.is/script.js"
-              data-website-id="7e575a4d-d8b0-4ff1-9600-11b31543ae15"
-              strategy="beforeInteractive"
-            />
-            <Analytics />
-            <LoginModal />
-            <RegisterModal />
-            <ResetPasswordModal />
-            <ToastProvider />
-            <PromoBanner />
-            <GiveawayAnnouncement />
-            <Navbar />
-            {children}
-            <Footer />
-            <div id="portal"></div>
-          </GiveawayProvider>
+          <Script
+            src="https://cloud.umami.is/script.js"
+            data-website-id="7e575a4d-d8b0-4ff1-9600-11b31543ae15"
+            strategy="beforeInteractive"
+          />
+          <Analytics />
+          <LoginModal />
+          <RegisterModal />
+          <ResetPasswordModal />
+          <ToastProvider />
+          <PromoBanner />
+          <Navbar />
+          {children}
+          <Footer />
+          <div id="portal"></div>
         </WixClientContextProvider>
         <Script
           id="structured-data"
