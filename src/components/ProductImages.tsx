@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -113,13 +114,10 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
         onTouchEnd={handleSwipe}
       >
         <div className="absolute inset-0" onClick={() => setIsModalOpen(true)}>
-          <Image
+          <img
             src={items[index].image.url}
             alt=""
-            quality={100}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={true}
+            className="w-full h-full object-cover"
           />
         </div>
         <button
@@ -144,14 +142,10 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
               i === index ? "ring-2 ring-slate-600" : ""
             }`}
           >
-            <Image
+            <img
               src={item.image.url}
               alt=""
-              quality={100}
-              fill
-              sizes="96px"
-              className="object-cover"
-              priority={true}
+              className="w-full h-full object-cover"
             />
           </button>
         ))}
@@ -200,13 +194,10 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
                     }}
                     className="h-full w-full"
                   >
-                    <Image
+                    <img
                       src={items[index].image.url}
                       alt=""
-                      quality={100}
-                      fill
-                      sizes="(max-width: 768px) 90vw, (max-width: 1200px) 70vw, 60vw"
-                      priority={true}
+                      className="w-full h-full object-cover"
                     />
                   </motion.div>
 
