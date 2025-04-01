@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import Link from "next/link";
 
@@ -87,16 +88,14 @@ const ProductList: React.FC<ProductListProps> = async ({
           <Link href={"/" + product.slug} className="group" key={product._id}>
             <div className="h-full bg-white rounded-lg overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-md flex flex-col">
               <div className="relative aspect-square w-full overflow-hidden bg-gray-50">
-                <Image
+                <img
                   src={
                     product.media?.mainMedia?.image?.url ||
                     product.media?.items?.[1]?.image?.url ||
                     "/product.png"
                   }
                   alt={product.name || "Product image"}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  className="object-cover transition-all duration-500 group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
                 />
                 <div className="absolute top-0 left-0 flex flex-col gap-1 p-2">
                   {product.priceData?.price !==
