@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { cn, formatDate } from "@/lib/utils";
+import { anonymizeName, cn, formatDate } from "@/lib/utils";
 
 interface AddReviewDialogProps {
   productSlug: string;
@@ -39,15 +39,19 @@ export function AddReviewDialog({
       return;
     }
 
-    // Prepare review data
+    // Prepare full name
+    const fullName =
+      firstName || lastName ? `${firstName} ${lastName}`.trim() : "Anonymous";
+
+    const anonymizedUserName = anonymizeName(fullName);
+
+    // Prepare review data with anonymized name
     const newReview = {
-      date: formatDate(new Date()), // Format date as DD/MM/YYYY
+      date: formatDate(new Date()),
       rating: rating,
-      userName:
-        firstName || lastName ? `${firstName} ${lastName}`.trim() : "Anonymous",
+      userName: anonymizedUserName,
       content: review,
     };
-
     try {
       setIsSubmitting(true);
 

@@ -12,3 +12,24 @@ export const formatDate = (date: Date) => {
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 };
+
+// Helper function to format Names
+export const anonymizeName = (fullName: string) => {
+  // Handle empty strings
+  if (!fullName || fullName.trim() === "") {
+    return "";
+  }
+
+  // Trim and split the name by spaces
+  const nameParts = fullName.trim().split(" ");
+
+  // Get first letter of the first name
+  const firstLetter = nameParts[0].charAt(0);
+
+  // Get first letter of the last name
+  const lastName = nameParts[nameParts.length - 1];
+  const lastNameFirstLetter = lastName.charAt(0);
+
+  // Create the masked format: first letter + asterisks + first letter of last name
+  return `${firstLetter}***${lastNameFirstLetter}`;
+};
