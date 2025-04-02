@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 interface AddReviewDialogProps {
   productSlug: string;
@@ -41,15 +41,11 @@ export function AddReviewDialog({
 
     // Prepare review data
     const newReview = {
-      rating,
+      date: formatDate(new Date()), // Format date as DD/MM/YYYY
+      rating: rating,
       userName:
         firstName || lastName ? `${firstName} ${lastName}`.trim() : "Anonymous",
-      country: "", // You might want to add geolocation or let user select
-      date: new Date().toLocaleDateString("en-CA"), // YYYY-MM-DD format
       content: review,
-      translationReview: review,
-      verified: false,
-      images: [],
     };
 
     try {

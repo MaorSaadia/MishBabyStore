@@ -3,6 +3,8 @@ import path from "path";
 import { stringify } from "csv-stringify/sync";
 import { NextRequest, NextResponse } from "next/server";
 
+import { formatDate } from "@/lib/utils";
+
 export async function POST(request: NextRequest) {
   try {
     const { productSlug, review } = await request.json();
@@ -34,21 +36,20 @@ export async function POST(request: NextRequest) {
 
     const filePath = path.join(directoryPath, "reviews.csv");
 
-    // Make sure the headers match exactly the columns in the correct order
-    // (based on your screenshot)
+    // Define headers to match your existing CSV structure
     const headers = [
-      "Date of Published",
-      "Sku Info",
-      "Logistics",
-      "Vote Count",
-      "Translation Review",
-      "Review",
-      "Is Anonymous",
-      "Images",
-      "Rating",
-      "Name",
-      "Avatar",
       "Country",
+      "Avatar",
+      "Name",
+      "Rating",
+      "Images",
+      "Is Anonymous",
+      "Review",
+      "Translation Review",
+      "Vote Count",
+      "Logistics",
+      "Sku Info",
+      "Date of Published",
     ];
 
     // If the file does not exist, create it with headers
@@ -58,30 +59,18 @@ export async function POST(request: NextRequest) {
 
     // Build the row in the same order as the headers
     const csvRow = [
-      // 1) Date of Published
-      review.date || new Date().toLocaleDateString("en-CA"),
-      // 2) Sku Info
-      review.skuInfo || "",
-      // 3) Logistics
-      review.logistics || "",
-      // 4) Vote Count
-      review.voteCount || 0,
-      // 5) Translation Review
-      review.translationReview || "",
-      // 6) Review
-      review.content || "",
-      // 7) Is Anonymous
-      review.isAnonymous ? "TRUE" : "FALSE",
-      // 8) Images
-      review.images ? review.images.join(",") : "",
-      // 9) Rating
-      review.rating || "",
-      // 10) Name
-      review.userName || "",
-      // 11) Avatar
-      review.avatar || "",
-      // 12) Country
-      review.country || "",
+      "", // Country
+      "", // Avatar
+      review.userName || "", // Name
+      review.rating || "", // Rating
+      "", // Images
+      review.userName === "Anonymous" ? "TRUE" : "FALSE", // Is Anonymous
+      "", // Review
+      review.content || "", // Translation Review
+      0, // Vote Count
+      "", // Logistics
+      "", // Sku Info
+      review.date || formatDate(new Date()),
     ];
 
     // Append the new row
