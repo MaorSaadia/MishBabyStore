@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import ky from "ky";
 import { StarIcon, UploadCloud, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -32,152 +33,130 @@ export function AddReviewDialog({
   const [review, setReview] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [attachments, setAttachments] = useState<
+    {
+      id: string;
+      file: File;
+      url?: string;
+      state: "uploading" | "uploaded" | "failed";
+    }[]
+  >([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Handle image selection and preview
+  // When files are selected, trigger uploads
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const newFiles = Array.from(e.target.files);
-      const totalFiles = [...imageFiles, ...newFiles];
-
-      if (totalFiles.length > 5) {
+      // Check max 5 attachments
+      if (attachments.length + newFiles.length > 5) {
         alert("You can upload a maximum of 5 images");
         return;
       }
-
-      setImageFiles(totalFiles);
-      const newPreviewUrls = newFiles.map((file) => URL.createObjectURL(file));
-      setImagePreviewUrls([...imagePreviewUrls, ...newPreviewUrls]);
+      newFiles.forEach((file) => {
+        startUpload(file);
+      });
     }
   };
 
-  // Remove an image from the selection
-  const removeImage = (index: number) => {
-    URL.revokeObjectURL(imagePreviewUrls[index]);
-    setImageFiles((prev) => prev.filter((_, i) => i !== index));
-    setImagePreviewUrls((prev) => prev.filter((_, i) => i !== index));
-  };
+  // Function to start an upload for one file using the reference project's logic
+  const startUpload = async (file: File) => {
+    const id = crypto.randomUUID();
+    // Add file to attachments state with "uploading" state
+    setAttachments((prev) => [...prev, { id, file, state: "uploading" }]);
 
-  // Upload an image to Wix Storage
-  const uploadImageToWix = async (file: File): Promise<string> => {
     try {
-      const response = await fetch(
-        `/api/generateUploadUrl?fileName=${encodeURIComponent(
-          file.name
-        )}&mimeType=${encodeURIComponent(
-          file.type
-        )}&productSlug=${encodeURIComponent(productSlug)}`
-      );
+      // Get the upload URL from your API route (adjust endpoint as needed)
+      const { uploadUrl } = await ky
+        .get("/api/generateUploadUrl", {
+          searchParams: {
+            fileName: file.name,
+            mimeType: file.type,
+            productSlug,
+          },
+        })
+        .json<{ uploadUrl: string }>();
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to get upload URL");
-      }
-
-      const { uploadUrl, storagePath } = await response.json();
-
-      if (!uploadUrl) {
-        throw new Error("No upload URL received");
-      }
-
-      // Upload the file to Wix Storage with filename in URL and application/octet-stream
-      const uploadResponse = await fetch(
-        `${uploadUrl}?filename=${encodeURIComponent(file.name)}`,
-        {
-          method: "PUT",
+      // Upload the file via PUT. The Wix service is expected to return JSON with file.url.
+      const {
+        file: { url },
+      } = await ky
+        .put(uploadUrl, {
+          timeout: false,
           body: file,
           headers: {
             "Content-Type": "application/octet-stream",
-            "Content-Length": file.size.toString(),
           },
-        }
+          searchParams: {
+            filename: file.name,
+          },
+        })
+        .json<{ file: { url: string } }>();
+
+      // Update the corresponding attachment with the public URL and mark as "uploaded"
+      setAttachments((prev) =>
+        prev.map((att) =>
+          att.id === id ? { ...att, state: "uploaded", url } : att
+        )
       );
-
-      if (!uploadResponse.ok) {
-        const errorText = await uploadResponse.text();
-        console.error("Upload Response Status:", uploadResponse.status);
-        console.error("Upload Response Text:", errorText);
-        throw new Error(
-          `Failed to upload image to Wix Storage: ${uploadResponse.status} - ${errorText}`
-        );
-      }
-
-      return storagePath;
+      console.log("Public URL:", url);
     } catch (error) {
-      console.error(`Error uploading ${file.name}:`, error);
-      throw error;
+      console.error("Upload failed:", error);
+      // Mark the upload as failed
+      setAttachments((prev) =>
+        prev.map((att) => (att.id === id ? { ...att, state: "failed" } : att))
+      );
     }
   };
 
-  // Handle form submission
+  const removeAttachment = (id: string) => {
+    setAttachments((prev) => prev.filter((att) => att.id !== id));
+  };
+
   const handleSubmit = async () => {
     if (rating === 0) {
       alert("Please select a rating");
       return;
     }
-
+    // Create user name
     const fullName =
       firstName || lastName ? `${firstName} ${lastName}`.trim() : "Anonymous";
     const anonymizedUserName = anonymizeName(fullName);
 
+    setIsSubmitting(true);
     try {
-      setIsSubmitting(true);
+      // Gather URLs from all attachments that uploaded successfully
+      const uploadedImageUrls = attachments
+        .filter((att) => att.state === "uploaded" && att.url)
+        .map((att) => att.url!);
 
-      // Upload images sequentially
-      const uploadedImagePaths: string[] = [];
-      if (imageFiles.length > 0) {
-        let completedUploads = 0;
-        for (const file of imageFiles) {
-          const imagePath = await uploadImageToWix(file);
-          uploadedImagePaths.push(imagePath);
-          completedUploads++;
-          setUploadProgress(
-            Math.round((completedUploads / imageFiles.length) * 100)
-          );
-        }
-      }
+      // Pass the image URLs as an array (not a comma-separated string)
+      const images = uploadedImageUrls;
 
-      // Prepare review data
+      // Prepare review data including the public image URLs
       const newReview = {
         date: formatDate(new Date()),
         rating,
         userName: anonymizedUserName,
         content: review,
-        images: uploadedImagePaths,
+        images, // This is now an array
       };
 
-      // Submit review to API
-      const response = await fetch("/api/addReview", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ productSlug, review: newReview }),
-      });
+      // Submit review to your API (adjust endpoint as needed)
+      await ky
+        .post("/api/addReview", {
+          json: { productSlug, review: newReview },
+        })
+        .json();
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to submit review");
-      }
-
-      const result = await response.json();
-      if (result.success) {
-        onReviewAdded?.(newReview);
-        // Reset form
-        setFirstName("");
-        setLastName("");
-        setRating(0);
-        setReview("");
-        setImageFiles([]);
-        setImagePreviewUrls([]);
-        setUploadProgress(0);
-        setIsDialogOpen(false);
-      } else {
-        throw new Error(result.message || "Failed to submit review");
-      }
+      // Callback if review was added successfully
+      onReviewAdded?.(newReview);
+      // Reset form
+      setFirstName("");
+      setLastName("");
+      setRating(0);
+      setReview("");
+      setAttachments([]);
+      setIsDialogOpen(false);
     } catch (error) {
       console.error("Error submitting review:", error);
       alert(
@@ -292,19 +271,25 @@ export function AddReviewDialog({
                 className="hidden"
               />
               <div className="grid grid-cols-4 gap-2 mb-2">
-                {imagePreviewUrls.map((url, index) => (
+                {attachments.map((att) => (
                   <div
-                    key={index}
+                    key={att.id}
                     className="relative h-20 border rounded overflow-hidden"
                   >
-                    <img
-                      src={url}
-                      alt={`Preview ${index + 1}`}
-                      className="h-full w-full object-cover"
-                    />
+                    {att.url ? (
+                      <img
+                        src={att.url}
+                        alt="attachment"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center h-full w-full bg-gray-100">
+                        {att.state === "uploading" ? "Uploading..." : "Failed"}
+                      </div>
+                    )}
                     <button
                       type="button"
-                      onClick={() => removeImage(index)}
+                      onClick={() => removeAttachment(att.id)}
                       className="absolute top-0 right-0 bg-black bg-opacity-50 text-white p-1 rounded-bl"
                     >
                       <X className="w-4 h-4" />
@@ -317,34 +302,19 @@ export function AddReviewDialog({
                 variant="outline"
                 className="w-full"
                 onClick={() => fileInputRef.current?.click()}
-                disabled={imageFiles.length >= 5}
+                disabled={attachments.length >= 5}
               >
                 <UploadCloud className="mr-2 h-4 w-4" />
-                {imageFiles.length === 0 ? "Add Photos" : "Add More Photos"}
-                {imageFiles.length > 0 && ` (${imageFiles.length}/5)`}
+                {attachments.length === 0
+                  ? "Add Photos"
+                  : "Add More Photos"}{" "}
+                {attachments.length > 0 && `(${attachments.length}/5)`}
               </Button>
               <p className="text-xs text-gray-500 mt-1">
                 You can upload up to 5 images (JPG, PNG)
               </p>
             </div>
           </div>
-
-          {/* Upload Progress */}
-          {isSubmitting && imageFiles.length > 0 && (
-            <div className="grid grid-cols-4 items-center gap-4">
-              <div className="col-start-2 col-span-3">
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                  <div
-                    className="bg-blue-600 h-2.5 rounded-full"
-                    style={{ width: `${uploadProgress}%` }}
-                  />
-                </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  Uploading images: {uploadProgress}%
-                </p>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Submit Button */}

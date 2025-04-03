@@ -234,9 +234,9 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
 
   return (
     <div className="space-y-6">
-      {/* <div className="flex justify-end mb-4">
+      <div className="flex justify-end mb-4">
         <AddReviewDialog productSlug={productSlug || ""} />
-      </div> */}
+      </div>
       {/* Summary Section */}
       <div className="flex flex-col md:flex-row items-start">
         {/* Average Rating Section */}

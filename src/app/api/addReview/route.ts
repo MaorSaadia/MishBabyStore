@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
 
     // Convert the images array to a pipe-separated string
     const imagesString =
-      review.images && review.images.length > 0 ? review.images.join("|") : "";
+      review.images && review.images.length > 0 ? review.images.join(",") : "";
 
     // Build the row in the same order as the headers
     const csvRow = [
@@ -69,8 +69,8 @@ export async function POST(request: NextRequest) {
       review.rating || "", // Rating
       imagesString, // Images (pipe-separated URLs)
       review.userName === "Anonymous" ? "TRUE" : "FALSE", // Is Anonymous
-      review.content || "", // Review content
-      "", // Translation Review
+      review.content || "", // Translation content
+      "", // Review
       0, // Vote Count
       "", // Logistics
       "", // Sku Info
