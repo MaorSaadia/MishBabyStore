@@ -57,16 +57,20 @@ export async function POST(request: NextRequest) {
       fs.writeFileSync(filePath, stringify([headers], { header: false }));
     }
 
+    // Convert the images array to a pipe-separated string
+    const imagesString =
+      review.images && review.images.length > 0 ? review.images.join("|") : "";
+
     // Build the row in the same order as the headers
     const csvRow = [
       "", // Country
       "", // Avatar
       review.userName || "", // Name
       review.rating || "", // Rating
-      "", // Images
+      imagesString, // Images (pipe-separated URLs)
       review.userName === "Anonymous" ? "TRUE" : "FALSE", // Is Anonymous
-      "", // Review
-      review.content || "", // Translation Review
+      review.content || "", // Review content
+      "", // Translation Review
       0, // Vote Count
       "", // Logistics
       "", // Sku Info

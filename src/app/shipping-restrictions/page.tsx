@@ -13,6 +13,7 @@ const NonShippingCountriesPage = () => {
     "Heard Island and McDonald Islands",
     "India",
     "Iran",
+    "New Caledonia",
     "North Korea",
     "Pitcairn Islands",
     "Sudan",
