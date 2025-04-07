@@ -41,24 +41,34 @@ const LoginModal = () => {
     setVerificationMessage(""); // Clear any existing message
 
     try {
-      let response;
-      response = await wixClient.auth.login({
+      // First, attempt to login
+      const response = await wixClient.auth.login({
         email: data.email,
         password: data.password,
       });
 
       switch (response?.loginState) {
         case LoginState.SUCCESS:
-          toast.success("Logged in");
-          const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
-            response.data.sessionToken!
-          );
-          Cookies.set("refreshToken", JSON.stringify(tokens.refreshToken), {
-            expires: 2,
-          });
-          wixClient.auth.setTokens(tokens);
-          router.refresh();
-          loginModal.onClose();
+          try {
+            // Handle tokens in a separate try/catch block
+            const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
+              response.data.sessionToken!
+            );
+            Cookies.set("refreshToken", JSON.stringify(tokens.refreshToken), {
+              expires: 2,
+            });
+            wixClient.auth.setTokens(tokens);
+
+            // Only show success toast and close modal if everything succeeds
+            toast.success("Logged in");
+            router.refresh();
+            loginModal.onClose();
+          } catch (tokenError) {
+            console.error("Token handling error:", tokenError);
+            toast.error(
+              "Login succeeded but session setup failed. Please try again."
+            );
+          }
           break;
 
         case LoginState.EMAIL_VERIFICATION_REQUIRED:
@@ -74,16 +84,17 @@ const LoginModal = () => {
           ) {
             toast.error("Invalid email or password!");
           } else {
-            toast.error("Something went wrong!");
+            toast.error("Login failed: " + (response.error || "Unknown error"));
           }
           break;
 
         default:
+          toast.error("Unexpected login state: " + response?.loginState);
           break;
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong!");
+      console.error("Login request error:", error);
+      toast.error("Connection error. Please check your network and try again.");
     } finally {
       setIsLoading(false);
     }
