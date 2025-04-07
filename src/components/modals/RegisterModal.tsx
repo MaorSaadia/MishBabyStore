@@ -72,9 +72,22 @@ const RegisterModal = () => {
 
   const handleSuccessfulLogin = async (response: any) => {
     try {
+      if (!response.data || !response.data.sessionToken) {
+        console.error("Missing session token in response:", response);
+        toast.error("Authentication error: Missing session token");
+        return;
+      }
+
       const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
         response.data.sessionToken
       );
+
+      if (!tokens || !tokens.refreshToken) {
+        console.error("Invalid tokens received:", tokens);
+        toast.error("Error completing authentication: Invalid tokens");
+        return;
+      }
+
       Cookies.set("refreshToken", JSON.stringify(tokens.refreshToken), {
         expires: 2,
       });
@@ -145,9 +158,38 @@ const RegisterModal = () => {
           break;
 
         case MODE.EMAIL_VERIFICATION:
-          response = await wixClient.auth.processVerification({
-            verificationCode: data.verificationCode,
-          });
+          try {
+            console.log(
+              "Processing verification with code:",
+              data.verificationCode
+            );
+            response = await wixClient.auth.processVerification({
+              verificationCode: data.verificationCode,
+            });
+            console.log("Verification response:", response);
+          } catch (verificationError) {
+            console.error("Verification error details:", verificationError);
+
+            if (
+              (verificationError as Error).message &&
+              (verificationError as Error).message.includes("invalid code")
+            ) {
+              toast.error("Invalid verification code. Please try again.");
+            } else if (
+              (verificationError as Error) &&
+              (verificationError as Error).message.includes("expired")
+            ) {
+              toast.error(
+                "Verification code has expired. Please request a new one."
+              );
+              switchMode(MODE.RESEND_VERIFICATION);
+            } else {
+              toast.error("Error during verification. Please try again.");
+            }
+
+            setIsLoading(false);
+            return;
+          }
           break;
 
         case MODE.RESEND_VERIFICATION:
@@ -193,7 +235,8 @@ const RegisterModal = () => {
           if (response.errorCode === "emailAlreadyExists") {
             await handleEmailAlreadyExists(data.email);
           } else {
-            toast.error("Something went wrong!");
+            console.error("Login failure:", response);
+            toast.error(`Error: ${response.error || "Unknown error"}`);
           }
           break;
 
@@ -202,6 +245,7 @@ const RegisterModal = () => {
           break;
 
         default:
+          console.error("Unexpected response:", response);
           toast.error("Unexpected response. Please try again.");
       }
     } catch (error) {
@@ -271,14 +315,35 @@ const RegisterModal = () => {
       )}
 
       {mode === MODE.EMAIL_VERIFICATION && (
-        <Input
-          id="verificationCode"
-          label="Verification Code"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
+        <>
+          <Input
+            id="verificationCode"
+            label="Verification Code"
+            disabled={isLoading}
+            register={register}
+            errors={errors}
+            required
+          />
+          <div className="text-sm text-neutral-500">
+            Enter the 6-digit code sent to {currentEmail || "your email"}
+          </div>
+        </>
+      )}
+
+      {mode === MODE.RESEND_VERIFICATION && currentEmail && (
+        <div className="text-sm mb-4">
+          You&apos;ll need to enter your password to request a new verification
+          code for {currentEmail}
+          <Input
+            id="password"
+            label="Password"
+            type="password"
+            disabled={isLoading}
+            register={register}
+            errors={errors}
+            required
+          />
+        </div>
       )}
 
       {message && (
