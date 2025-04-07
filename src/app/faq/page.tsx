@@ -25,7 +25,7 @@ const faqs: FAQ[] = [
   {
     question: "How long does shipping take?",
     answer:
-      "Shipping times depend on your location and the product's availability. Typically, orders are delivered within 7-21 business days.",
+      "Shipping times depend on your location and the product's availability. Typically, orders are delivered within 7-16 business days.",
   },
   {
     question: "Will I receive a tracking number for my order?",

@@ -14,7 +14,7 @@ const PolicyDetails = () => {
         {
           title: "2. International Shipping and Timeframes",
           content:
-            "We offer free international shipping to most countries. However, please note that there are some countries we cannot ship to due to regulations. You can check our shipping restrictions page for the complete list. Delivery times typically range from 7-21 business days, depending on your location and product availability.",
+            "We offer free international shipping to most countries. However, please note that there are some countries we cannot ship to due to regulations. You can check our shipping restrictions page for the complete list. Delivery times typically range from 7-16 business days, depending on your location and product availability.",
         },
       ],
     },

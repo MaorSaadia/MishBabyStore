@@ -44,7 +44,7 @@ const NonShippingCountriesPage = () => {
           </AlertTitle>
           <AlertDescription className="text-green-700">
             We offer free shipping to all eligible countries. Delivery times
-            typically range from 7-21 business days, depending on your location
+            typically range from 7-16 business days, depending on your location
             and product availability.
           </AlertDescription>
         </Alert> */}
@@ -97,7 +97,7 @@ const NonShippingCountriesPage = () => {
                 <h3 className="font-semibold mb-2">Our Shipping Policy</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-2 text-gray-600">
                   <li>Free shipping available for all eligible countries</li>
-                  <li>Delivery times: 7-21 business days</li>
+                  <li>Delivery times: 7-16 business days</li>
                   <li>Tracking number provided for all orders</li>
                   <li>
                     Delivery time varies based on:
@@ -118,7 +118,7 @@ const NonShippingCountriesPage = () => {
                   If your country is not listed in the restricted locations
                   above, good news! We can ship to you with our free shipping
                   service. Simply proceed with your order, and we&apos;ll
-                  deliver your items within 7-21 business days.
+                  deliver your items within 7-16 business days.
                 </p>
               </div>
             </div>
