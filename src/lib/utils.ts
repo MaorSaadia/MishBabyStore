@@ -33,3 +33,10 @@ export const anonymizeName = (fullName: string) => {
   // Create the masked format: first letter + asterisks + first letter of last name
   return `${firstLetter}***${lastNameFirstLetter}`;
 };
+
+export const convertWixImageToUrl = (wixImage: string) => {
+  if (!wixImage.startsWith("wix:image://v1/")) return null;
+
+  const path = wixImage.split("wix:image://v1/")[1].split("#")[0];
+  return `https://static.wixstatic.com/media/${path}`;
+};
