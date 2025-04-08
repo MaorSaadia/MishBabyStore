@@ -2,6 +2,15 @@ import Link from "next/link";
 import { members } from "@wix/members";
 import { format } from "timeago.js";
 import {
+  CalendarDays,
+  User,
+  Mail,
+  Phone,
+  CreditCard,
+  ShoppingBag,
+} from "lucide-react";
+
+import {
   Card,
   CardContent,
   CardDescription,
@@ -11,30 +20,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  CalendarDays,
-  Package,
-  User,
-  Mail,
-  Phone,
-  Home,
-  CreditCard,
-  ShoppingBag,
-} from "lucide-react";
-
 import { wixClientServer } from "@/lib/wixClientServer";
 import { updateUser } from "@/lib/actions";
 import UpdateButton from "@/components/UpdateButton";
