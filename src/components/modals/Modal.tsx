@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { FaSpinner } from "react-icons/fa";
 
 import ModalButton from "../ui/modal-button";
 
@@ -89,6 +90,7 @@ const Modal: React.FC<ModalProps> = ({
               <button
                 className="p-1 border-0 hover:opacity-70 transition"
                 onClick={handleClose}
+                disabled={disabled}
               >
                 <IoMdClose size={22} />
               </button>
@@ -99,14 +101,32 @@ const Modal: React.FC<ModalProps> = ({
                 {secondaryAction && secondaryActionLabel && (
                   <ModalButton
                     disabled={disabled}
-                    label={secondaryActionLabel}
+                    label={
+                      disabled ? (
+                        <div className="flex items-center justify-center">
+                          <FaSpinner className="animate-spin mr-2" />
+                          {secondaryActionLabel}
+                        </div>
+                      ) : (
+                        secondaryActionLabel
+                      )
+                    }
                     onClick={handleSecondaryAction}
                     outline
                   />
                 )}
                 <ModalButton
                   disabled={disabled}
-                  label={actionLabel}
+                  label={
+                    disabled ? (
+                      <div className="flex items-center justify-center">
+                        <FaSpinner className="animate-spin mr-2" />
+                        {actionLabel}
+                      </div>
+                    ) : (
+                      actionLabel
+                    )
+                  }
                   onClick={handleSubmit}
                 />
               </div>
