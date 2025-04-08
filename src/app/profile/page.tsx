@@ -19,7 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
@@ -39,6 +38,7 @@ import {
 import { wixClientServer } from "@/lib/wixClientServer";
 import { updateUser } from "@/lib/actions";
 import UpdateButton from "@/components/UpdateButton";
+import OrdersSection from "@/components/OrdersSection";
 
 const ProfilePage = async () => {
   const wixClient = await wixClientServer();
@@ -85,6 +85,8 @@ const ProfilePage = async () => {
       filter: { "buyerInfo.contactId": { $eq: user?.member?.contactId } },
     },
   });
+
+  // console.log("orderRes", JSON.stringify(orderRes, null, 2));
 
   // Calculate order stats
   const totalOrders = orderRes.orders.length;
@@ -275,14 +277,6 @@ const ProfilePage = async () => {
                       View All Orders
                     </TabsTrigger>
                   </TabsList>
-                  {/* <Button
-                    asChild
-                    variant="outline"
-                    size="sm"
-                    className="w-full"
-                  >
-                    <Link href="/orders">View All Orders</Link>
-                  </Button> */}
                 </CardFooter>
               </Card>
 
@@ -334,98 +328,7 @@ const ProfilePage = async () => {
         </TabsContent>
 
         <TabsContent value="orders" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Package size={18} />
-                Order History
-              </CardTitle>
-              <CardDescription>
-                View and track all your previous orders
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {orderRes.orders.length > 0 ? (
-                <ScrollArea className="h-[500px]">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Order ID</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead>Amount</TableHead>
-                        <TableHead>Shipping Address</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead></TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {orderRes.orders.map((order) => (
-                        <TableRow key={order._id}>
-                          <TableCell className="font-medium">
-                            {order.number}
-                          </TableCell>
-                          <TableCell>
-                            {order._createdDate
-                              ? new Date(
-                                  order._createdDate
-                                ).toLocaleDateString()
-                              : "N/A"}
-                          </TableCell>
-                          <TableCell>
-                            $
-                            {Number(
-                              order.priceSummary?.subtotal?.amount
-                            )?.toFixed(2) || "0.00"}
-                          </TableCell>
-                          <TableCell className="max-w-xs truncate">
-                            {order.recipientInfo?.address?.city}
-                            {order.recipientInfo?.address?.city ? ", " : ""}
-                            {order.recipientInfo?.address?.addressLine1 ||
-                              order.recipientInfo?.address?.streetAddress
-                                ?.name}{" "}
-                            {
-                              order.recipientInfo?.address?.streetAddress
-                                ?.number
-                            }
-                          </TableCell>
-                          <TableCell>
-                            <Badge
-                              className={`${
-                                order.status === "APPROVED"
-                                  ? "bg-green-100 text-green-800 hover:bg-green-100"
-                                  : order.status === "INITIALIZED"
-                                  ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
-                                  : "bg-red-100 text-red-800 hover:bg-red-100"
-                              }`}
-                            >
-                              {order.status}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <Button asChild variant="ghost" size="sm">
-                              <Link href={`/orders/${order._id}`}>Details</Link>
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </ScrollArea>
-              ) : (
-                <div className="flex flex-col items-center justify-center p-12 text-center">
-                  <ShoppingBag className="w-12 h-12 text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-medium mb-2">No orders yet</h3>
-                  <p className="text-muted-foreground mb-4">
-                    You haven&apos;t placed any orders yet.
-                  </p>
-                  <Button asChild>
-                    <Link href="/list?cat=all-products">Start Shopping</Link>
-                  </Button>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
+          <OrdersSection orders={orderRes.orders} />
           {recentOrders.length > 0 && (
             <Card>
               <CardHeader>
