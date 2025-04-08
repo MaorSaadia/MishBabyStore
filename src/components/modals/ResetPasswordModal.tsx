@@ -18,6 +18,7 @@ const ResetPasswordModal = () => {
   const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const {
     register,
@@ -42,7 +43,10 @@ const ResetPasswordModal = () => {
         window.location.href
       );
       // console.log(response);
-      setMessage("Password reset email sent. Please check your e-mail.");
+      setMessage(
+        "Password reset email sent. Please check your e-mail. The email may take up to 2 minutes to arrive."
+      );
+      setIsSubmitted(true);
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong!");
@@ -62,7 +66,7 @@ const ResetPasswordModal = () => {
       <Input
         id="email"
         label="Email"
-        disabled={isLoading}
+        disabled={isLoading || isSubmitted}
         register={register}
         errors={errors}
         required
@@ -92,7 +96,7 @@ const ResetPasswordModal = () => {
       disabled={isLoading}
       isOpen={resetPasswordModal.isOpen}
       title={"Reset Password"}
-      actionLabel={"Reset"}
+      actionLabel={isSubmitted ? undefined : "Reset"}
       onClose={resetPasswordModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}

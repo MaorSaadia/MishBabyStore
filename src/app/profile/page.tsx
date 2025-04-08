@@ -109,7 +109,7 @@ const ProfilePage = async () => {
       <div className="flex items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold">
-            {user.member?.contact?.firstName} {user.member?.contact?.lastName}
+            {user.member?.profile?.nickname || user.member.contact?.firstName}
           </h1>
           <p className="text-muted-foreground">
             Member since{" "}
@@ -419,7 +419,7 @@ const ProfilePage = async () => {
                     You haven&apos;t placed any orders yet.
                   </p>
                   <Button asChild>
-                    <Link href="/shop">Start Shopping</Link>
+                    <Link href="/list?cat=all-products">Start Shopping</Link>
                   </Button>
                 </div>
               )}

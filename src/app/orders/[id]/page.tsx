@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
+
 import { wixClientServer } from "@/lib/wixClientServer";
 import {
   Card,
