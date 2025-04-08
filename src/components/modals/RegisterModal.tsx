@@ -157,9 +157,7 @@ const RegisterModal = () => {
           ) {
             setCurrentEmail(data.email);
             setMode(MODE.EMAIL_VERIFICATION);
-            setMessage(
-              "Please check your email for verification code. It may take up to 2 minutes to arrive."
-            );
+            setMessage("Please check your email for verification code.");
             startCooldown();
           }
           break;
