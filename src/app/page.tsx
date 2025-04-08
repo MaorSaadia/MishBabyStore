@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 
 import CategoryList from "@/components/CategoryList";
 import ProductList from "@/components/ProductList";
@@ -21,6 +22,17 @@ const HomePage = async () => {
             limit={16}
           />
         </Suspense>
+
+        <div className="flex justify-center mt-6 -mb-6">
+          <Link
+            href="/list?cat=all-products"
+            className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-cyan-500 to-cyan-300 p-0.5 font-medium text-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300"
+          >
+            <span className="relative rounded-full bg-white px-8 py-3.5 transition-all duration-300 ease-in-out group-hover:bg-opacity-0">
+              View All Products
+            </span>
+          </Link>
+        </div>
       </div>
       <div className="mt-12 bg-gray-50 py-10">
         <div className="container mx-auto px-4 md:px-8">
