@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Package } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -8,7 +10,6 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Package } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Helper function to get status badge color
@@ -40,6 +41,39 @@ const getStatusLabel = (
   return status || "Processing";
 };
 
+// Helper function to format address
+const formatAddress = (recipientInfo?: any): string => {
+  if (!recipientInfo?.address) return "No address available";
+
+  const address = recipientInfo.address;
+  const street = address.streetAddress || {};
+  const streetLine = [street.name, street.number, street.apt]
+    .filter(Boolean)
+    .join(" ");
+
+  return [
+    streetLine,
+    address.city,
+    address.postalCode,
+    address.countryFullname || address.country,
+  ]
+    .filter(Boolean)
+    .join(", ");
+};
+
+// Helper function to format recipient info
+const formatRecipient = (recipientInfo?: any): string => {
+  if (!recipientInfo?.contactDetails) return "No recipient info";
+
+  const contact = recipientInfo.contactDetails;
+  return [
+    [contact.firstName, contact.lastName].filter(Boolean).join(" "),
+    contact.phone,
+  ]
+    .filter(Boolean)
+    .join(" • ");
+};
+
 // @ts-ignore
 const OrdersSection = ({ orders }) => {
   return (
@@ -66,9 +100,11 @@ const OrdersSection = ({ orders }) => {
                     </th>
                     <th className="text-left py-3 px-4 font-medium">Date</th>
                     <th className="text-left py-3 px-4 font-medium">Status</th>
-                    <th className="text-left py-3 px-4 font-medium">Amount</th>
                     <th className="text-left py-3 px-4 font-medium">
-                      Discount
+                      Shipping Address
+                    </th>
+                    <th className="text-left py-3 px-4 font-medium">
+                      Recipient
                     </th>
                     <th className="text-left py-3 px-4 font-medium">
                       Total Price
@@ -88,10 +124,8 @@ const OrdersSection = ({ orders }) => {
                       order.paymentStatus,
                       order.fulfillmentStatus
                     );
-                    const hasDiscount =
-                      Number(order.priceSummary?.discount?.amount) > 0;
-                    const couponCode =
-                      order.appliedDiscounts?.[0]?.coupon?.code;
+                    const address = formatAddress(order.recipientInfo);
+                    const recipient = formatRecipient(order.recipientInfo);
 
                     return (
                       <tr
@@ -99,7 +133,7 @@ const OrdersSection = ({ orders }) => {
                         className="border-b hover:bg-gray-50 transition-colors"
                       >
                         <td className="py-4 px-4 font-medium">
-                          {order.number}
+                          #{order.number}
                         </td>
                         <td className="py-4 px-4">
                           {order._createdDate
@@ -111,30 +145,11 @@ const OrdersSection = ({ orders }) => {
                             {statusLabel}
                           </Badge>
                         </td>
-                        <td className="py-4 px-4">
-                          $
-                          {Number(
-                            order.priceSummary?.subtotal?.amount
-                          )?.toFixed(2) || "0.00"}
+                        <td className="py-4 px-4 max-w-xs truncate">
+                          {address}
                         </td>
-                        <td className="py-4 px-4">
-                          {hasDiscount ? (
-                            <div className="flex flex-col">
-                              <span className="text-green-600 font-medium">
-                                -$
-                                {Number(
-                                  order.priceSummary?.discount?.amount
-                                )?.toFixed(2)}
-                              </span>
-                              {couponCode && (
-                                <span className="text-xs text-gray-500">
-                                  {couponCode}
-                                </span>
-                              )}
-                            </div>
-                          ) : (
-                            <span className="text-gray-400">-</span>
-                          )}
+                        <td className="py-4 px-4 max-w-xs truncate">
+                          {recipient}
                         </td>
                         <td className="py-4 px-4">
                           $
@@ -167,8 +182,8 @@ const OrdersSection = ({ orders }) => {
                   order.paymentStatus,
                   order.fulfillmentStatus
                 );
-                const hasDiscount =
-                  Number(order.priceSummary?.discount?.amount) > 0;
+                const address = formatAddress(order.recipientInfo);
+                const recipient = formatRecipient(order.recipientInfo);
 
                 return (
                   <div key={order._id} className="border rounded-lg p-4">
@@ -179,7 +194,7 @@ const OrdersSection = ({ orders }) => {
                       </Badge>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3 text-sm mb-3">
+                    <div className="grid grid-cols-1 gap-3 text-sm mb-3">
                       <div>
                         <p className="text-muted-foreground">Date</p>
                         <p className="font-medium">
@@ -189,35 +204,24 @@ const OrdersSection = ({ orders }) => {
                         </p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">Amount</p>
+                        <p className="text-muted-foreground">
+                          Shipping Address
+                        </p>
+                        <p className="font-medium break-words">{address}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Recipient</p>
+                        <p className="font-medium">{recipient}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Total Price</p>
                         <p className="font-medium">
                           $
                           {Number(
-                            order.priceSummary?.subtotal?.amount
+                            order.priceSummary?.totalPrice?.amount
                           )?.toFixed(2) || "0.00"}
                         </p>
                       </div>
-
-                      {hasDiscount && (
-                        <div>
-                          <p className="text-muted-foreground">Discount</p>
-                          <p className="font-medium text-green-600">
-                            -$
-                            {Number(
-                              order.priceSummary?.discount?.amount
-                            )?.toFixed(2)}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground">Total Price</p>
-                      <p className="font-medium">
-                        $
-                        {Number(
-                          order.priceSummary?.totalPrice?.amount
-                        )?.toFixed(2) || "0.00"}
-                      </p>
                     </div>
                     <Button
                       asChild
