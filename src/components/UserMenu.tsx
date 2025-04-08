@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { toast } from "react-hot-toast";
 
 import { useWixClient } from "@/hooks/useWixClient";
 import useLoginModal from "@/hooks/useLoginModal";
@@ -27,6 +28,10 @@ const UserMenu = () => {
     Cookies.remove("refreshToken");
     const { logoutUrl } = await wixClient.auth.logout(window.location.href);
     setIsOpen(false);
+
+    // Display toast notification for logout
+    toast.success("loggin out..");
+
     router.push(logoutUrl);
   };
 

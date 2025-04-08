@@ -112,7 +112,9 @@ const RegisterModal = () => {
       if (response.loginState === LoginState.EMAIL_VERIFICATION_REQUIRED) {
         setCurrentEmail(email);
         setMode(MODE.EMAIL_VERIFICATION);
-        setMessage("A new verification code has been sent to your email");
+        setMessage(
+          "A new verification code has been sent to your email. It may take up to 2 minutes to arrive."
+        );
         startCooldown();
         return true;
       } else {
@@ -153,6 +155,11 @@ const RegisterModal = () => {
           } else if (
             response?.loginState === LoginState.EMAIL_VERIFICATION_REQUIRED
           ) {
+            setCurrentEmail(data.email);
+            setMode(MODE.EMAIL_VERIFICATION);
+            setMessage(
+              "Please check your email for verification code. It may take up to 2 minutes to arrive."
+            );
             startCooldown();
           }
           break;
@@ -210,7 +217,9 @@ const RegisterModal = () => {
             loginResponse.loginState === LoginState.EMAIL_VERIFICATION_REQUIRED
           ) {
             setMode(MODE.EMAIL_VERIFICATION);
-            setMessage("A new verification code has been sent to your email");
+            setMessage(
+              "A new verification code has been sent to your email. It may take up to 2 minutes to arrive."
+            );
             startCooldown();
             setIsLoading(false);
             return;
@@ -227,7 +236,9 @@ const RegisterModal = () => {
         case LoginState.EMAIL_VERIFICATION_REQUIRED:
           setCurrentEmail(data.email);
           setMode(MODE.EMAIL_VERIFICATION);
-          setMessage("Please check your email for verification code");
+          setMessage(
+            "Please check your email for verification code. It may take up to 2 minutes to arrive."
+          );
           startCooldown();
           break;
 
@@ -326,6 +337,10 @@ const RegisterModal = () => {
           />
           <div className="text-sm text-neutral-500">
             Enter the 6-digit code sent to {currentEmail || "your email"}
+          </div>
+          <div className="text-sm text-amber-600">
+            Please note: The verification code may take up to 2 minutes to
+            arrive in your inbox.
           </div>
         </>
       )}
