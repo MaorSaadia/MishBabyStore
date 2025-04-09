@@ -82,26 +82,25 @@ const Footer = () => {
                 <ul className="space-y-2 text-sm">
                   {[
                     { href: "/list?cat=all-products", label: "All Products" },
+                    { href: "/list?cat=baby-cares", label: "Baby Essentials" },
                     {
-                      href: "/list?cat=all-products&filter=Sale",
-                      label: "Deals",
+                      href: "/list?cat=bath-care",
+                      label: "Bath Care & Accessories",
                     },
-                    // {
-                    //   href: "/list?cat=all-products&filter=New Arrival",
-                    //   label: "New Arrivals",
-                    // },
-                    { href: "/list?cat=baby-cares", label: "Baby Cares" },
                     { href: "/list?cat=baby-clothing", label: "Baby Clothing" },
-                    // {
-                    //   href: "/list?cat=characters-collectibles",
-                    //   label: "Characters & Collectibles",
-                    // },
-                    { href: "/list?cat=nursery-decor", label: "Nursery Decor" },
                     {
-                      href: "/list?cat=night-lights-room-lighting",
-                      label: "Room Lighting",
+                      href: "/list?cat=feeding-mealtime",
+                      label: "Feeding & Mealtime",
+                    },
+                    {
+                      href: "/list?cat=safety-comfort",
+                      label: "Safety & Comfort",
                     },
                     { href: "/list?cat=toys-games", label: "Toys & Games" },
+                    {
+                      href: "/list?cat=nursery-decor",
+                      label: "Nursery & Home",
+                    },
                   ].map((link) => (
                     <li key={link.href}>
                       <Link
