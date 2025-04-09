@@ -40,11 +40,11 @@ const slides: Slide[] = [
   },
   {
     id: 3,
-    title: "Baby Gadgets",
+    title: "Baby Essentials",
     subtitle: "INNOVATIVE TECHNOLOGY",
     description: "Smart Solutions | For Modern Parents",
     img: "/slides/Baby-Gadgets.jpeg",
-    url: "/list?cat=consumer-electronics",
+    url: "/list?cat=baby-cares",
     accent: "text-orange-600",
     bg: "bg-gradient-to-r from-orange-50 to-white-400",
   },
