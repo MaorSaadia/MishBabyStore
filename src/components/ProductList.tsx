@@ -46,7 +46,7 @@ const ProductList: React.FC<ProductListProps> = async ({
       productQuery = productQuery.descending(sortBy);
     }
   } else {
-    productQuery = productQuery.descending("lastUpdated");
+    productQuery = productQuery.descending("createdDate");
   }
 
   if (searchParams?.filter) {
