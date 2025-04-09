@@ -3,7 +3,7 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { LogOut, User, ChevronDown } from "lucide-react";
+import { LogOut, User, ChevronDown, Package } from "lucide-react";
 import Cookies from "js-cookie";
 
 import { useWixClient } from "@/hooks/useWixClient";
@@ -76,6 +76,11 @@ const UserMenu = () => {
     setIsOpen(false);
   };
 
+  const handleOrders = () => {
+    router.push("/orders");
+    setIsOpen(false);
+  };
+
   return (
     <div className="relative" ref={menuRef}>
       <div
@@ -101,9 +106,14 @@ const UserMenu = () => {
           )}
           <div className="py-2">
             <MenuItem
-              label="My Profile"
+              label="Profile"
               icon={<User size={16} />}
               onClick={handleProfile}
+            />
+            <MenuItem
+              label="My Orders"
+              icon={<Package size={16} />}
+              onClick={handleOrders}
             />
             <MenuItem
               label="Log out"

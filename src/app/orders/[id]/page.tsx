@@ -71,7 +71,7 @@ const OrderPage = async ({ params }: { params: { id: string } }) => {
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
           <Link
-            href="/profile"
+            href="/orders"
             className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />

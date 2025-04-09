@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 // Helper function to get status badge color
 const getStatusColor = (
@@ -96,7 +96,7 @@ const OrdersSection = ({ orders }) => {
                 <thead>
                   <tr className="border-b">
                     <th className="text-left py-3 px-4 font-medium">
-                      Order ID
+                      Order Number
                     </th>
                     <th className="text-left py-3 px-4 font-medium">Date</th>
                     <th className="text-left py-3 px-4 font-medium">Status</th>
@@ -235,6 +235,7 @@ const OrdersSection = ({ orders }) => {
                 );
               })}
             </div>
+            <ScrollBar orientation="horizontal" />
           </ScrollArea>
         ) : (
           <div className="flex flex-col items-center justify-center p-12 text-center">
