@@ -20,3 +20,12 @@ export const middleware = async (request: NextRequest) => {
 
   return res;
 };
+
+// Add this config export at the bottom of the same file
+export const config = {
+  matcher: [
+    // Add only the paths that need Wix authentication
+    // Excludes static files, API routes, etc.
+    "/((?!api|_next/static|_next/image|favicon.ico|public/).*)",
+  ],
+};
