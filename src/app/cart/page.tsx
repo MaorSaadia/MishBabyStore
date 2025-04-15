@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Image from "next/image";
@@ -99,10 +100,10 @@ const ViewCartPage = () => {
         <div className="lg:col-span-2">
           {cart.lineItems.map((item) => (
             <Card key={item._id} className="mb-4">
-              <CardContent className="p-3">
+              <CardContent className="p-2">
                 <div className="flex gap-3">
                   {item.image && (
-                    <Image
+                    <img
                       src={wixMedia.getScaledToFillImageUrl(
                         item.image,
                         180,
@@ -110,7 +111,7 @@ const ViewCartPage = () => {
                         {}
                       )}
                       alt={item.productName?.original || ""}
-                      width={isLargeScreen ? 180 : 110}
+                      width={isLargeScreen ? 180 : 80}
                       height={isLargeScreen ? 180 : 80}
                       className="rounded-md cursor-pointer"
                       onClick={() =>
@@ -163,7 +164,7 @@ const ViewCartPage = () => {
                         >
                           <Minus size={8} />
                         </Button>
-                        <span className="px-2">{item.quantity}</span>
+                        <span className="px-1">{item.quantity}</span>
                         <Button
                           variant="ghost"
                           size="sm"
