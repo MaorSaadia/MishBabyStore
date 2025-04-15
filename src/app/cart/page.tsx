@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { X, Plus, Minus, ShoppingBag, Trash, Trash2 } from "lucide-react";
+import { Plus, Minus, ShoppingBag, Trash2 } from "lucide-react";
 import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
 
