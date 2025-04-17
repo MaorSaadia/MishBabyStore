@@ -1,3 +1,4 @@
+// app/api/reviews/[slug]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import {
   getProductReviews,
@@ -11,7 +12,10 @@ export async function GET(
 ) {
   try {
     const { slug } = params;
+    // Get reviews from S3
     const reviews = await getProductReviews(slug);
+
+    // Calculate metrics
     const averageRating = calculateAverageRating(reviews);
     const ratingDistribution = getRatingDistribution(reviews);
 
@@ -27,7 +31,11 @@ export async function GET(
   } catch (error) {
     console.error("Error fetching reviews:", error);
     return NextResponse.json(
-      { success: false, error: "Failed to fetch reviews" },
+      {
+        success: false,
+        error: "Failed to fetch reviews",
+        message: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 }
     );
   }
