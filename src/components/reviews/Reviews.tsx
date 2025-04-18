@@ -7,6 +7,7 @@ import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "lucide-react";
 import { Review } from "@/lib/reviewUtils";
 import { AddReviewDialog } from "./AddReviewDialog";
 import StarRating from "./StarRating";
+import { useWixClient } from "@/hooks/useWixClient";
 
 interface ReviewsProps {
   productId: string;
@@ -21,6 +22,9 @@ interface ReviewsData {
 }
 
 const Reviews = ({ productId, productSlug }: ReviewsProps) => {
+  const wixClient = useWixClient();
+  const isLoggedIn = wixClient.auth.loggedIn();
+
   const [data, setData] = useState<ReviewsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState(0); // 0 means all reviews
@@ -108,7 +112,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
     }
   };
 
-  // Pagination controls logic (previous implementation remains the same)
+  // Pagination controls logic
   const renderPaginationButtons = () => {
     // If totalPages is 5 or less, just show all pages
     if (totalPages <= 5) {
@@ -227,20 +231,31 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
   if (!data || data.totalReviews === 0) {
     return (
       <div className="p-8 bg-gray-50 rounded-lg text-center">
-        <p className="text-gray-600 mb-4">No reviews yet.</p>
-        {/* <p className="text-gray-600 mb-4">
+        <p className="text-gray-600 mb-4">
           No reviews yet. Be the first to share your experience!
-        </p> */}
-        {/* <AddReviewDialog productSlug={productSlug || ""} /> */}
+        </p>
+        {isLoggedIn ? (
+          <AddReviewDialog productSlug={productSlug || ""} />
+        ) : (
+          <div className="p-3 bg-amber-50 text-amber-800 rounded-lg border border-amber-200">
+            Please log in to add a review
+          </div>
+        )}
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      {/* <div className="flex justify-end mb-4">
-        <AddReviewDialog productSlug={productSlug || ""} />
-      </div> */}
+      <div className="flex justify-end mb-4">
+        {isLoggedIn ? (
+          <AddReviewDialog productSlug={productSlug || ""} />
+        ) : (
+          <div className="p-3 bg-amber-50 text-amber-800 rounded-lg border border-amber-200">
+            Please log in to add a review
+          </div>
+        )}
+      </div>
       {/* Summary Section */}
       <div className="flex flex-col md:flex-row items-start">
         {/* Average Rating Section */}

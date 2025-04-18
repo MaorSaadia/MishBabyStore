@@ -285,7 +285,7 @@ export function AddReviewDialog({
           {/* Review */}
           <div className="space-y-2">
             <Label htmlFor="review" className="block text-sm font-medium">
-              Your Review <span className="text-red-500">*</span>
+              Your Review
             </Label>
             <Textarea
               id="review"
