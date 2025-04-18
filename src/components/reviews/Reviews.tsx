@@ -227,9 +227,10 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
   if (!data || data.totalReviews === 0) {
     return (
       <div className="p-8 bg-gray-50 rounded-lg text-center">
-        <p className="text-gray-600 mb-4">
+        <p className="text-gray-600 mb-4">No reviews yet.</p>
+        {/* <p className="text-gray-600 mb-4">
           No reviews yet. Be the first to share your experience!
-        </p>
+        </p> */}
         {/* <AddReviewDialog productSlug={productSlug || ""} /> */}
       </div>
     );
