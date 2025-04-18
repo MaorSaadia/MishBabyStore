@@ -211,7 +211,7 @@ export function AddReviewDialog({
         >
           <StarIcon
             className={cn(
-              "w-8 h-8",
+              "w-6 h-6 sm:w-8 sm:h-8",
               rating >= star ? "fill-current" : "fill-transparent"
             )}
           />
@@ -231,30 +231,30 @@ export function AddReviewDialog({
           {buttonText}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[550px] p-6 border-0 shadow-lg rounded-lg">
-        <DialogHeader className="mb-4">
-          <DialogTitle className="text-2xl font-semibold text-center">
+      <DialogContent className="sm:max-w-[550px] p-3 sm:p-6 border-0 shadow-lg rounded-lg max-h-[95vh] overflow-y-auto">
+        <DialogHeader className="mb-2 sm:mb-4">
+          <DialogTitle className="text-xl sm:text-2xl font-semibold text-center">
             Share Your Experience
           </DialogTitle>
-          <DialogDescription className="text-center text-gray-500">
+          <DialogDescription className="text-center text-gray-500 text-sm sm:text-base">
             Your review helps others make better choices
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-6 py-4">
+        <div className="grid gap-4 sm:gap-6 py-2 sm:py-4">
           {/* Star Rating */}
-          <div className="space-y-2">
+          <div className="space-y-1 sm:space-y-2">
             <Label htmlFor="rating" className="block text-sm font-medium">
               Rating <span className="text-red-500">*</span>
             </Label>
-            <div className="flex justify-center py-2">
+            <div className="flex justify-center py-1 sm:py-2">
               <StarRating />
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-2 sm:gap-4">
             {/* First Name */}
-            <div className="space-y-2">
+            <div className="space-y-1 sm:space-y-2">
               <Label htmlFor="firstName" className="block text-sm font-medium">
                 First Name
               </Label>
@@ -268,7 +268,7 @@ export function AddReviewDialog({
             </div>
 
             {/* Last Name */}
-            <div className="space-y-2">
+            <div className="space-y-1 sm:space-y-2">
               <Label htmlFor="lastName" className="block text-sm font-medium">
                 Last Name
               </Label>
@@ -283,7 +283,7 @@ export function AddReviewDialog({
           </div>
 
           {/* Review */}
-          <div className="space-y-2">
+          <div className="space-y-1 sm:space-y-2">
             <Label htmlFor="review" className="block text-sm font-medium">
               Your Review
             </Label>
@@ -292,12 +292,12 @@ export function AddReviewDialog({
               value={review}
               onChange={(e) => setReview(e.target.value)}
               placeholder="Share your experience with this product..."
-              className="w-full min-h-[120px] resize-y"
+              className="w-full min-h-[100px] sm:min-h-[120px] resize-y"
             />
           </div>
 
           {/* Image Upload */}
-          <div className="space-y-2">
+          <div className="space-y-1 sm:space-y-2">
             <Label htmlFor="images" className="block text-sm font-medium">
               Add Photos
             </Label>
@@ -313,7 +313,7 @@ export function AddReviewDialog({
 
             {/* Image Preview Grid */}
             {attachments.length > 0 && (
-              <div className="grid grid-cols-5 gap-3 mb-3">
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3 mb-2 sm:mb-3">
                 {attachments.map((att) => (
                   <div
                     key={att.id}
@@ -321,11 +321,11 @@ export function AddReviewDialog({
                   >
                     {att.state === "uploading" ? (
                       <div className="flex items-center justify-center h-full w-full">
-                        <Loader2 className="h-8 w-8 text-cyan-600 animate-spin" />
+                        <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 text-cyan-600 animate-spin" />
                       </div>
                     ) : att.state === "failed" ? (
                       <div className="flex items-center justify-center h-full w-full bg-red-50 text-red-500">
-                        <X className="w-8 h-8" />
+                        <X className="w-6 h-6 sm:w-8 sm:h-8" />
                       </div>
                     ) : (
                       <img
@@ -337,7 +337,7 @@ export function AddReviewDialog({
                     <button
                       type="button"
                       onClick={() => removeAttachment(att.id)}
-                      className="absolute top-1 right-1 bg-black/60 hover:bg-black/80 text-white p-1.5 rounded-full transition-all"
+                      className="absolute top-1 right-1 bg-black/60 hover:bg-black/80 text-white p-1 sm:p-1.5 rounded-full transition-all"
                     >
                       <X className="w-3 h-3" />
                       <span className="sr-only">Remove image</span>
@@ -351,13 +351,13 @@ export function AddReviewDialog({
               type="button"
               variant="outline"
               className={cn(
-                "w-full border-dashed py-6 hover:bg-gray-50 transition-all",
+                "w-full border-dashed py-4 sm:py-6 hover:bg-gray-50 transition-all",
                 attachments.length >= 5 && "opacity-50 cursor-not-allowed"
               )}
               onClick={() => fileInputRef.current?.click()}
               disabled={attachments.length >= 5}
             >
-              <UploadCloud className="mr-2 h-5 w-5" />
+              <UploadCloud className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               {attachments.length === 0
                 ? "Add Photos"
                 : `Add More Photos (${attachments.length}/5)`}
@@ -369,12 +369,12 @@ export function AddReviewDialog({
         </div>
 
         {/* Submit Button */}
-        <div className="mt-6">
+        <div className="mt-4 sm:mt-6">
           <Button
             type="button"
             onClick={handleSubmit}
             disabled={rating === 0 || isSubmitting}
-            className="w-full py-6 text-base font-medium transition-all"
+            className="w-full py-4 sm:py-6 text-sm sm:text-base font-medium transition-all"
           >
             {isSubmitting ? (
               <>
