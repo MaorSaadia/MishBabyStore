@@ -2,8 +2,9 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { StarIcon, UploadCloud, X, Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
 import ky from "ky";
-import { StarIcon, UploadCloud, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,11 +23,15 @@ import { anonymizeName, cn, formatDate } from "@/lib/utils";
 interface AddReviewDialogProps {
   productSlug: string;
   onReviewAdded?: (review: any) => void;
+  buttonVariant?: "outline" | "default" | "secondary" | "ghost" | "link";
+  buttonText?: string;
 }
 
 export function AddReviewDialog({
   productSlug,
   onReviewAdded,
+  buttonVariant = "outline",
+  buttonText = "Add Review",
 }: AddReviewDialogProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -49,7 +55,7 @@ export function AddReviewDialog({
       const newFiles = Array.from(e.target.files);
       // Check max 5 attachments
       if (attachments.length + newFiles.length > 5) {
-        alert("You can upload a maximum of 5 images");
+        toast.error("You can upload a maximum of 5 images");
         return;
       }
       newFiles.forEach((file) => {
@@ -61,6 +67,8 @@ export function AddReviewDialog({
   // Function to start an upload for one file using the reference project's logic
   const startUpload = async (file: File) => {
     const id = crypto.randomUUID();
+    // const toastId = toast.loading(`Uploading ${file.name}...`);
+
     // Add file to attachments state with "uploading" state
     setAttachments((prev) => [...prev, { id, file, state: "uploading" }]);
 
@@ -98,12 +106,19 @@ export function AddReviewDialog({
           att.id === id ? { ...att, state: "uploaded", url } : att
         )
       );
-      console.log("Public URL:", url);
+      // toast.success("Image uploaded successfully", { id: toastId });
+      // console.log("Public URL:", url);
     } catch (error) {
       console.error("Upload failed:", error);
       // Mark the upload as failed
       setAttachments((prev) =>
         prev.map((att) => (att.id === id ? { ...att, state: "failed" } : att))
+      );
+      toast.error(
+        `Failed to upload image: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+        // { id: toastId }
       );
     }
   };
@@ -114,15 +129,20 @@ export function AddReviewDialog({
 
   const handleSubmit = async () => {
     if (rating === 0) {
-      alert("Please select a rating");
+      toast.error("Please select a rating before submitting");
       return;
     }
+
     // Create user name
     const fullName =
       firstName || lastName ? `${firstName} ${lastName}`.trim() : "Anonymous";
     const anonymizedUserName = anonymizeName(fullName);
 
     setIsSubmitting(true);
+
+    // Create a loading toast that we'll update later
+    // const toastId = toast.loading("Submitting your review...");
+
     try {
       // Gather URLs from all attachments that uploaded successfully
       const uploadedImageUrls = attachments
@@ -148,8 +168,12 @@ export function AddReviewDialog({
         })
         .json();
 
+      // Update the toast to success
+      toast.success("Your review has been submitted successfully!");
+
       // Callback if review was added successfully
       onReviewAdded?.(newReview);
+
       // Reset form
       setFirstName("");
       setLastName("");
@@ -157,9 +181,12 @@ export function AddReviewDialog({
       setReview("");
       setAttachments([]);
       setIsDialogOpen(false);
+      window.location.reload();
     } catch (error) {
       console.error("Error submitting review:", error);
-      alert(
+
+      // Update the toast to error
+      toast.error(
         `Failed to submit review: ${
           error instanceof Error ? error.message : "Unknown error"
         }`
@@ -188,6 +215,7 @@ export function AddReviewDialog({
               rating >= star ? "fill-current" : "fill-transparent"
             )}
           />
+          <span className="sr-only">{star} star</span>
         </button>
       ))}
     </div>
@@ -196,135 +224,166 @@ export function AddReviewDialog({
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Review</Button>
+        <Button
+          variant={buttonVariant}
+          className="group transition-all duration-300 hover:shadow-md"
+        >
+          {buttonText}
+        </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[525px]">
-        <DialogHeader>
-          <DialogTitle>Write a Review</DialogTitle>
+      <DialogContent className="sm:max-w-[550px] p-6 border-0 shadow-lg rounded-lg">
+        <DialogHeader className="mb-4">
+          <DialogTitle className="text-2xl font-semibold text-center">
+            Share Your Experience
+          </DialogTitle>
+          <DialogDescription className="text-center text-gray-500">
+            Your review helps others make better choices
+          </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+
+        <div className="grid gap-6 py-4">
           {/* Star Rating */}
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="rating" className="text-right">
-              Rating
+          <div className="space-y-2">
+            <Label htmlFor="rating" className="block text-sm font-medium">
+              Rating <span className="text-red-500">*</span>
             </Label>
-            <div className="col-span-3">
+            <div className="flex justify-center py-2">
               <StarRating />
             </div>
           </div>
 
-          {/* First Name */}
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="firstName" className="text-right">
-              First Name
-            </Label>
-            <Input
-              id="firstName"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="(Optional)"
-              className="col-span-3"
-            />
-          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {/* First Name */}
+            <div className="space-y-2">
+              <Label htmlFor="firstName" className="block text-sm font-medium">
+                First Name
+              </Label>
+              <Input
+                id="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="(Optional)"
+                className="w-full"
+              />
+            </div>
 
-          {/* Last Name */}
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="lastName" className="text-right">
-              Last Name
-            </Label>
-            <Input
-              id="lastName"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="(Optional)"
-              className="col-span-3"
-            />
+            {/* Last Name */}
+            <div className="space-y-2">
+              <Label htmlFor="lastName" className="block text-sm font-medium">
+                Last Name
+              </Label>
+              <Input
+                id="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="(Optional)"
+                className="w-full"
+              />
+            </div>
           </div>
 
           {/* Review */}
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="review" className="text-right">
-              Review
+          <div className="space-y-2">
+            <Label htmlFor="review" className="block text-sm font-medium">
+              Your Review <span className="text-red-500">*</span>
             </Label>
             <Textarea
               id="review"
               value={review}
               onChange={(e) => setReview(e.target.value)}
-              placeholder="Share your experience"
-              className="col-span-3 min-h-[100px]"
+              placeholder="Share your experience with this product..."
+              className="w-full min-h-[120px] resize-y"
             />
           </div>
 
           {/* Image Upload */}
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="images" className="text-right">
-              Photos
+          <div className="space-y-2">
+            <Label htmlFor="images" className="block text-sm font-medium">
+              Add Photos
             </Label>
-            <div className="col-span-3">
-              <input
-                type="file"
-                id="images"
-                ref={fileInputRef}
-                onChange={handleImageChange}
-                accept="image/*"
-                multiple
-                className="hidden"
-              />
-              <div className="grid grid-cols-4 gap-2 mb-2">
+            <input
+              type="file"
+              id="images"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+              accept="image/*"
+              multiple
+              className="hidden"
+            />
+
+            {/* Image Preview Grid */}
+            {attachments.length > 0 && (
+              <div className="grid grid-cols-5 gap-3 mb-3">
                 {attachments.map((att) => (
                   <div
                     key={att.id}
-                    className="relative h-20 border rounded overflow-hidden"
+                    className="relative aspect-square rounded-lg overflow-hidden border bg-gray-50 transition-all duration-200 hover:shadow-md"
                   >
-                    {att.url ? (
+                    {att.state === "uploading" ? (
+                      <div className="flex items-center justify-center h-full w-full">
+                        <Loader2 className="h-8 w-8 text-cyan-600 animate-spin" />
+                      </div>
+                    ) : att.state === "failed" ? (
+                      <div className="flex items-center justify-center h-full w-full bg-red-50 text-red-500">
+                        <X className="w-8 h-8" />
+                      </div>
+                    ) : (
                       <img
                         src={att.url}
-                        alt="attachment"
+                        alt="Review attachment"
                         className="h-full w-full object-cover"
                       />
-                    ) : (
-                      <div className="flex items-center justify-center h-full w-full bg-gray-100">
-                        {att.state === "uploading" ? "Uploading..." : "Failed"}
-                      </div>
                     )}
                     <button
                       type="button"
                       onClick={() => removeAttachment(att.id)}
-                      className="absolute top-0 right-0 bg-black bg-opacity-50 text-white p-1 rounded-bl"
+                      className="absolute top-1 right-1 bg-black/60 hover:bg-black/80 text-white p-1.5 rounded-full transition-all"
                     >
-                      <X className="w-4 h-4" />
+                      <X className="w-3 h-3" />
+                      <span className="sr-only">Remove image</span>
                     </button>
                   </div>
                 ))}
               </div>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={attachments.length >= 5}
-              >
-                <UploadCloud className="mr-2 h-4 w-4" />
-                {attachments.length === 0
-                  ? "Add Photos"
-                  : "Add More Photos"}{" "}
-                {attachments.length > 0 && `(${attachments.length}/5)`}
-              </Button>
-              <p className="text-xs text-gray-500 mt-1">
-                You can upload up to 5 images (JPG, PNG)
-              </p>
-            </div>
+            )}
+
+            <Button
+              type="button"
+              variant="outline"
+              className={cn(
+                "w-full border-dashed py-6 hover:bg-gray-50 transition-all",
+                attachments.length >= 5 && "opacity-50 cursor-not-allowed"
+              )}
+              onClick={() => fileInputRef.current?.click()}
+              disabled={attachments.length >= 5}
+            >
+              <UploadCloud className="mr-2 h-5 w-5" />
+              {attachments.length === 0
+                ? "Add Photos"
+                : `Add More Photos (${attachments.length}/5)`}
+            </Button>
+            <p className="text-xs text-gray-500 mt-1 text-center">
+              You can upload up to 5 images to help others see your experience
+            </p>
           </div>
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-end">
+        <div className="mt-6">
           <Button
             type="button"
             onClick={handleSubmit}
             disabled={rating === 0 || isSubmitting}
+            className="w-full py-6 text-base font-medium transition-all"
           >
-            {isSubmitting ? "Submitting..." : "Submit Review"}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              "Submit Review"
+            )}
           </Button>
         </div>
       </DialogContent>

@@ -20,6 +20,8 @@ export const anonymizeName = (fullName: string) => {
     return "";
   }
 
+  if (fullName === "Anonymous") return fullName;
+
   // Trim and split the name by spaces
   const nameParts = fullName.trim().split(" ");
 
