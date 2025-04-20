@@ -38,6 +38,14 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
       );
     });
     setSelectedVariant(variant);
+
+    // Dispatch a custom event when the variant changes
+    if (typeof window !== "undefined") {
+      const event = new CustomEvent("variantChanged", {
+        detail: variant,
+      });
+      window.dispatchEvent(event);
+    }
   }, [selectedOptions, variants]);
 
   const handleOptionSelect = (optionType: string, choice: string) => {

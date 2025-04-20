@@ -17,6 +17,7 @@ import SizeGuide from "@/components/SizeGuide";
 import ReviewsClickable from "@/components/reviews/ReviewsClickable";
 import Reviews from "@/components/reviews/Reviews";
 import Loader from "@/components/Loader";
+import ProductPrice from "@/components/ProductPrice";
 
 interface PageProps {
   params: { slug: string };
@@ -173,34 +174,12 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   {product.name}
                 </h1>
 
-                {/* Price */}
+                {/* Price - Now uses the client component for dynamic updates */}
                 <div className="flex flex-row justify-between items-center">
-                  <div className="mt-4 flex items-center ">
-                    {product.priceData?.price ===
-                    product.priceData?.discountedPrice ? (
-                      <span className="text-3xl font-bold text-gray-900">
-                        ${product.priceData?.price}
-                      </span>
-                    ) : (
-                      <>
-                        <span className="text-3xl font-bold text-gray-900">
-                          ${product.priceData?.discountedPrice}
-                        </span>
-                        <span className="ml-2 text-lg font-medium text-gray-500 line-through">
-                          ${product.priceData?.price}
-                        </span>
-                        <span className="ml-2 text-sm font-medium text-rose-500">
-                          {Math.round(
-                            (1 -
-                              Number(product.priceData?.discountedPrice) /
-                                Number(product.priceData?.price)) *
-                              100
-                          )}
-                          % OFF
-                        </span>
-                      </>
-                    )}
-                  </div>
+                  <ProductPrice
+                    initialPrice={product.priceData?.price}
+                    initialDiscountedPrice={product.priceData?.discountedPrice}
+                  />
                   <div className="mt-4 flex items-center justify-between">
                     <ShareButton
                       url={`https://mishbaby.com/${params.slug}`}
@@ -212,7 +191,6 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                   </div>
                 </div>
 
-                {/* <ReviewsClickable productId={product._id!} /> */}
                 <ReviewsClickable
                   productId={product._id!}
                   productSlug={params.slug}
