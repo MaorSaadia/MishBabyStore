@@ -172,7 +172,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                     </span>
                   </div>
                 )}
-                <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                <h1 className="text-2xl font-extrabold text-gray-900 sm:text-4xl">
                   {product.name}
                 </h1>
 

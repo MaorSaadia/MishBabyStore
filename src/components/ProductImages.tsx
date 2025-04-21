@@ -132,7 +132,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
     <>
       <div
         ref={containerRef}
-        className="relative h-[400px] md:h-[600px] overflow-hidden rounded-lg shadow-lg"
+        className="relative h-[300px] md:h-[600px] overflow-hidden rounded-lg shadow-lg"
         onTouchStart={(e) => (swipeStartX = e.touches[0].pageX)}
         onTouchEnd={handleSwipe}
       >
@@ -161,7 +161,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
           <button
             key={item._id}
             onClick={() => setIndex(i)}
-            className={`flex-shrink-0 relative w-24 h-24 rounded-md overflow-hidden m-2 mt-4 -mr-1 ${
+            className={`flex-shrink-0 relative w-20 h-20 sm:w-24 sm:h-24 rounded-md overflow-hidden m-2 mt-4 -mr-1 ${
               i === index ? "ring-2 ring-slate-600" : ""
             }`}
           >
