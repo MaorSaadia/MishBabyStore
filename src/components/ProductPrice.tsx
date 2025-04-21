@@ -49,21 +49,21 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
 
   return (
     <motion.div
-      className="mt-4 flex items-center"
+      className="mt-2 sm:mt-4 flex items-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
       {price === discountedPrice ? (
-        <span className="text-3xl font-bold text-gray-900">
+        <span className="text-2xl sm:text-3xl font-bold text-gray-900">
           ${price?.toFixed(2)}
         </span>
       ) : (
         <>
-          <span className="text-3xl font-bold text-gray-900">
+          <span className="text-2xl sm:text-3xl font-bold text-gray-900">
             ${discountedPrice?.toFixed(2)}
           </span>
-          <span className="ml-2 text-lg font-medium text-gray-500 line-through">
+          <span className="ml-2 text-md sm:text-lg font-medium text-gray-500 line-through">
             ${price?.toFixed(2)}
           </span>
           <span className="ml-2 text-sm font-medium text-rose-500">

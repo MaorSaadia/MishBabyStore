@@ -136,7 +136,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
 
   return (
     <Suspense fallback={<LoadingFallback />}>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white shadow-xl rounded-lg overflow-hidden">
             <div className="md:flex">
@@ -151,9 +151,9 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
               </div>
 
               {/* Product Details */}
-              <div className="md:w-1/2 p-8 -mt-8 md:mt-1">
+              <div className="md:w-1/2 p-8 -mt-10 md:mt-1">
                 {product.ribbon && (
-                  <div className="flex items-center mb-4">
+                  <div className="flex items-center mb-2 sm:mb-4">
                     <Tag
                       className={`w-5 h-5 mr-2 ${
                         product.ribbon === "New Arrival"
@@ -182,7 +182,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                     initialPrice={product.priceData?.price}
                     initialDiscountedPrice={product.priceData?.discountedPrice}
                   />
-                  <div className="mt-4 flex items-center justify-between">
+                  <div className="mt-1 sm:mt-4 flex items-center justify-between">
                     <ShareButton
                       url={`https://mishbaby.com/${params.slug}`}
                       title={product.name}

@@ -106,7 +106,7 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col gap-8 bg-gray-50 p-6 rounded-lg shadow-md"
+      className="flex flex-col gap-6 bg-gray-50 p-4 rounded-lg shadow-md"
     >
       {validProductOptions.map((option) => (
         <div className="flex flex-col gap-4" key={option.name}>
