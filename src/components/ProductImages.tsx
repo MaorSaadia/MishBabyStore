@@ -6,8 +6,6 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 
-import Image from "next/image";
-
 interface ProductImagesProps {
   items: any[];
 }
@@ -19,6 +17,31 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+
+  // Listen for variant changes
+  useEffect(() => {
+    const handleVariantChanged = (event: CustomEvent) => {
+      const { imageUrl } = event.detail;
+      if (imageUrl) {
+        const newIndex = items.findIndex((item) => item.image.url === imageUrl);
+        if (newIndex !== -1) {
+          setIndex(newIndex);
+        }
+      }
+    };
+
+    window.addEventListener(
+      "variantChanged",
+      handleVariantChanged as EventListener
+    );
+
+    return () => {
+      window.removeEventListener(
+        "variantChanged",
+        handleVariantChanged as EventListener
+      );
+    };
+  }, [items]);
 
   useEffect(() => {
     const preventBodyScroll = (e: WheelEvent | TouchEvent) => {
@@ -200,7 +223,6 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
                       className="w-full h-full object-cover"
                     />
                   </motion.div>
-
                   <button
                     onClick={() => {
                       setIsModalOpen(false);

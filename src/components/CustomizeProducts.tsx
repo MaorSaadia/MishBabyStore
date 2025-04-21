@@ -3,9 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
-
 import { products } from "@wix/stores";
-
 import Add from "./Add";
 
 interface CustomizeProductsProps {
@@ -19,7 +17,6 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
   variants,
   productOptions,
 }) => {
-  // Filter out options with less than 2 choices
   const validProductOptions = productOptions.filter(
     (option) => option.choices && option.choices.length >= 2
   );
@@ -39,14 +36,32 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
     });
     setSelectedVariant(variant);
 
-    // Dispatch a custom event when the variant changes
+    // Dynamically find the option that has media associated with its choices
+    let imageUrl;
+    const mediaOption = productOptions.find((option) =>
+      option?.choices?.some((choice) => (choice?.media?.items ?? []).length > 0)
+    );
+
+    if (mediaOption) {
+      const selectedChoiceValue = selectedOptions[mediaOption?.name ?? ""];
+      if (selectedChoiceValue) {
+        const selectedChoice = mediaOption?.choices?.find(
+          (choice) => choice.description === selectedChoiceValue
+        );
+        if (selectedChoice && selectedChoice.media?.items?.[0]?.image?.url) {
+          imageUrl = selectedChoice.media.items[0].image.url;
+        }
+      }
+    }
+
+    // Dispatch custom event with variant and image URL
     if (typeof window !== "undefined") {
       const event = new CustomEvent("variantChanged", {
-        detail: variant,
+        detail: { variant, imageUrl },
       });
       window.dispatchEvent(event);
     }
-  }, [selectedOptions, variants]);
+  }, [selectedOptions, variants, productOptions]);
 
   const handleOptionSelect = (optionType: string, choice: string) => {
     setSelectedOptions((prev) => {
@@ -105,10 +120,8 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
                   option.name!,
                   choice.description!
                 );
-
                 const selected =
                   selectedOptions[option.name!] === choice.description;
-
                 const clickHandler = disabled
                   ? undefined
                   : () => handleOptionSelect(option.name!, choice.description!);
@@ -152,7 +165,6 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
                         className="absolute w-12 h-[2px] bg-slate-300 rotate-45 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                       ></motion.div>
                     )}
-
                     <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-slate-600 text-slate-100 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       {choice.description}
                     </span>

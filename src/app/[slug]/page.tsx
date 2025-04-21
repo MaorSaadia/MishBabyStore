@@ -132,6 +132,8 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
     return notFound();
   }
 
+  // console.log("product info", JSON.stringify(product, null, 2));
+
   return (
     <Suspense fallback={<LoadingFallback />}>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
