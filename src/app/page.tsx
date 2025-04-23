@@ -5,6 +5,7 @@ import CategoryList from "@/components/CategoryList";
 import ProductList from "@/components/ProductList";
 import Skeleton from "@/components/Skeleton";
 import Slider from "@/components/Slider";
+import BestSellersContainer from "@/components/BestSellersContainer";
 
 const HomePage = async () => {
   return (
@@ -12,7 +13,15 @@ const HomePage = async () => {
       <div className="container mx-auto">
         <Slider />
       </div>
-      <div className="container mx-auto mt-10 px-4 md:px-8">
+
+      {/* Best Sellers Section */}
+      <div className="mt-6">
+        <Suspense fallback={<Skeleton />}>
+          <BestSellersContainer limit={10} />
+        </Suspense>
+      </div>
+
+      <div className="container mx-auto mt-6 px-4 md:px-8">
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
           Featured Products
         </h1>

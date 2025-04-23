@@ -23,9 +23,7 @@ const CategoryList = async () => {
           <div className="bg-white rounded-lg overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg relative">
             <div className="relative aspect-[4/3] w-full overflow-hidden">
               <Image
-                src={
-                  item.media?.mainMedia?.image?.url || "/placeholder-image.jpg"
-                }
+                src={item.media?.mainMedia?.image?.url || "/product.png"}
                 quality={90}
                 alt="Category Image"
                 fill
