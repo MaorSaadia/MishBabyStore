@@ -30,85 +30,52 @@ const BestSellers = ({ products, limit = 10 }: BestSellersProps) => {
   >([]);
   const [loading, setLoading] = useState(true);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  // Calculate visible items based on screen size
+  const [activeIndex, setActiveIndex] = useState(0); // Now represents the active page index
   const [visibleItems, setVisibleItems] = useState(2);
 
+  // Handle responsive visible items
   useEffect(() => {
     const handleResize = () => {
-      // Update number of visible items based on screen width
-      if (window.innerWidth >= 1280) {
-        // xl
-        setVisibleItems(5);
-      } else if (window.innerWidth >= 1024) {
-        // lg
-        setVisibleItems(4);
-      } else if (window.innerWidth >= 768) {
-        // md
-        setVisibleItems(3);
-      } else if (window.innerWidth >= 640) {
-        // sm
-        setVisibleItems(2);
-      } else {
-        setVisibleItems(2);
-      }
+      if (window.innerWidth >= 1280) setVisibleItems(5); // xl
+      else if (window.innerWidth >= 1024) setVisibleItems(4); // lg
+      else if (window.innerWidth >= 768) setVisibleItems(3); // md
+      else if (window.innerWidth >= 640) setVisibleItems(2); // sm
+      else setVisibleItems(2);
     };
-
-    // Set initial value
     handleResize();
-
-    // Add event listener
     window.addEventListener("resize", handleResize);
-
-    // Cleanup
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Fetch product reviews
   useEffect(() => {
     const fetchReviewsData = async () => {
       try {
         const limitedProducts = products.slice(0, limit);
-
-        // Fetch reviews data for each product
         const productsWithReviewsData = await Promise.all(
           limitedProducts.map(async (product) => {
             try {
               const response = await fetch(`/api/reviews/${product.slug}`);
               const data = await response.json();
-
-              if (data.success) {
-                return {
-                  ...product,
-                  rating: data.data.averageRating,
-                  reviewCount: data.data.totalReviews,
-                };
-              }
-
-              // Fallback if the API call wasn't successful
-              return {
-                ...product,
-                rating: 0,
-                reviewCount: 0,
-              };
+              return data.success
+                ? {
+                    ...product,
+                    rating: data.data.averageRating,
+                    reviewCount: data.data.totalReviews,
+                  }
+                : { ...product, rating: 0, reviewCount: 0 };
             } catch (error) {
               console.error(
                 `Error fetching reviews for ${product.slug}:`,
                 error
               );
-              return {
-                ...product,
-                rating: 0,
-                reviewCount: 0,
-              };
+              return { ...product, rating: 0, reviewCount: 0 };
             }
           })
         );
-
         setProductsWithReviews(productsWithReviewsData);
       } catch (error) {
         console.error("Error fetching review data:", error);
-        // If there's an error, use products without review data
         setProductsWithReviews(
           products.slice(0, limit).map((product) => ({
             ...product,
@@ -120,46 +87,72 @@ const BestSellers = ({ products, limit = 10 }: BestSellersProps) => {
         setLoading(false);
       }
     };
-
-    if (products && products.length > 0) {
-      fetchReviewsData();
-    } else {
-      setLoading(false);
-    }
+    if (products && products.length > 0) fetchReviewsData();
+    else setLoading(false);
   }, [products, limit]);
 
-  // Setup scroll observer to update active index
+  // Scroll event listener to update active page
   useEffect(() => {
     if (!scrollContainerRef.current) return;
-
     const scrollContainer = scrollContainerRef.current;
-    const cardWidth =
-      scrollContainer.querySelector(".product-card")?.clientWidth || 160;
-    const gap = 16; // gap between cards
-    const itemWidth = cardWidth + gap;
 
-    // Update active index based on scroll position
     const handleScroll = () => {
-      if (!scrollContainer) return;
       const scrollLeft = scrollContainer.scrollLeft;
-      const newIndex = Math.round(scrollLeft / itemWidth);
-      if (newIndex !== activeIndex) {
-        setActiveIndex(newIndex);
-      }
+      const cardWidth =
+        scrollContainer.querySelector(".product-card")?.clientWidth || 160;
+      const gap = 16;
+      const itemWidth = cardWidth + gap;
+      const firstVisibleCardIndex = Math.round(scrollLeft / itemWidth);
+      const newActivePage = Math.floor(firstVisibleCardIndex / visibleItems);
+      const numberOfPages = Math.ceil(
+        productsWithReviews.length / visibleItems
+      );
+      const clampedPage = Math.max(
+        0,
+        Math.min(newActivePage, numberOfPages - 1)
+      );
+      if (clampedPage !== activeIndex) setActiveIndex(clampedPage);
     };
 
     scrollContainer.addEventListener("scroll", handleScroll);
-    return () => {
-      scrollContainer.removeEventListener("scroll", handleScroll);
-    };
-  }, [activeIndex]);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+  }, [visibleItems, productsWithReviews.length, activeIndex]); // Dependencies updated
 
+  // Scroll with chevron buttons
+  const scroll = (direction: "left" | "right") => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const cardWidth =
+        container.querySelector(".product-card")?.clientWidth || 160;
+      const gap = 16;
+      const scrollAmount = (cardWidth + gap) * visibleItems;
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // Scroll to specific page when clicking a dot
+  const scrollToIndex = (index: number) => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const cardWidth =
+        container.querySelector(".product-card")?.clientWidth || 160;
+      const gap = 16;
+      container.scrollTo({
+        left: index * (cardWidth + gap) * visibleItems,
+        behavior: "smooth",
+      });
+      setActiveIndex(index); // index is the page index
+    }
+  };
+
+  // Render star ratings
   const renderStars = (rating: number) => {
     const stars = [];
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating - fullStars >= 0.5;
-
-    // Add full stars
     for (let i = 0; i < fullStars; i++) {
       stars.push(
         <Star
@@ -169,22 +162,16 @@ const BestSellers = ({ products, limit = 10 }: BestSellersProps) => {
         />
       );
     }
-
-    // Add half star if needed
     if (hasHalfStar) {
       stars.push(
         <div key="half" className="relative">
-          {/* Half filled star */}
           <div className="absolute top-0 left-0 overflow-hidden w-1/2">
             <Star size={16} className="text-yellow-400 fill-current" />
           </div>
-          {/* Background star */}
           <Star size={16} className="text-gray-300 fill-current" />
         </div>
       );
     }
-
-    // Add remaining empty stars
     const remainingStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
     for (let i = 0; i < remainingStars; i++) {
       stars.push(
@@ -195,71 +182,10 @@ const BestSellers = ({ products, limit = 10 }: BestSellersProps) => {
         />
       );
     }
-
     return stars;
   };
 
-  const scroll = (direction: "left" | "right") => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const cardWidth =
-        container.querySelector(".product-card")?.clientWidth || 160;
-      const gap = 16; // gap between cards
-      const scrollAmount = (cardWidth + gap) * visibleItems;
-
-      container.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  // Scroll to specific item index
-  const scrollToIndex = (index: number) => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const cardWidth =
-        container.querySelector(".product-card")?.clientWidth || 160;
-      const gap = 16; // gap between cards
-
-      container.scrollTo({
-        left: index * (cardWidth + gap) * visibleItems,
-        behavior: "smooth",
-      });
-      setActiveIndex(index);
-    }
-  };
-
-  // Show loading skeleton when data is being fetched
-  if (loading) {
-    return (
-      <div className="py-8 bg-gradient-to-r from-cyan-50 to-blue-50">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-6">
-            <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
-            <div className="h-6 w-16 bg-gray-200 rounded animate-pulse"></div>
-          </div>
-
-          <div className="flex overflow-x-auto space-x-4 pb-4">
-            {Array(5)
-              .fill(0)
-              .map((_, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 w-40 sm:w-56 md:w-64 bg-white rounded-lg shadow-md overflow-hidden p-3"
-                >
-                  <div className="h-36 bg-gray-200 rounded animate-pulse mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
-                  <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse mb-2"></div>
-                  <div className="h-4 w-1/2 bg-gray-200 rounded animate-pulse"></div>
-                </div>
-              ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // Product card component
   const ProductCard = ({ product }: { product: ProductWithReviews }) => (
     <Link href={`/${product.slug}`} className="group product-card">
       <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 group-hover:shadow-xl transform group-hover:-translate-y-1 h-full">
@@ -323,7 +249,33 @@ const BestSellers = ({ products, limit = 10 }: BestSellersProps) => {
     </Link>
   );
 
-  // Calculate the number of pages based on visible items per screen
+  if (loading) {
+    return (
+      <div className="py-8 bg-gradient-to-r from-cyan-50 to-blue-50">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between mb-6">
+            <div className="h-8 w-40 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+          <div className="flex overflow-x-auto space-x-4 pb-4">
+            {Array(5)
+              .fill(0)
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-40 sm:w-56 md:w-64 bg-white rounded-lg shadow-md overflow-hidden p-3"
+                >
+                  <div className="h-36 bg-gray-200 rounded animate-pulse mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                  <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                  <div className="h-4 w-1/2 bg-gray-200 rounded animate-pulse"></div>
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const numberOfPages = Math.ceil(productsWithReviews.length / visibleItems);
 
   return (
@@ -338,7 +290,6 @@ const BestSellers = ({ products, limit = 10 }: BestSellersProps) => {
           </h2>
         </div>
 
-        {/* Horizontal scrollable container with navigation buttons for all screen sizes */}
         <div className="relative">
           <div
             ref={scrollContainerRef}
@@ -357,7 +308,6 @@ const BestSellers = ({ products, limit = 10 }: BestSellersProps) => {
             </div>
           </div>
 
-          {/* Scroll buttons - larger on desktop */}
           <button
             onClick={() => scroll("left")}
             className="absolute left-0 top-1/2 -translate-y-8 bg-white bg-opacity-70 rounded-full p-1 md:p-2 shadow-md z-10 hover:bg-opacity-90 transition-all"
@@ -373,14 +323,13 @@ const BestSellers = ({ products, limit = 10 }: BestSellersProps) => {
             <ChevronRight size={20} className="text-gray-800" />
           </button>
 
-          {/* Interactive scroll indicator dots */}
           <div className="flex justify-center space-x-3 -mb-2">
             {Array.from({ length: numberOfPages }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => scrollToIndex(index)}
                 className={`h-2 w-2 rounded-full transition-all duration-300 ${
-                  Math.floor(activeIndex / visibleItems) === index
+                  activeIndex === index
                     ? "bg-cyan-500 transform scale-125"
                     : "bg-gray-300 hover:bg-gray-400"
                 }`}
