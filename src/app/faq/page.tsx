@@ -23,14 +23,19 @@ const faqs: FAQ[] = [
       "Yes, we offer free international shipping to most countries. Delivery times may vary based on your location. However, please note that there are some countries we cannot ship to due to regulations. You can check our shipping restrictions page for the complete list.",
   },
   {
+    question: "Why is there a shipping fee for US orders?",
+    answer:
+      "Due to recent tariff changes implemented in early 2025, we now need to charge a $9.99 shipping fee for all orders delivered to the United States. We source many of our products from international suppliers, and these new tariffs have directly impacted our shipping costs. We're working to keep these fees as low as possible for our customers.",
+  },
+  {
     question: "How long does shipping take?",
     answer:
       "Shipping times depend on your location and the product's availability. Typically, orders are delivered within 7-16 business days.",
   },
   {
-    question: "Will I receive a tracking number for my order?",
+    question: "How can I track my order?",
     answer:
-      "Yes, once your order has been shipped, you will receive an email with your tracking number so you can monitor the delivery progress of your order.",
+      "Once your order has been shipped, you will receive an email with your order tracking number. You can use this number to monitor your delivery status through the carrier's website or our order tracking page.",
   },
   {
     question: "Can I return or exchange products?",
