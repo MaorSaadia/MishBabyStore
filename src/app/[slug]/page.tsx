@@ -136,7 +136,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
 
   return (
     <Suspense fallback={<LoadingFallback />}>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-2">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white shadow-xl rounded-lg overflow-hidden">
             <div className="md:flex">

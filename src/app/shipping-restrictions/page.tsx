@@ -79,7 +79,7 @@ const NonShippingCountriesPage = () => {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-red-500" />
+              {/* <AlertTriangle className="h-10 w-10 sm:h-5 sm:w-5 text-red-500" /> */}
               Countries & Territories We Don&apos;t Ship To
             </CardTitle>
           </CardHeader>

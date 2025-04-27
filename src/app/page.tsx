@@ -12,7 +12,7 @@ const HomePage = async () => {
   return (
     <div className="bg-white">
       {/* Shipping Notice Banner */}
-      <div className="bg-rose-200 py-3 text-center mb-2 shadow-md">
+      {/* <div className="bg-rose-200 py-3 text-center mb-2 shadow-md">
         <div className="container mx-auto px-4 flex items-center justify-center">
           <Info className="w-12 h-12 sm:w-5 sm:h-5 text-cyan-600 mr-2" />
           <p className="text-sm text-gray-700">
@@ -27,7 +27,7 @@ const HomePage = async () => {
             </Link>
           </p>
         </div>
-      </div>
+      </div> */}
 
       <div className="container mx-auto">
         <Slider />
