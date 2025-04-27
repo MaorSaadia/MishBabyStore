@@ -60,13 +60,13 @@ const faqs: FAQ[] = [
   {
     question: "Are there any hidden fees?",
     answer:
-      "No, the price you see on the product page is the final price you pay at checkout. Any additional customs fees or taxes, where applicable, are the responsibility of the buyer.",
+      "No, the price you see on the product page is the final price you pay at checkout, plus any applicable shipping fees. For most eligible countries, shipping is free. For United States destinations, there is a $9.99 shipping fee due to recent tariff changes. Any additional customs fees or taxes, where applicable, are the responsibility of the buyer.",
   },
-  {
-    question: "Can I cancel my order?",
-    answer:
-      "You can cancel your order within 24 hours after placing it. However, if the item has already been shipped, we won't be able to cancel it.",
-  },
+  // {
+  //   question: "Can I cancel my order?",
+  //   answer:
+  //     "You can cancel your order within 24 hours after placing it. However, if the item has already been shipped, we won't be able to cancel it.",
+  // },
   {
     question: "What if my order hasn't arrived?",
     answer:
@@ -95,7 +95,7 @@ const faqs: FAQ[] = [
   {
     question: "Do you ship internationally?",
     answer:
-      "Yes, we offer international shipping to most countries. Delivery times may vary based on your location.",
+      "Yes, we offer free international shipping to most eligible countries. For United States destinations, there is a $9.99 shipping fee (due to recent tariff changes). Please note that there are some countries we cannot ship to due to regulations. You can check our shipping restrictions page for the complete list. Delivery times typically range from 7-16 business days, depending on your location.",
   },
 ];
 
