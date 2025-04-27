@@ -1,4 +1,4 @@
-import { AlertTriangle, Info, Truck } from "lucide-react";
+import { AlertTriangle, Info, Truck, DollarSign } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -36,18 +36,32 @@ const NonShippingCountriesPage = () => {
           </p>
         </div>
 
+        {/* US Shipping Alert */}
+        <Alert className="mb-4 bg-cyan-50 border-cyan-200">
+          <DollarSign className="h-5 w-5 text-cyan-600" />
+          <AlertTitle className="text-cyan-800">
+            United States Shipping Fee
+          </AlertTitle>
+          <AlertDescription className="text-cyan-700">
+            Due to recent tariff changes, we now charge a $14.99 shipping fee
+            for all orders to the United States. We source many of our products
+            from international suppliers, and these new tariffs have directly
+            impacted our shipping costs.
+          </AlertDescription>
+        </Alert>
+
         {/* Free Shipping Alert */}
-        {/* <Alert className="mb-8 bg-green-50 border-green-200">
+        <Alert className="mb-4 bg-green-50 border-green-200">
           <Truck className="h-5 w-5 text-green-600" />
           <AlertTitle className="text-green-800">
-            Free Worldwide Shipping
+            Free Shipping for Most Countries
           </AlertTitle>
           <AlertDescription className="text-green-700">
-            We offer free shipping to all eligible countries. Delivery times
-            typically range from 7-16 business days, depending on your location
-            and product availability.
+            We offer free shipping to all other eligible countries not listed in
+            our restrictions below. Delivery times typically range from 7-16
+            business days, depending on your location and product availability.
           </AlertDescription>
-        </Alert> */}
+        </Alert>
 
         {/* Main Alert */}
         <Alert className="mb-8 bg-yellow-50 border-yellow-200">
@@ -96,7 +110,11 @@ const NonShippingCountriesPage = () => {
               <div>
                 <h3 className="font-semibold mb-2">Our Shipping Policy</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-2 text-gray-600">
-                  <li>Free shipping available for all eligible countries</li>
+                  <li>Free shipping available for most eligible countries</li>
+                  <li>
+                    $14.99 shipping fee for United States (due to recent tariff
+                    changes)
+                  </li>
                   <li>Delivery times: 7-16 business days</li>
                   <li>Tracking number provided for all orders</li>
                   <li>
@@ -116,9 +134,10 @@ const NonShippingCountriesPage = () => {
                 </h3>
                 <p className="text-gray-600">
                   If your country is not listed in the restricted locations
-                  above, good news! We can ship to you with our free shipping
-                  service. Simply proceed with your order, and we&apos;ll
-                  deliver your items within 7-16 business days.
+                  above, good news! We can ship to you. For most countries,
+                  shipping is completely free. For United States destinations,
+                  there is a $14.99 shipping fee due to recent tariff changes.
+                  We&apos;ll deliver your items within 7-16 business days.
                 </p>
               </div>
             </div>
