@@ -25,7 +25,7 @@ const faqs: FAQ[] = [
   {
     question: "Why is there a shipping fee for US orders?",
     answer:
-      "Due to recent tariff changes implemented in early 2025, we now need to charge a $9.99 shipping fee for all orders delivered to the United States. We source many of our products from international suppliers, and these new tariffs have directly impacted our shipping costs. We're working to keep these fees as low as possible for our customers.",
+      "Due to recent tariff changes implemented in early 2025, we now need to charge a $14.99 shipping fee for all orders delivered to the United States. We source many of our products from international suppliers, and these new tariffs have directly impacted our shipping costs. We're working to keep these fees as low as possible for our customers.",
   },
   {
     question: "How long does shipping take?",
@@ -60,7 +60,7 @@ const faqs: FAQ[] = [
   {
     question: "Are there any hidden fees?",
     answer:
-      "No, the price you see on the product page is the final price you pay at checkout, plus any applicable shipping fees. For most eligible countries, shipping is free. For United States destinations, there is a $9.99 shipping fee due to recent tariff changes. Any additional customs fees or taxes, where applicable, are the responsibility of the buyer.",
+      "No, the price you see on the product page is the final price you pay at checkout, plus any applicable shipping fees. For most eligible countries, shipping is free. For United States destinations, there is a $14.99 shipping fee due to recent tariff changes. Any additional customs fees or taxes, where applicable, are the responsibility of the buyer.",
   },
   // {
   //   question: "Can I cancel my order?",
@@ -95,7 +95,7 @@ const faqs: FAQ[] = [
   {
     question: "Do you ship internationally?",
     answer:
-      "Yes, we offer free international shipping to most eligible countries. For United States destinations, there is a $9.99 shipping fee (due to recent tariff changes). Please note that there are some countries we cannot ship to due to regulations. You can check our shipping restrictions page for the complete list. Delivery times typically range from 7-16 business days, depending on your location.",
+      "Yes, we offer free international shipping to most eligible countries. For United States destinations, there is a $14.99 shipping fee (due to recent tariff changes). Please note that there are some countries we cannot ship to due to regulations. You can check our shipping restrictions page for the complete list. Delivery times typically range from 7-16 business days, depending on your location.",
   },
 ];
 
