@@ -45,7 +45,7 @@ const faqs: FAQ[] = [
   {
     question: "What happens if my items are lost or damaged?",
     answer:
-      "For damaged items, we will process a full refund or provide a free replacement if the item becomes defective within 30 days of delivery. For lost items, if the order is lost in transit and cannot be recovered within 30 days of placing the order, we will either reship the item or offer a full refund.",
+      "For damaged items, we will process a full refund or provide a free replacement if the item becomes defective within 14 days of delivery. For lost items, if the order is lost in transit and cannot be recovered within 14 days of placing the order, we will either reship the item or offer a full refund.",
   },
   {
     question: "How long does it take to process a refund?",
