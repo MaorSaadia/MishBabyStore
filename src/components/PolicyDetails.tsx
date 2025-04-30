@@ -32,7 +32,7 @@ const PolicyDetails = () => {
           content: [
             {
               subtitle: "Damaged Items:",
-              text: "If your item arrives damaged or becomes defective within 30 days of delivery, we will offer a full refund or send a free replacement.",
+              text: "If your item arrives damaged or becomes defective within 14 days of delivery, we will offer a full refund or send a free replacement.",
             },
             {
               subtitle: "Lost Items:",
