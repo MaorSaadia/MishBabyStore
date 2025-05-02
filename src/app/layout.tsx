@@ -89,7 +89,7 @@ export default function RootLayout({
           <RegisterModal />
           <ResetPasswordModal />
           <ToastProvider />
-          <PromoBanner />
+          {/* <PromoBanner /> */}
           <Navbar />
           {/* Shipping Notice Banner */}
           <div className="bg-rose-200 py-3 text-center mb-2 shadow-md">
