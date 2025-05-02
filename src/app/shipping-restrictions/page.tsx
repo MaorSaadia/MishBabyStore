@@ -10,6 +10,7 @@ const NonShippingCountriesPage = () => {
     "Clipperton Island",
     "Cuba",
     "French Southern and Antarctic Lands",
+    "Greenland",
     "Heard Island and McDonald Islands",
     "India",
     "Iran",
