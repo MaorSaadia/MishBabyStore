@@ -12,6 +12,8 @@ const CategoryList = async () => {
   // Filter for only visible categories
   const visibleCategories = cats.items.filter((item) => item.visible);
 
+  // console.log("Categories:", JSON.stringify(cats, null, 2));
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
       {visibleCategories.map((item) => (

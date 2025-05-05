@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
-import Menu from "./Menu";
+import Menu from "./MobileMenu";
 import SearchBar from "./SearchBar";
 
 const NavIcons = dynamic(() => import("./NavIcons"), { ssr: false });

@@ -1,0 +1,275 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+  Menu,
+  X,
+  ChevronRight,
+  ChevronDown,
+  ShoppingBag,
+  Phone,
+  Users,
+  Search,
+  Home,
+} from "lucide-react";
+import Link from "next/link";
+
+const MobileMenu = () => {
+  const [open, setOpen] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState<"categories" | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [open]);
+
+  // Filter for only visible categories
+  const categories = [
+    {
+      name: "All Products",
+      slug: "all-products",
+      media: {
+        mainMedia: {
+          thumbnail: {
+            url: "https://static.wixstatic.com/media/f33a90_3dc1fbdabced4021a2595e93267d561b~mv2.png/v1/fit/w_50,h_50,q_90/file.png",
+          },
+        },
+      },
+      numberOfProducts: 152,
+    },
+    {
+      name: "Baby Clothing",
+      slug: "baby-clothing",
+      media: {
+        mainMedia: {
+          thumbnail: {
+            url: "https://static.wixstatic.com/media/f33a90_011223fc0b224ac3a1749155dcb3be0f~mv2.jpg/v1/fit/w_50,h_50,q_90/file.jpg",
+          },
+        },
+      },
+      numberOfProducts: 28,
+    },
+    {
+      name: "Baby Essentials",
+      slug: "baby-cares",
+      media: {
+        mainMedia: {
+          thumbnail: {
+            url: "https://static.wixstatic.com/media/f33a90_fa2c310aae8b478fbdcbdd2280bc89a0~mv2.jpg/v1/fit/w_50,h_50,q_90/file.jpg",
+          },
+        },
+      },
+      numberOfProducts: 17,
+    },
+    {
+      name: "Bath Care & Accessories",
+      slug: "bath-care",
+      media: {
+        mainMedia: {
+          thumbnail: {
+            url: "https://static.wixstatic.com/media/f33a90_df6d03eaabd54c629c2ae2366ec25a95~mv2.jpg/v1/fit/w_50,h_50,q_90/file.jpg",
+          },
+        },
+      },
+      numberOfProducts: 25,
+    },
+    {
+      name: "Feeding & Mealtime",
+      slug: "feeding-mealtime",
+      media: {
+        mainMedia: {
+          thumbnail: {
+            url: "https://static.wixstatic.com/media/f33a90_2445162e828242ce8487a296025b597f~mv2.jpg/v1/fit/w_50,h_50,q_90/file.jpg",
+          },
+        },
+      },
+      numberOfProducts: 13,
+    },
+    {
+      name: "Nursery & Lighting",
+      slug: "nursery-decor",
+      media: {
+        mainMedia: {
+          thumbnail: {
+            url: "https://static.wixstatic.com/media/f33a90_62e2eb01e46d41188050f9860f35adf0~mv2.jpg/v1/fit/w_50,h_50,q_90/file.jpg",
+          },
+        },
+      },
+      numberOfProducts: 14,
+    },
+    {
+      name: "Safety & Comfort",
+      slug: "safety-comfort",
+      media: {
+        mainMedia: {
+          thumbnail: {
+            url: "https://static.wixstatic.com/media/f33a90_ac4c8290ade94d5d8c56ce514654ae2d~mv2.jpg/v1/fit/w_50,h_50,q_90/file.jpg",
+          },
+        },
+      },
+      numberOfProducts: 6,
+    },
+    {
+      name: "Toys Plush & Games",
+      slug: "toys-games",
+      media: {
+        mainMedia: {
+          thumbnail: {
+            url: "https://static.wixstatic.com/media/11062b_568ec9bc56854149aa93379800659d18~mv2.jpeg/v1/fit/w_50,h_50,q_90/file.jpg",
+          },
+        },
+      },
+      numberOfProducts: 37,
+    },
+  ];
+
+  const mainMenuItems = [
+    { href: "/", label: "Home", icon: <Home size={20} /> },
+    {
+      href: "/list?cat=all-products",
+      label: "Shop All",
+      icon: <ShoppingBag size={20} />,
+    },
+    {
+      href: "/order-tracking",
+      label: "Order Tracking",
+      icon: <Search size={20} />,
+    },
+    // {
+    //   href: "/affiliate-program",
+    //   label: "Become an Affiliate",
+    //   icon: <Users size={20} />,
+    // },
+    { href: "/customer-service", label: "Contact", icon: <Phone size={20} /> },
+  ];
+
+  return (
+    <div className="relative z-40">
+      <button
+        onClick={() => setOpen(!open)}
+        className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none transition-colors duration-200"
+        aria-label="Menu"
+      >
+        {open ? <X size={28} /> : <Menu size={28} />}
+      </button>
+
+      {open && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity">
+          <div className="absolute right-0 top-0 h-full w-72 bg-white shadow-lg transform transition-all duration-300 ease-in-out overflow-y-auto">
+            <div className="flex flex-col h-full">
+              <div className="flex justify-between items-center p-4 border-b">
+                <h2 className="text-xl font-semibold text-gray-800">Menu</h2>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100"
+                  aria-label="Close menu"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              <nav className="flex-grow">
+                <div className="px-4 py-2 bg-gray-50">
+                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+                    Main Navigation
+                  </h3>
+                </div>
+                <ul className="space-y-1 p-2">
+                  {mainMenuItems.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className="flex items-center py-2 px-4 text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-lg transition duration-150 ease-in-out"
+                        onClick={() => setOpen(false)}
+                      >
+                        <span className="mr-3 text-gray-500">{item.icon}</span>
+                        <span>{item.label}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="px-4 py-2 bg-gray-50 mt-2">
+                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+                    Shop by Category
+                  </h3>
+                </div>
+
+                <div className="mt-1">
+                  <button
+                    onClick={() =>
+                      setExpandedCategory(
+                        expandedCategory === "categories" ? null : "categories"
+                      )
+                    }
+                    className="w-full flex items-center justify-between py-2 px-4 text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 focus:outline-none focus:bg-cyan-50 focus:text-cyan-600"
+                  >
+                    <span className="font-medium">Categories</span>
+                    {expandedCategory === "categories" ? (
+                      <ChevronDown size={18} />
+                    ) : (
+                      <ChevronRight size={18} />
+                    )}
+                  </button>
+
+                  {expandedCategory === "categories" && (
+                    <div className="bg-gray-50 py-1 px-2 mx-2 rounded-lg">
+                      <ul className="space-y-1">
+                        {categories.map((category) => (
+                          <li key={category.slug}>
+                            <Link
+                              href={`/list?cat=${category.slug}`}
+                              className="flex items-center py-2 px-3 text-gray-700 hover:bg-white hover:text-cyan-600 rounded-md transition duration-150 ease-in-out"
+                              onClick={() => setOpen(false)}
+                            >
+                              {category.media?.mainMedia?.thumbnail?.url && (
+                                <div className="h-6 w-6 mr-3 relative overflow-hidden rounded-full bg-gray-100 flex-shrink-0">
+                                  <img
+                                    src={category.media.mainMedia.thumbnail.url}
+                                    alt={category.name}
+                                    className="object-cover w-full h-full"
+                                  />
+                                </div>
+                              )}
+                              <div className="flex flex-col">
+                                <span className="text-sm">{category.name}</span>
+                                {/* <span className="text-xs text-gray-500">
+                                  {category.numberOfProducts} products
+                                </span> */}
+                              </div>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </nav>
+
+              <div className="border-t p-4">
+                <Link
+                  href="/list?cat=all-products&filter=Sale"
+                  className="block w-full py-2 px-4 bg-cyan-600 hover:bg-cyan-700 text-white text-center rounded-lg transition duration-150 ease-in-out"
+                  onClick={() => setOpen(false)}
+                >
+                  Shop Deals
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MobileMenu;
