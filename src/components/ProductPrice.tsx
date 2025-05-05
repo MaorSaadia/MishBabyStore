@@ -52,21 +52,25 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
     : 0;
 
   return (
-    <div className="mt-1 flex items-end">
+    <div className="mt-2 flex flex-wrap items-center gap-2">
       {hasDiscount ? (
         <>
-          <p className="text-2xl sm:text-3xl font-bold text-gray-900">
-            {formattedDiscountedPrice}
-          </p>
-          <p className="ml-2 text-md sm:text-lg font-medium text-gray-500 line-through">
-            {formattedPrice}
-          </p>
-          <span className="ml-2 mr-2 sm:mb-1 bg-red-100 text-red-800 text-xs font-medium px-2 py-0.5 rounded">
+          <div className="flex items-center">
+            <p className="text-2xl md:text-3xl font-bold text-gray-900">
+              {formattedDiscountedPrice}
+            </p>
+            <p className="ml-1 text-sm md:text-lg font-medium text-gray-500 line-through">
+              {formattedPrice}
+            </p>
+          </div>
+          <span className="flex-shrink-0 bg-red-100 text-red-800 text-xs font-medium px-2 py-1 rounded-md">
             {discount}% OFF
           </span>
         </>
       ) : (
-        <p className="text-3xl font-bold text-gray-900">{formattedPrice}</p>
+        <p className="text-2xl md:text-3xl font-bold text-gray-900">
+          {formattedPrice}
+        </p>
       )}
     </div>
   );
