@@ -54,11 +54,25 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
       }
     }
 
-    // Dispatch custom event with variant and image URL
+    // Extract price information from the selected variant
+    const priceData = variant?.variant?.priceData;
+
+    // Log the price data to debug
+    console.log("Selected variant price data:", priceData);
+
+    // Dispatch custom event with variant, image URL, and price information
     if (typeof window !== "undefined") {
       const event = new CustomEvent("variantChanged", {
-        detail: { variant, imageUrl },
+        detail: {
+          variant,
+          imageUrl,
+          price: priceData?.price || 0,
+          discountedPrice: priceData?.discountedPrice || 0,
+          formattedPrice: priceData?.formatted?.price || "",
+          formattedDiscountedPrice: priceData?.formatted?.discountedPrice || "",
+        },
       });
+      console.log("Dispatching event with data:", event.detail);
       window.dispatchEvent(event);
     }
   }, [selectedOptions, variants, productOptions]);

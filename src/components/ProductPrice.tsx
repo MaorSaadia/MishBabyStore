@@ -1,77 +1,74 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 
 interface ProductPriceProps {
-  initialPrice: number | null | undefined;
-  initialDiscountedPrice: number | null | undefined;
+  initialPrice?: number | undefined;
+  initialDiscountedPrice?: number | undefined;
 }
 
 const ProductPrice: React.FC<ProductPriceProps> = ({
-  initialPrice,
+  initialPrice = 0,
   initialDiscountedPrice,
 }) => {
   const [price, setPrice] = useState(initialPrice);
   const [discountedPrice, setDiscountedPrice] = useState(
     initialDiscountedPrice
   );
+  const [formattedPrice, setFormattedPrice] = useState(
+    `$${initialPrice.toFixed(2)}`
+  );
+  const [formattedDiscountedPrice, setFormattedDiscountedPrice] = useState(
+    initialDiscountedPrice ? `$${initialDiscountedPrice.toFixed(2)}` : undefined
+  );
 
-  // Set up a listener for custom events dispatched when variant changes
   useEffect(() => {
-    // Function to handle variant change events
-    const handleVariantChange = (e: CustomEvent) => {
-      const variant = e.detail;
-      if (variant && variant.variant && variant.variant.priceData) {
-        setPrice(variant.variant.priceData.price);
-        setDiscountedPrice(variant.variant.priceData.discountedPrice);
-      } else {
-        // Reset to initial prices if no variant is selected
-        setPrice(initialPrice);
-        setDiscountedPrice(initialDiscountedPrice);
-      }
+    // Listen for variant changes
+    const handleVariantChange = (event: any) => {
+      const {
+        price,
+        discountedPrice,
+        formattedPrice,
+        formattedDiscountedPrice,
+      } = event.detail;
+
+      if (price) setPrice(price);
+      if (discountedPrice) setDiscountedPrice(discountedPrice);
+      if (formattedPrice) setFormattedPrice(formattedPrice);
+      if (formattedDiscountedPrice)
+        setFormattedDiscountedPrice(formattedDiscountedPrice);
     };
 
-    // Add event listener (need to cast to any because CustomEvent is not in the standard Event types)
-    window.addEventListener("variantChanged", handleVariantChange as any);
+    window.addEventListener("variantChanged", handleVariantChange);
 
-    // Cleanup
     return () => {
-      window.removeEventListener("variantChanged", handleVariantChange as any);
+      window.removeEventListener("variantChanged", handleVariantChange);
     };
-  }, [initialPrice, initialDiscountedPrice]);
+  }, []);
 
-  // Calculate discount percentage
-  const discountPercentage =
-    price && discountedPrice
-      ? Math.round((1 - discountedPrice / price) * 100)
-      : 0;
+  const hasDiscount = discountedPrice !== undefined && discountedPrice < price;
+  const discount = hasDiscount
+    ? Math.round(((price - discountedPrice) / price) * 100)
+    : 0;
 
   return (
-    <motion.div
-      className="mt-2 sm:mt-4 flex items-center"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-    >
-      {price === discountedPrice ? (
-        <span className="text-2xl sm:text-3xl font-bold text-gray-900">
-          ${price?.toFixed(2)}
-        </span>
-      ) : (
+    <div className="mt-1 flex items-end">
+      {hasDiscount ? (
         <>
-          <span className="text-2xl sm:text-3xl font-bold text-gray-900">
-            ${discountedPrice?.toFixed(2)}
-          </span>
-          <span className="ml-2 text-md sm:text-lg font-medium text-gray-500 line-through">
-            ${price?.toFixed(2)}
-          </span>
-          <span className="ml-2 text-sm font-medium text-rose-500">
-            {discountPercentage}% OFF
+          <p className="text-2xl sm:text-3xl font-bold text-gray-900">
+            {formattedDiscountedPrice}
+          </p>
+          <p className="ml-2 text-md sm:text-lg font-medium text-gray-500 line-through">
+            {formattedPrice}
+          </p>
+          <span className="ml-2 mr-2 sm:mb-1 bg-red-100 text-red-800 text-xs font-medium px-2 py-0.5 rounded">
+            {discount}% OFF
           </span>
         </>
+      ) : (
+        <p className="text-3xl font-bold text-gray-900">{formattedPrice}</p>
       )}
-    </motion.div>
+    </div>
   );
 };
 

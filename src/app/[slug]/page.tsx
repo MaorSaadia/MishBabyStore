@@ -179,7 +179,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 {/* Price - Now uses the client component for dynamic updates */}
                 <div className="flex flex-row justify-between items-center">
                   <ProductPrice
-                    initialPrice={product.priceData?.price}
+                    initialPrice={product.priceData?.price || undefined}
                     initialDiscountedPrice={product.priceData?.discountedPrice}
                   />
                   <div className="mt-1 sm:mt-4 flex items-center justify-between">
