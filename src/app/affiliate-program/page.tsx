@@ -11,7 +11,7 @@ const AffiliatePage = () => {
             Join Our Affiliate Program
           </h1>
           <p className="text-xl md:text-2xl mb-8">
-            Earn up to 20% commission for every successful referral
+            Earn up to 15% commission for every successful referral
           </p>
           <a
             href="https://mishbaby.goaffpro.com"
@@ -33,7 +33,7 @@ const AffiliatePage = () => {
               <DollarSign className="w-12 h-12 text-cyan-600" />
               <h3 className="text-xl font-semibold">Generous Commission</h3>
               <p className="text-gray-600">
-                Earn 20% commission on every successful referral purchase
+                Earn 15% commission on every successful referral purchase
               </p>
             </CardContent>
           </Card>
@@ -89,7 +89,7 @@ const AffiliatePage = () => {
               </div>
               <h3 className="text-xl font-semibold">Earn</h3>
               <p className="text-gray-600">
-                Earn 20% commission on every successful purchase
+                Earn 15% commission on every successful purchase
               </p>
             </div>
           </div>

@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
-import Menu from "./MobileMenu";
+import MobileMenu from "./MobileMenu";
 import SearchBar from "./SearchBar";
 
 const NavIcons = dynamic(() => import("./NavIcons"), { ssr: false });
@@ -84,7 +84,7 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
           <SearchBar />
           <NavIcons />
-          <Menu />
+          <MobileMenu />
         </div>
       </div>
 

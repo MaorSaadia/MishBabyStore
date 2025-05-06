@@ -144,11 +144,11 @@ const MobileMenu = () => {
       label: "Order Tracking",
       icon: <Search size={20} />,
     },
-    // {
-    //   href: "/affiliate-program",
-    //   label: "Become an Affiliate",
-    //   icon: <Users size={20} />,
-    // },
+    {
+      href: "/affiliate-program",
+      label: "Become an Affiliate",
+      icon: <Users size={20} />,
+    },
     { href: "/customer-service", label: "Contact", icon: <Phone size={20} /> },
   ];
 
