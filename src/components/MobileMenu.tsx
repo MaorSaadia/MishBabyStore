@@ -12,8 +12,11 @@ import {
   Users,
   Search,
   Home,
+  Tag,
 } from "lucide-react";
+import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
 import Link from "next/link";
+import Image from "next/image";
 
 const MobileMenu = () => {
   const [open, setOpen] = useState(false);
@@ -31,6 +34,30 @@ const MobileMenu = () => {
       document.body.style.overflow = "unset";
     };
   }, [open]);
+
+  // Social media icons for footer
+  const socialIcons = [
+    {
+      name: "Instagram",
+      icon: <FaInstagram size={18} />,
+      url: "https://www.instagram.com/mishbabystore",
+    },
+    {
+      name: "Facebook",
+      icon: <FaFacebook size={18} />,
+      url: "https://www.facebook.com/profile.php?id=61567086625746",
+    },
+    {
+      name: "TikTok",
+      icon: <FaTiktok size={18} />,
+      url: "https://www.tiktok.com/@mishbaby_shop",
+    },
+    {
+      name: "YouTube",
+      icon: <FaYoutube size={18} />,
+      url: "https://www.youtube.com/@mishBaby-shop",
+    },
+  ];
 
   // Filter for only visible categories
   const categories = [
@@ -140,6 +167,11 @@ const MobileMenu = () => {
       icon: <ShoppingBag size={20} />,
     },
     {
+      href: "/list?cat=all-products",
+      label: "Shop Deals",
+      icon: <Tag size={20} />,
+    },
+    {
       href: "/order-tracking",
       label: "Order Tracking",
       icon: <Search size={20} />,
@@ -242,9 +274,6 @@ const MobileMenu = () => {
                               )}
                               <div className="flex flex-col">
                                 <span className="text-sm">{category.name}</span>
-                                {/* <span className="text-xs text-gray-500">
-                                  {category.numberOfProducts} products
-                                </span> */}
                               </div>
                             </Link>
                           </li>
@@ -255,14 +284,54 @@ const MobileMenu = () => {
                 </div>
               </nav>
 
-              <div className="border-t p-4">
-                <Link
-                  href="/list?cat=all-products&filter=Sale"
-                  className="block w-full py-2 px-4 bg-cyan-600 hover:bg-cyan-700 text-white text-center rounded-lg transition duration-150 ease-in-out"
-                  onClick={() => setOpen(false)}
-                >
-                  Shop Deals
-                </Link>
+              {/* Mobile Footer */}
+              <div className="mt-auto border-t border-gray-300">
+                {/* Footer Content */}
+                <div className="bg-gray-100 p-4">
+                  {/* Social Icons */}
+                  <div className="mb-4">
+                    <p className="text-xs text-cyan-600 font-medium mb-2 text-center">
+                      Follow Us
+                    </p>
+                    <div className="flex space-x-3 items-center justify-center mb-3">
+                      {socialIcons.map((social) => (
+                        <a
+                          key={social.name}
+                          href={social.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 bg-white rounded-full shadow-sm hover:bg-gray-50 transition-colors"
+                          aria-label={social.name}
+                        >
+                          <span className="text-gray-600 hover:text-cyan-600">
+                            {social.icon}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Payment Icons */}
+                  <div className="flex justify-center space-x-2 mb-3">
+                    {["paypal", "mastercard", "visa", "american-express"].map(
+                      (payment) => (
+                        <Image
+                          key={payment}
+                          src={`/${payment}.png`}
+                          alt={payment}
+                          width={24}
+                          height={24}
+                          className="h-6 w-auto"
+                        />
+                      )
+                    )}
+                  </div>
+
+                  {/* Copyright */}
+                  <p className="text-xs text-center text-gray-500 mt-2">
+                    &copy; 2025 MishBaby. All rights reserved.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

@@ -43,7 +43,7 @@ const AffiliatePage = () => {
               <Share2 className="w-12 h-12 text-cyan-600" />
               <h3 className="text-xl font-semibold">Exclusive Discount Code</h3>
               <p className="text-gray-600">
-                Share your unique 15% discount code with your audience
+                Share your unique 10% discount code with your audience
               </p>
             </CardContent>
           </Card>

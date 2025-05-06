@@ -8,20 +8,21 @@ const Footer = () => {
       icon: "instagram",
       url: "https://www.instagram.com/mishbabystore",
     },
+
     {
       name: "facebook",
       icon: "facebook",
       url: "https://www.facebook.com/profile.php?id=61567086625746",
     },
     {
-      name: "YouTube",
-      icon: "youtube",
-      url: "https://www.youtube.com/@mishBaby-shop",
-    },
-    {
       name: "TikTok",
       icon: "tiktok",
       url: "https://www.tiktok.com/@mishbaby_shop",
+    },
+    {
+      name: "YouTube",
+      icon: "youtube",
+      url: "https://www.youtube.com/@mishBaby-shop",
     },
     // {
     //   name: "Pinterest",
