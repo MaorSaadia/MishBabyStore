@@ -196,7 +196,7 @@ const MobileMenu = () => {
 
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity">
-          <div className="absolute left-0 top-0 h-full w-72 bg-white shadow-lg transform transition-all duration-300 ease-in-out overflow-y-auto">
+          <div className="absolute right-0 top-0 h-full w-72 bg-white shadow-lg transform transition-all duration-300 ease-in-out overflow-y-auto">
             <div className="flex flex-col h-full">
               <div className="flex justify-between items-center p-4 border-b">
                 <h2 className="text-xl font-semibold text-gray-800">Menu</h2>

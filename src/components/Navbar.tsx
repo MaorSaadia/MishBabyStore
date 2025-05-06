@@ -5,7 +5,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { ChevronDown, Menu } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 import MobileMenu from "./MobileMenu";
 import SearchBar from "./SearchBar";
@@ -269,7 +269,6 @@ const Navbar = () => {
         {/* Mobile and Tablet */}
         <div className="h-16 md:h-20 flex items-center justify-between lg:hidden">
           <div className="flex items-center">
-            <MobileMenu />
             <Link href="/" className="flex items-center ml-2">
               <Image
                 src="/mb-logo.png"
@@ -284,6 +283,7 @@ const Navbar = () => {
           <div className="flex items-center gap-2 md:gap-4">
             <SearchBar />
             <NavIcons />
+            <MobileMenu />
           </div>
         </div>
 
