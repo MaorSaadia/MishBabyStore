@@ -32,23 +32,23 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="mt-12 bg-sky-100 text-gray-700 py-8 px-4 sm:px-6 lg:px-8">
+    <footer className="mt-12 bg-sky-100 text-gray-700 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Main content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
           {/* Logo and social media */}
           <div className="flex flex-col items-center sm:items-start">
             <Image
               src="/mb-logo.png"
               alt="logo"
-              width={100}
-              height={100}
-              className="mb-4 w-auto h-auto"
+              width={60}
+              height={60}
+              className="mb-2 w-auto h-auto"
             />
-            <p className="font-semibold mb-4 text-sm">mishbabyshop@gmail.com</p>
+            <p className="font-semibold mb-2 text-sm">mishbabyshop@gmail.com</p>
             <div className="flex flex-col items-center sm:items-start">
-              <p className="text-cyan-600 font-medium mb-3">Follow Us On</p>
-              <div className="flex gap-4">
+              <p className="text-cyan-600 font-medium mb-2">Follow Us On</p>
+              <div className="flex gap-4 -mb-2">
                 {socialIcons.map((social) => (
                   <a
                     key={social.icon}
@@ -74,7 +74,7 @@ const Footer = () => {
 
           {/* Shop and Help links */}
           <div className="sm:col-span-1 lg:col-span-2 flex justify-center sm:justify-start w-full">
-            <div className="grid grid-cols-2 gap-8 sm:gap-4 w-full max-w-sm sm:max-w-none">
+            <div className="grid grid-cols-2 gap-6 sm:gap-4 w-full max-w-sm sm:max-w-none">
               {/* Shop links */}
               <div className="text-center sm:text-left">
                 <h2 className="font-medium text-base text-cyan-600 mb-3">
