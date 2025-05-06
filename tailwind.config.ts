@@ -71,6 +71,10 @@ const config: Config = {
             height: "var(--radix-accordion-content-height)",
           },
         },
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(200%)" },
+        },
         "accordion-up": {
           from: {
             height: "var(--radix-accordion-content-height)",
@@ -104,6 +108,7 @@ const config: Config = {
         marquee: "marquee 20s linear infinite",
         marquee2: "marquee2 25s linear infinite",
         "gradient-x": "gradient-x 10s ease infinite",
+        shimmer: "shimmer 2s infinite",
       },
       screens: {
         sm: "720px",
