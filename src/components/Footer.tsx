@@ -22,7 +22,7 @@ const Footer = () => {
     {
       name: "YouTube",
       icon: "youtube",
-      url: "https://www.youtube.com/@mishBaby-shop",
+      url: "https://www.youtube.com/@MishBabyShop",
     },
     // {
     //   name: "Pinterest",

@@ -55,7 +55,7 @@ const MobileMenu = () => {
     {
       name: "YouTube",
       icon: <FaYoutube size={18} />,
-      url: "https://www.youtube.com/@mishBaby-shop",
+      url: "https://www.youtube.com/@MishBabyShop",
     },
   ];
 
