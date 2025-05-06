@@ -15,7 +15,6 @@ import ToastProvider from "@/providers/ToastProvider";
 import "./globals.css";
 import { Info } from "lucide-react";
 import Link from "next/link";
-import PageLoader from "@/components/PageLoader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -84,7 +83,7 @@ export default function RootLayout({
             data-website-id="7e575a4d-d8b0-4ff1-9600-11b31543ae15"
             strategy="beforeInteractive"
           />
-          <PageLoader />
+          {/* <PageLoader /> */}
           <Analytics />
           <LoginModal />
           <RegisterModal />
