@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 
 import { WixClientContextProvider } from "@/context/wixContext";
@@ -9,12 +8,10 @@ import Footer from "@/components/Footer";
 import LoginModal from "@/components/modals/LoginModal";
 import RegisterModal from "@/components/modals/RegisterModal";
 import ResetPasswordModal from "@/components/modals/ResetPasswordModal";
-import PromoBanner from "@/components/PromoBanner";
 import ToastProvider from "@/providers/ToastProvider";
+import ShippingBanner from "@/components/ShippingBanner";
 
 import "./globals.css";
-import { Info } from "lucide-react";
-import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -86,30 +83,14 @@ export default function RootLayout({
           {/* <Suspense  fallback={<div className="h-8 w-8 bg-gray-200 rounded-full" />}>
             <PageLoader />
           </Suspense> */}
-          <Analytics />
+          {/* <Analytics /> */}
+          {/* <PromoBanner /> */}
           <LoginModal />
           <RegisterModal />
           <ResetPasswordModal />
           <ToastProvider />
-          {/* <PromoBanner /> */}
           <Navbar />
-          {/* Shipping Notice Banner */}
-          <div className="bg-rose-200 py-3 text-center mb-2 shadow-md">
-            <div className="container mx-auto px-4 flex items-center justify-center">
-              <Info className="w-12 h-12 sm:w-5 sm:h-5 text-cyan-600 mr-2" />
-              <p className="text-sm text-gray-700">
-                Free shipping to most countries!
-                <span className="font-medium"> $14.99 shipping to US</span> due
-                to recent tariff changes.
-                <Link
-                  href="/shipping-restrictions"
-                  className="ml-1 text-cyan-600 hover:underline"
-                >
-                  Learn more
-                </Link>
-              </p>
-            </div>
-          </div>
+          <ShippingBanner />
           {children}
           <Footer />
           <div id="portal"></div>

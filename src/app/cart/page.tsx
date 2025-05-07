@@ -269,8 +269,7 @@ const ViewCartPage = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will remove the item from your cart. This action cannot be
-              undone.
+              This will remove the item from your cart.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
