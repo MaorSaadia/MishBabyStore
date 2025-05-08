@@ -97,7 +97,10 @@ const Footer = () => {
                       href: "/list?cat=safety-comfort",
                       label: "Safety & Comfort",
                     },
-                    { href: "/list?cat=toys-games", label: "Toys & Games" },
+                    {
+                      href: "/list?cat=toys-games",
+                      label: "Toys Plush & Games",
+                    },
                     {
                       href: "/list?cat=nursery-decor",
                       label: "Nursery & Lighting",
