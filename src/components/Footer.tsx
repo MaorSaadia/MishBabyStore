@@ -100,7 +100,7 @@ const Footer = () => {
                     { href: "/list?cat=toys-games", label: "Toys & Games" },
                     {
                       href: "/list?cat=nursery-decor",
-                      label: "Nursery & Home",
+                      label: "Nursery & Lighting",
                     },
                   ].map((link) => (
                     <li key={link.href}>
