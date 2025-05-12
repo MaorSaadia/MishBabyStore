@@ -6,7 +6,7 @@ import { X } from "lucide-react";
 const PromoBanner: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const promoText =
-    "New customers 🎉: Use code FIRSTBUY10 for 10% off ALL products on your first purchase! | Until 30/04/2025.";
+    "New customers 🎉: Use code FIRSTBUY10 for 10% off ALL products on your first purchase! | Until 31/05/2025.";
   // const promoText =
   //   "End of Year Sale 🎉: Enjoy 15% off ALL products with code ENDYEAR15 until 31/12/24! | Free Worldwide Shipping";
 

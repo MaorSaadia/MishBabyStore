@@ -12,6 +12,7 @@ import ToastProvider from "@/providers/ToastProvider";
 import ShippingBanner from "@/components/ShippingBanner";
 
 import "./globals.css";
+import PromoBanner from "@/components/PromoBanner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -84,7 +85,7 @@ export default function RootLayout({
             <PageLoader />
           </Suspense> */}
           {/* <Analytics /> */}
-          {/* <PromoBanner /> */}
+          <PromoBanner />
           <LoginModal />
           <RegisterModal />
           <ResetPasswordModal />
