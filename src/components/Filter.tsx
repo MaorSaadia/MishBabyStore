@@ -26,7 +26,7 @@ const Filter = () => {
   };
 
   return (
-    <div className="mt-12 flex flex-col md:flex-row justify-between gap-6">
+    <div className="mt-8 flex flex-col md:flex-row justify-between gap-6">
       <div className="flex flex-wrap gap-6">
         <div className="flex flex-col gap-2">
           <Input
