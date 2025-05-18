@@ -128,7 +128,7 @@ const Add: React.FC<AddProps> = ({
                 <div>Buy 2 get 10% off, </div>
                 <div>Buy 3+ get 20% off</div>
               </div>
-              <div className="text-[7px] sm:text-xs text-gray-500 mt-0.5 leading-tight">
+              <div className="text-[8px] sm:text-xs text-gray-500 mt-0.5 leading-tight">
                 Discount applied automatically at checkout
               </div>
             </motion.div>
