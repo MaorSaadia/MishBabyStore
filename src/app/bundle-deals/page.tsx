@@ -25,13 +25,11 @@ export async function generateMetadata({
     notFound();
   }
 
-  const banner = collection.collection.media?.mainMedia?.image;
-
   return {
     title: `${collection.collection.name} | MishBaby Special Offers`,
     description: collection.collection.description,
     openGraph: {
-      images: banner ? [{ url: banner.url }] : [],
+      images: [{ url: "/slider/Bundle-Deals.jpeg" }],
     },
   };
 }
