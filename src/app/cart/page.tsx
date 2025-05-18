@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Minus, ShoppingBag, Trash2 } from "lucide-react";
+import { Plus, Minus, ShoppingBag, Trash2, Tag } from "lucide-react";
 import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
 
@@ -24,15 +24,85 @@ import {
 } from "@/components/ui/alert-dialog";
 import useScreenSize from "@/hooks/useScreenSize";
 
+// Define types for cart items and discounts
+type CartItem = {
+  _id: string;
+  rootCatalogItemId: string;
+  productName?: { original: string };
+  image?: string;
+  quantity?: number;
+  price?: { amount?: number };
+  fullPrice?: { amount?: number };
+  availability?: { status?: string };
+  descriptionLines?: Array<{
+    name?: { original: string };
+    plainText?: { original: string };
+    colorInfo?: { original: string };
+  }>;
+};
+
+type DiscountRule = {
+  name: { original: string };
+  amount: { amount: number };
+};
+
+type AppliedDiscount = {
+  lineItemIds?: string[];
+  discountRule: DiscountRule;
+};
+
+type Cart = {
+  contactInfo: any;
+  lineItems?: CartItem[];
+  appliedDiscounts?: AppliedDiscount[];
+  subtotal?: { amount?: number };
+};
+
 const ViewCartPage = () => {
   const wixClient = useWixClient();
   const router = useRouter();
   const isLargeScreen = useScreenSize();
-  const { cart, isLoading, removeItem, updateItemQuantity } = useCartStore();
+  const { cart, isLoading, removeItem, updateItemQuantity } =
+    useCartStore() as {
+      cart: Cart;
+      isLoading: boolean;
+      removeItem: (client: any, id: string) => void;
+      updateItemQuantity: (client: any, id: string, qty: number) => void;
+    };
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState(null);
+  const [itemToDelete, setItemToDelete] = useState<CartItem | null>(null);
 
-  // console.log("cart", JSON.stringify(cart, null, 2));
+  // Group applied discounts by product ID for easy access
+  const discountsByProduct: { [key: string]: DiscountRule } = {};
+
+  cart?.appliedDiscounts?.forEach((discount) => {
+    if (discount.lineItemIds && discount.lineItemIds.length > 0) {
+      discount.lineItemIds.forEach((lineItemId) => {
+        discountsByProduct[lineItemId] = discount.discountRule;
+      });
+    }
+  });
+
+  // Group items by product ID to show combined discounts
+  const productGroups: {
+    [productId: string]: {
+      items: CartItem[];
+      totalQuantity: number;
+      productName?: string;
+    };
+  } = {};
+  cart?.lineItems?.forEach((item) => {
+    const productId = item.rootCatalogItemId;
+    if (!productGroups[productId]) {
+      productGroups[productId] = {
+        items: [],
+        totalQuantity: 0,
+        productName: item.productName?.original,
+      };
+    }
+    productGroups[productId].items.push(item);
+    productGroups[productId].totalQuantity += item.quantity || 0;
+  });
 
   const handleCheckout = async () => {
     try {
@@ -44,10 +114,6 @@ const ViewCartPage = () => {
       const { redirectSession } =
         await wixClient.redirects.createRedirectSession({
           ecomCheckout: { checkoutId: checkout.checkoutId },
-          // callbacks: {
-          //   postFlowUrl: window.location.origin,
-          //   thankYouPageUrl: `${window.location.origin}/success`,
-          // },
         });
 
       if (redirectSession?.fullUrl) {
@@ -64,18 +130,43 @@ const ViewCartPage = () => {
     }
   };
 
-  //@ts-ignore
-  const handleDeleteClick = (item) => {
+  const handleDeleteClick = (item: CartItem) => {
     setItemToDelete(item);
     setIsDeleteDialogOpen(true);
   };
 
   const handleConfirmDelete = () => {
     if (itemToDelete) {
-      //@ts-ignore
       removeItem(wixClient, itemToDelete._id);
     }
     setIsDeleteDialogOpen(false);
+  };
+
+  // Get the discount info for a product group
+  const getDiscountInfo = (productId: string) => {
+    // Check if any items in this product group have discounts
+    const items = productGroups[productId]?.items || [];
+    for (const item of items) {
+      if (discountsByProduct[item._id]) {
+        return discountsByProduct[item._id];
+      }
+    }
+    return null;
+  };
+
+  // Calculate total savings for a product group
+  const calculateTotalSavings = (productId: string) => {
+    const items = productGroups[productId]?.items || [];
+    let totalSavings = 0;
+
+    items.forEach((item) => {
+      const originalPrice = Number(item.fullPrice?.amount || 0);
+      const discountedPrice = Number(item.price?.amount || 0);
+      const savings = (originalPrice - discountedPrice) * (item.quantity || 1);
+      totalSavings += savings;
+    });
+
+    return totalSavings.toFixed(2);
   };
 
   if (!cart || !cart.lineItems || cart.lineItems.length === 0) {
@@ -94,130 +185,170 @@ const ViewCartPage = () => {
     );
   }
 
+  console.log("cart", JSON.stringify(cart, null, 2));
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Your Shopping Cart</h1>
+
+      {/* Special Offers Banner */}
+      {Object.keys(productGroups).map((productId) => {
+        const discountInfo = getDiscountInfo(productId);
+        if (discountInfo) {
+          const totalSavings = calculateTotalSavings(productId);
+          return (
+            <Alert
+              key={productId}
+              className="mb-4 bg-green-50 border-green-200"
+            >
+              <Tag className="h-4 w-4 text-green-600" />
+              <AlertDescription className="flex justify-between items-center">
+                <div>
+                  <span className="font-semibold text-green-600">
+                    {discountInfo.name.original}
+                  </span>{" "}
+                  applied to {productGroups[productId].productName}
+                </div>
+                <div className="text-green-600 font-semibold">
+                  You saved ${totalSavings}
+                </div>
+              </AlertDescription>
+            </Alert>
+          );
+        }
+        return null;
+      })}
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          {cart.lineItems.map((item) => (
-            <Card key={item._id} className="mb-4">
-              <CardContent className="p-2">
-                <div className="flex gap-3">
-                  {item.image && (
-                    <img
-                      src={wixMedia.getScaledToFillImageUrl(
-                        item.image,
-                        180,
-                        180,
-                        {}
-                      )}
-                      alt={item.productName?.original || ""}
-                      width={isLargeScreen ? 180 : 80}
-                      height={isLargeScreen ? 180 : 80}
-                      className="rounded-md cursor-pointer"
-                      onClick={() =>
-                        router.push(
-                          `/${item.productName?.original
-                            ?.toLowerCase()
-                            .replace(/\s+/g, "-")}`
-                        )
-                      }
-                    />
-                  )}
-                  <div className="flex-grow">
-                    <div className="flex justify-between items-start">
-                      <h3 className="text-sm md:text-lg font-semibold">
-                        {item.productName?.original}
-                      </h3>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDeleteClick(item)}
-                        disabled={isLoading}
-                      >
-                        <Trash2 size={20} />
-                      </Button>
-                    </div>
-                    <p className="text-xs md:text-sm text-gray-500 mt-1">
-                      {item.availability?.status}
-                    </p>
-                    {item.descriptionLines?.map((desc, index) => (
-                      <p
-                        key={index}
-                        className="text-xs md:text-sm text-gray-600 mt-1"
-                      >
-                        {desc.name?.original}:{" "}
-                        {desc.plainText?.original || desc.colorInfo?.original}
-                      </p>
-                    ))}
-                    <div className="flex justify-between items-center mt-4">
-                      <div className="flex items-center border rounded-md">
+          {cart.lineItems.map((item) => {
+            const discount = discountsByProduct[item._id];
+            return (
+              <Card key={item._id} className="mb-4">
+                <CardContent className="p-2">
+                  <div className="flex gap-3">
+                    {item.image && (
+                      <img
+                        src={wixMedia.getScaledToFillImageUrl(
+                          item.image,
+                          180,
+                          180,
+                          {}
+                        )}
+                        alt={item.productName?.original || ""}
+                        width={isLargeScreen ? 180 : 80}
+                        height={isLargeScreen ? 180 : 80}
+                        className="rounded-md cursor-pointer"
+                        onClick={() =>
+                          router.push(
+                            `/${item.productName?.original
+                              ?.toLowerCase()
+                              .replace(/\s+/g, "-")}`
+                          )
+                        }
+                      />
+                    )}
+                    <div className="flex-grow">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="text-sm md:text-lg font-semibold">
+                            {item.productName?.original}
+                          </h3>
+                          {discount && (
+                            <div className="mt-1 inline-flex items-center text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                              <Tag className="h-3 w-3 mr-1" />
+                              {discount.name.original}
+                            </div>
+                          )}
+                        </div>
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() =>
-                            handleQuantityChange(
-                              item._id!,
-                              (item.quantity || 1) - 1
-                            )
-                          }
-                          disabled={isLoading || (item.quantity || 0) <= 1}
-                        >
-                          <Minus size={8} />
-                        </Button>
-                        <span className="px-1">{item.quantity}</span>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() =>
-                            handleQuantityChange(
-                              item._id!,
-                              (item.quantity || 1) + 1
-                            )
-                          }
+                          onClick={() => handleDeleteClick(item)}
                           disabled={isLoading}
                         >
-                          <Plus size={8} />
+                          <Trash2 size={20} />
                         </Button>
                       </div>
-                      <div className="text-right">
-                        <p className="font-semibold text-md md:text-lg">
-                          $
-                          {(
-                            Number(item.price?.amount ?? 0) *
-                            (item.quantity || 1)
-                          ).toFixed(2)}
+                      <p className="text-xs md:text-sm text-gray-500 mt-1">
+                        {item.availability?.status}
+                      </p>
+                      {item.descriptionLines?.map((desc, index) => (
+                        <p
+                          key={index}
+                          className="text-xs md:text-sm text-gray-600 mt-1"
+                        >
+                          {desc.name?.original}:{" "}
+                          {desc.plainText?.original || desc.colorInfo?.original}
                         </p>
-                        {item.fullPrice?.amount !==
-                          item.priceBeforeDiscounts?.amount && (
-                          <p className="text-xs md:text-sm">
-                            <span className="line-through text-gray-500 mr-2">
-                              $
-                              {(
-                                Number(item?.fullPrice?.amount ?? 0) *
-                                (item.quantity || 1)
-                              ).toFixed(2)}
-                            </span>
-
-                            <span className="text-rose-600">
-                              Save $
-                              {(
-                                (Number(item.fullPrice?.amount ?? 0) -
-                                  Number(
-                                    item.priceBeforeDiscounts?.amount ?? 0
-                                  )) *
-                                (item.quantity || 1)
-                              ).toFixed(2)}
-                            </span>
+                      ))}
+                      <div className="flex justify-between items-center mt-4">
+                        <div className="flex items-center border rounded-md">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() =>
+                              handleQuantityChange(
+                                item._id!,
+                                (item.quantity || 1) - 1
+                              )
+                            }
+                            disabled={isLoading || (item.quantity || 0) <= 1}
+                          >
+                            <Minus size={8} />
+                          </Button>
+                          <span className="px-1">{item.quantity}</span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() =>
+                              handleQuantityChange(
+                                item._id!,
+                                (item.quantity || 1) + 1
+                              )
+                            }
+                            disabled={isLoading}
+                          >
+                            <Plus size={8} />
+                          </Button>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-semibold text-md md:text-lg">
+                            $
+                            {(
+                              Number(item.price?.amount ?? 0) *
+                              (item.quantity || 1)
+                            ).toFixed(2)}
                           </p>
-                        )}
+                          {Number(item.fullPrice?.amount) !==
+                            Number(item.price?.amount) && (
+                            <p className="text-xs md:text-sm">
+                              <span className="line-through text-gray-500 mr-2">
+                                $
+                                {(
+                                  Number(item?.fullPrice?.amount ?? 0) *
+                                  (item.quantity || 1)
+                                ).toFixed(2)}
+                              </span>
+
+                              <span className="text-rose-600">
+                                Save $
+                                {(
+                                  (Number(item.fullPrice?.amount ?? 0) -
+                                    Number(item.price?.amount ?? 0)) *
+                                  (item.quantity || 1)
+                                ).toFixed(2)}
+                              </span>
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
         <div>
           <Card>
@@ -225,21 +356,45 @@ const ViewCartPage = () => {
               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
               <div className="flex justify-between mb-2">
                 <span>Subtotal</span>
-                {
-                  // @ts-ignore
-                  <span>${cart.subtotal?.amount}</span>
-                }
+                <span>${Number(cart.subtotal?.amount || 0).toFixed(2)}</span>
               </div>
+
+              {/* Calculate and display total savings */}
+              {cart.appliedDiscounts && cart.appliedDiscounts.length > 0 && (
+                <div className="flex justify-between mb-2 text-green-600">
+                  <span>Discounts</span>
+                  <span>
+                    -$
+                    {cart.appliedDiscounts
+                      .reduce((total, discount) => {
+                        return (
+                          total +
+                          Number(discount.discountRule.amount.amount || 0)
+                        );
+                      }, 0)
+                      .toFixed(2)}
+                  </span>
+                </div>
+              )}
+
               <div className="flex justify-between mb-2">
                 <span>Shipping</span>
-                <span>$0.00</span>
+                <span>
+                  $
+                  {cart.contactInfo?.address?.country === "US"
+                    ? "9.99"
+                    : "0.00"}
+                </span>
               </div>
               <div className="flex justify-between font-semibold text-lg border-t pt-4">
                 <span>Total</span>
-                {
-                  // @ts-ignore
-                  <span>${cart.subtotal?.amount}</span>
-                }
+                <span>
+                  $
+                  {(
+                    Number(cart.subtotal?.amount || 0) +
+                    (cart.contactInfo?.address?.country === "US" ? 9.99 : 0)
+                  ).toFixed(2)}
+                </span>
               </div>
               <p className="text-sm text-gray-500 mt-2">
                 Tax included in the price.
