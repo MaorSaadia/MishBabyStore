@@ -19,6 +19,8 @@ import Reviews from "@/components/reviews/Reviews";
 import Loader from "@/components/Loader";
 import ProductPrice from "@/components/ProductPrice";
 
+const SPECIAL_DISCOUNT_COLLECTION_ID = "4453646d-6f62-1925-d9cc-a6297010b276";
+
 interface PageProps {
   params: { slug: string };
 }
@@ -134,6 +136,10 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
 
   // console.log("product info", JSON.stringify(product, null, 2));
 
+  const isEligibleForSpecialDiscount = product.collectionIds?.includes(
+    SPECIAL_DISCOUNT_COLLECTION_ID
+  );
+
   return (
     <Suspense fallback={<LoadingFallback />}>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-2">
@@ -210,12 +216,14 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                           (choice) => choice.visible
                         ),
                       }))}
+                      hasSpecialOffer={isEligibleForSpecialDiscount}
                     />
                   ) : (
                     <Add
                       productId={product._id!}
                       variantId="00000000-0000-0000-0000-000000000000"
                       stockNumber={product.stock?.quantity || 0}
+                      hasSpecialOffer={isEligibleForSpecialDiscount}
                     />
                   )}
                 </div>

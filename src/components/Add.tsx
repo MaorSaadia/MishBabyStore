@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useCartStore } from "@/hooks/useCartStore";
 import { useWixClient } from "@/hooks/useWixClient";
 import { motion, AnimatePresence } from "framer-motion";
+import { Gift } from "lucide-react";
 import toast from "react-hot-toast";
 
 interface AddProps {
@@ -12,6 +13,7 @@ interface AddProps {
   stockNumber: number;
   allOptionsSelected?: boolean;
   missingOptions?: string[];
+  hasSpecialOffer?: boolean; // New prop to indicate if product has special offer
 }
 
 const Add: React.FC<AddProps> = ({
@@ -20,6 +22,7 @@ const Add: React.FC<AddProps> = ({
   stockNumber,
   allOptionsSelected = true,
   missingOptions = [],
+  hasSpecialOffer = false, // Default to false
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -110,6 +113,28 @@ const Add: React.FC<AddProps> = ({
             {isAddingToCart ? "Adding..." : "Add to Cart"}
           </button>
         </div>
+
+        {/* Special Offer Text */}
+        <AnimatePresence>
+          {hasSpecialOffer && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="border border-gray-200 rounded-lg px-3 py-2.5 mt-2 bg-white shadow-sm"
+            >
+              <div className="sm:flex flex-1 text-xs font-medium text-gray-900 leading-tight">
+                <div>Buy 2 get 10% off, </div>
+                <div>Buy 3+ get 20% off</div>
+              </div>
+              <div className="text-xs text-gray-500 mt-0.5 leading-tight">
+                Discount applied automatically at checkout
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <AnimatePresence>
           {!allOptionsSelected && (
             <motion.div

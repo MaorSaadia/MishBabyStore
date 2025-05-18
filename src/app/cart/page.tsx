@@ -32,6 +32,8 @@ const ViewCartPage = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
 
+  // console.log("cart", JSON.stringify(cart, null, 2));
+
   const handleCheckout = async () => {
     try {
       const checkout =
@@ -182,7 +184,7 @@ const ViewCartPage = () => {
                         <p className="font-semibold text-md md:text-lg">
                           $
                           {(
-                            Number(item.priceBeforeDiscounts?.amount ?? 0) *
+                            Number(item.price?.amount ?? 0) *
                             (item.quantity || 1)
                           ).toFixed(2)}
                         </p>

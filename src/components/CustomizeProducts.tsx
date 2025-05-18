@@ -10,12 +10,14 @@ interface CustomizeProductsProps {
   productId: string;
   variants: products.Variant[];
   productOptions: products.ProductOption[];
+  hasSpecialOffer?: boolean; // Add the special offer prop
 }
 
 const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
   productId,
   variants,
   productOptions,
+  hasSpecialOffer = false, // Default to false
 }) => {
   const validProductOptions = productOptions.filter(
     (option) => option.choices && option.choices.length >= 2
@@ -221,6 +223,7 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
           stockNumber={selectedVariant?.stock?.quantity || 0}
           allOptionsSelected={allOptionsSelected}
           missingOptions={missingOptions}
+          hasSpecialOffer={hasSpecialOffer} 
         />
         <AnimatePresence>
           {allOptionsSelected && (
