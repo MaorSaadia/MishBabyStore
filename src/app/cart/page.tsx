@@ -156,14 +156,15 @@ const ViewCartPage = () => {
 
   // Calculate total savings for a product group
   const calculateTotalSavings = (productId: string) => {
+    // Sum only the discountRule.amount.amount for all items in this product group
     const items = productGroups[productId]?.items || [];
     let totalSavings = 0;
 
     items.forEach((item) => {
-      const originalPrice = Number(item.fullPrice?.amount || 0);
-      const discountedPrice = Number(item.price?.amount || 0);
-      const savings = (originalPrice - discountedPrice) * (item.quantity || 1);
-      totalSavings += savings;
+      const discount = discountsByProduct[item._id];
+      if (discount) {
+        totalSavings += Number(discount.amount.amount || 0);
+      }
     });
 
     return totalSavings.toFixed(2);
@@ -201,7 +202,7 @@ const ViewCartPage = () => {
               key={productId}
               className="mb-4 bg-green-50 border-green-200"
             >
-              <Tag className="h-4 w-4 text-green-600" />
+              <Tag className="h-4 w-4 text-green-600 mt-4 sm:mt-0" />
               <AlertDescription className="flex justify-between items-center">
                 <div>
                   <span className="font-semibold text-green-600">
