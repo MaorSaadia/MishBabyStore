@@ -15,7 +15,7 @@ const BundleProductCard = ({ product }: { product: products.Product }) => {
         <div className="absolute sm:top-0 right-0 z-10 m-2">
           <div className="bg-cyan-500 text-white text-xs font-medium px-2 py-1 rounded flex items-center">
             <Package size={12} className="mr-1" />
-            <span className="hidden sm:inline">BUNDLE DEAL</span>
+            <span>BUNDLE DEAL</span>
           </div>
         </div>
 
@@ -29,19 +29,6 @@ const BundleProductCard = ({ product }: { product: products.Product }) => {
             alt={product.name || "Product image"}
             className="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
           />
-          <div className="absolute top-0 left-0 flex flex-col gap-1 p-2">
-            {product.priceData?.price !==
-              product.priceData?.discountedPrice && (
-              <div className="bg-rose-500 text-white text-xs font-medium px-2 py-1 rounded">
-                SALE
-              </div>
-            )}
-            {product.ribbon === "New Arrival" && (
-              <div className="bg-sky-500 text-white text-xs font-medium px-2 py-1 rounded">
-                NEW
-              </div>
-            )}
-          </div>
 
           {/* Bundle Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
