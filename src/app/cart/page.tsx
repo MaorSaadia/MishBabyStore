@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Minus, ShoppingBag, Trash2, Tag, Package } from "lucide-react";
+import { Plus, Minus, ShoppingBag, Trash2, Tag } from "lucide-react";
 import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
 
@@ -23,6 +23,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import useScreenSize from "@/hooks/useScreenSize";
+import SuggestedProducts from "@/components/SuggestedProducts";
 
 // Define types for cart items and discounts
 type CartItem = {
@@ -73,10 +74,27 @@ const ViewCartPage = () => {
     };
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<CartItem | null>(null);
+  const [suggestedProducts, setSuggestedProducts] = useState<any[]>([]);
+
+  // Fetch suggested products from "bundle-deals" category
+  useEffect(() => {
+    const fetchSuggestedProducts = async () => {
+      try {
+        const response = await wixClient.products
+          .queryProducts()
+          .hasSome("collectionIds", ["4453646d-6f62-1925-d9cc-a6297010b276"])
+          .limit(6)
+          .find();
+        setSuggestedProducts(response.items);
+      } catch (error) {
+        console.error("Failed to fetch suggested products:", error);
+      }
+    };
+    fetchSuggestedProducts();
+  }, [wixClient]);
 
   // Group applied discounts by product ID for easy access
   const discountsByProduct: { [key: string]: DiscountRule } = {};
-
   cart?.appliedDiscounts?.forEach((discount) => {
     if (discount.lineItemIds && discount.lineItemIds.length > 0) {
       discount.lineItemIds.forEach((lineItemId) => {
@@ -112,12 +130,10 @@ const ViewCartPage = () => {
         await wixClient.currentCart.createCheckoutFromCurrentCart({
           channelType: currentCart.ChannelType.WEB,
         });
-
       const { redirectSession } =
         await wixClient.redirects.createRedirectSession({
           ecomCheckout: { checkoutId: checkout.checkoutId },
         });
-
       if (redirectSession?.fullUrl) {
         window.location.href = redirectSession.fullUrl;
       }
@@ -144,9 +160,7 @@ const ViewCartPage = () => {
     setIsDeleteDialogOpen(false);
   };
 
-  // Get the discount info for a product group
   const getDiscountInfo = (productId: string) => {
-    // Check if any items in this product group have discounts
     const items = productGroups[productId]?.items || [];
     for (const item of items) {
       if (discountsByProduct[item._id]) {
@@ -156,39 +170,30 @@ const ViewCartPage = () => {
     return null;
   };
 
-  // Calculate total savings for a product group
   const calculateTotalSavings = (productId: string) => {
-    // Sum only the discountRule.amount.amount for all items in this product group
     const items = productGroups[productId]?.items || [];
     let totalSavings = 0;
-
     items.forEach((item) => {
       const discount = discountsByProduct[item._id];
       if (discount) {
         totalSavings += Number(discount.amount.amount || 0);
       }
     });
-
     return totalSavings.toFixed(2);
   };
 
-  // Calculate subtotal before discounts (original prices)
   const calculateOriginalSubtotal = () => {
     if (!cart || !cart.lineItems) return 0;
-
     let originalSubtotal = 0;
     cart.lineItems.forEach((item) => {
       originalSubtotal +=
         Number(item.fullPrice?.amount || 0) * (item.quantity || 1);
     });
-
     return originalSubtotal.toFixed(2);
   };
 
-  // Calculate total item-level discounts (difference between fullPrice and price)
   const calculateItemDiscounts = () => {
     if (!cart || !cart.lineItems) return 0;
-
     let itemDiscounts = 0;
     cart.lineItems.forEach((item) => {
       itemDiscounts +=
@@ -196,31 +201,22 @@ const ViewCartPage = () => {
           Number(item.price?.amount || 0)) *
         (item.quantity || 1);
     });
-
     return itemDiscounts.toFixed(2);
   };
 
-  // Calculate shipping cost based on country
   const calculateShipping = () => {
     return cart?.contactInfo?.address?.country === "US" ? 9.99 : 0;
   };
 
-  // Calculate the final total after all discounts and shipping
   const calculateFinalTotal = () => {
     if (!cart || !cart.lineItems) return 0;
-
-    // Sum the final prices of each item (price already includes discounts)
     let total = 0;
     cart.lineItems.forEach((item) => {
       total += Number(item.price?.amount || 0) * (item.quantity || 1);
     });
-
     total += calculateShipping();
-
     return total.toFixed(2);
   };
-
-  console.log("cart", JSON.stringify(cart, null, 2));
 
   if (!cart || !cart.lineItems || cart.lineItems.length === 0) {
     return (
@@ -269,26 +265,6 @@ const ViewCartPage = () => {
         }
         return null;
       })}
-
-      {/* Bundle Deals Banner */}
-      {/* <Alert className="mb-6 bg-blue-50 border-blue-200">
-        <Package className="h-4 w-4 text-blue-600 mt-4 sm:mt-0" />
-        <AlertDescription className="flex justify-between items-center">
-          <div>
-            <span className="font-semibold text-blue-600">
-              Bundle Deals Available!
-            </span>{" "}
-            Add more items to unlock special discounts
-          </div>
-          <Button
-            onClick={() => router.push("/collection/bundle-deals")}
-            variant="outline"
-            className="text-blue-600 border-blue-300 hover:bg-blue-100"
-          >
-            View Bundle Deals
-          </Button>
-        </AlertDescription>
-      </Alert> */}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
@@ -401,7 +377,6 @@ const ViewCartPage = () => {
                                   (item.quantity || 1)
                                 ).toFixed(2)}
                               </span>
-
                               <span className="text-rose-600">
                                 Save $
                                 {(
@@ -421,20 +396,16 @@ const ViewCartPage = () => {
             );
           })}
         </div>
+
         <div>
           <Card>
             <CardContent className="p-4">
               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-
-              {/* Original price */}
               <div className="flex justify-between mb-2">
                 <span>Subtotal</span>
                 <span>${calculateOriginalSubtotal()}</span>
               </div>
-
-              {/* List itemized discounts */}
               {cart.appliedDiscounts?.map((discount, index) => {
-                // Find product names for this discount
                 const relatedProductNames = discount.lineItemIds
                   ?.map((lineItemId) => {
                     const item = cart.lineItems?.find(
@@ -444,7 +415,6 @@ const ViewCartPage = () => {
                   })
                   .filter(Boolean)
                   .join(", ");
-
                 return (
                   <div
                     key={index}
@@ -463,27 +433,20 @@ const ViewCartPage = () => {
                   </div>
                 );
               })}
-
-              {/* Item-level discounts (sale prices) */}
               {Number(calculateItemDiscounts()) > 0 && (
                 <div className="flex justify-between mb-2 text-green-600 text-sm">
                   <span>Item discounts</span>
                   <span>-${calculateItemDiscounts()}</span>
                 </div>
               )}
-
-              {/* Shipping */}
               <div className="flex justify-between mb-2">
                 <span>Shipping</span>
                 <span>${calculateShipping().toFixed(2)}</span>
               </div>
-
-              {/* Total */}
               <div className="flex justify-between font-semibold text-lg border-t pt-4">
                 <span>Total</span>
                 <span>${calculateFinalTotal()}</span>
               </div>
-
               <p className="text-sm text-gray-500 mt-2">
                 Tax included in the price.
               </p>
@@ -496,7 +459,6 @@ const ViewCartPage = () => {
               </Button>
             </CardContent>
           </Card>
-
           <Button
             variant="outline"
             className="w-full mt-4"
@@ -504,26 +466,12 @@ const ViewCartPage = () => {
           >
             Continue Shopping
           </Button>
-
-          {/* Bundle Deals Quick Access */}
-          {/* <div className="mt-4 border rounded-md p-4 bg-blue-50">
-            <h3 className="text-md font-semibold mb-2 flex items-center">
-              <Package className="h-4 w-4 mr-2 text-blue-600" />
-              Bundle Deal Products
-            </h3>
-            <p className="text-sm text-gray-600 mb-3">
-              Add these products to your cart to unlock special discounts!
-            </p>
-            <Button
-              variant="outline"
-              className="w-full bg-white hover:bg-blue-100"
-              onClick={() => router.push("/collection/bundle-deals")}
-            >
-              View All Bundle Deals
-            </Button>
-          </div> */}
         </div>
       </div>
+
+      {/* Suggested Products Component */}
+      {/* <SuggestedProducts suggestedProducts={suggestedProducts} /> */}
+
       <AlertDialog
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
