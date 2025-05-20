@@ -200,18 +200,6 @@ const ViewCartPage = () => {
     return itemDiscounts.toFixed(2);
   };
 
-  // Calculate total coupon discounts
-  const calculateCouponDiscounts = () => {
-    if (!cart || !cart.appliedDiscounts) return 0;
-
-    let couponDiscounts = 0;
-    cart.appliedDiscounts.forEach((discount) => {
-      couponDiscounts += Number(discount.discountRule.amount.amount || 0);
-    });
-
-    return couponDiscounts.toFixed(2);
-  };
-
   // Calculate shipping cost based on country
   const calculateShipping = () => {
     return cart?.contactInfo?.address?.country === "US" ? 9.99 : 0;
@@ -226,6 +214,8 @@ const ViewCartPage = () => {
     cart.lineItems.forEach((item) => {
       total += Number(item.price?.amount || 0) * (item.quantity || 1);
     });
+
+    total += calculateShipping();
 
     return total.toFixed(2);
   };
