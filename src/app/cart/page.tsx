@@ -185,36 +185,53 @@ const ViewCartPage = () => {
     return originalSubtotal.toFixed(2);
   };
 
-  // Calculate total discount amount
-  const calculateTotalDiscount = () => {
-    if (!cart || !cart.appliedDiscounts) return 0;
+  // Calculate total item-level discounts (difference between fullPrice and price)
+  const calculateItemDiscounts = () => {
+    if (!cart || !cart.lineItems) return 0;
 
-    let totalDiscount = 0;
-    cart.appliedDiscounts.forEach((discount) => {
-      totalDiscount += Number(discount.discountRule.amount.amount || 0);
-    });
-
-    // Add item-level discounts (difference between fullPrice and price)
-    cart.lineItems?.forEach((item) => {
-      const itemDiscount =
+    let itemDiscounts = 0;
+    cart.lineItems.forEach((item) => {
+      itemDiscounts +=
         (Number(item.fullPrice?.amount || 0) -
           Number(item.price?.amount || 0)) *
         (item.quantity || 1);
-      totalDiscount += itemDiscount;
     });
 
-    return totalDiscount.toFixed(2);
+    return itemDiscounts.toFixed(2);
+  };
+
+  // Calculate total coupon discounts
+  const calculateCouponDiscounts = () => {
+    if (!cart || !cart.appliedDiscounts) return 0;
+
+    let couponDiscounts = 0;
+    cart.appliedDiscounts.forEach((discount) => {
+      couponDiscounts += Number(discount.discountRule.amount.amount || 0);
+    });
+
+    return couponDiscounts.toFixed(2);
+  };
+
+  // Calculate shipping cost based on country
+  const calculateShipping = () => {
+    return cart?.contactInfo?.address?.country === "US" ? 9.99 : 0;
   };
 
   // Calculate the final total after all discounts and shipping
   const calculateFinalTotal = () => {
     if (!cart) return 0;
 
-    const subtotalAmount = Number(cart.subtotal?.amount || 0);
-    const shippingAmount =
-      cart.contactInfo?.address?.country === "US" ? 9.99 : 0;
+    const originalSubtotal = Number(calculateOriginalSubtotal());
+    const itemDiscounts = Number(calculateItemDiscounts());
+    const couponDiscounts = Number(calculateCouponDiscounts());
+    const shippingAmount = calculateShipping();
 
-    return (subtotalAmount + shippingAmount).toFixed(2);
+    return (
+      originalSubtotal -
+      itemDiscounts -
+      couponDiscounts +
+      shippingAmount
+    ).toFixed(2);
   };
 
   if (!cart || !cart.lineItems || cart.lineItems.length === 0) {
@@ -440,37 +457,17 @@ const ViewCartPage = () => {
               })}
 
               {/* Item-level discounts (sale prices) */}
-              {cart.lineItems?.some(
-                (item) =>
-                  Number(item.fullPrice?.amount) !== Number(item.price?.amount)
-              ) && (
+              {Number(calculateItemDiscounts()) > 0 && (
                 <div className="flex justify-between mb-2 text-green-600 text-sm">
                   <span>Item discounts</span>
-                  <span>
-                    -$
-                    {cart.lineItems
-                      .reduce((total, item) => {
-                        return (
-                          total +
-                          (Number(item.fullPrice?.amount || 0) -
-                            Number(item.price?.amount || 0)) *
-                            (item.quantity || 1)
-                        );
-                      }, 0)
-                      .toFixed(2)}
-                  </span>
+                  <span>-${calculateItemDiscounts()}</span>
                 </div>
               )}
 
               {/* Shipping */}
               <div className="flex justify-between mb-2">
                 <span>Shipping</span>
-                <span>
-                  $
-                  {cart.contactInfo?.address?.country === "US"
-                    ? "9.99"
-                    : "0.00"}
-                </span>
+                <span>${calculateShipping().toFixed(2)}</span>
               </div>
 
               {/* Total */}
