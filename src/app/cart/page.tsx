@@ -33,6 +33,7 @@ type CartItem = {
   quantity?: number;
   price?: { amount?: number };
   fullPrice?: { amount?: number };
+  priceBeforeDiscounts?: { amount?: number };
   availability?: { status?: string };
   descriptionLines?: Array<{
     name?: { original: string };
@@ -56,6 +57,7 @@ type Cart = {
   lineItems?: CartItem[];
   appliedDiscounts?: AppliedDiscount[];
   subtotal?: { amount?: number };
+  discount?: { amount?: number };
 };
 
 const ViewCartPage = () => {
@@ -170,6 +172,51 @@ const ViewCartPage = () => {
     return totalSavings.toFixed(2);
   };
 
+  // Calculate subtotal before discounts (original prices)
+  const calculateOriginalSubtotal = () => {
+    if (!cart || !cart.lineItems) return 0;
+
+    let originalSubtotal = 0;
+    cart.lineItems.forEach((item) => {
+      originalSubtotal +=
+        Number(item.fullPrice?.amount || 0) * (item.quantity || 1);
+    });
+
+    return originalSubtotal.toFixed(2);
+  };
+
+  // Calculate total discount amount
+  const calculateTotalDiscount = () => {
+    if (!cart || !cart.appliedDiscounts) return 0;
+
+    let totalDiscount = 0;
+    cart.appliedDiscounts.forEach((discount) => {
+      totalDiscount += Number(discount.discountRule.amount.amount || 0);
+    });
+
+    // Add item-level discounts (difference between fullPrice and price)
+    cart.lineItems?.forEach((item) => {
+      const itemDiscount =
+        (Number(item.fullPrice?.amount || 0) -
+          Number(item.price?.amount || 0)) *
+        (item.quantity || 1);
+      totalDiscount += itemDiscount;
+    });
+
+    return totalDiscount.toFixed(2);
+  };
+
+  // Calculate the final total after all discounts and shipping
+  const calculateFinalTotal = () => {
+    if (!cart) return 0;
+
+    const subtotalAmount = Number(cart.subtotal?.amount || 0);
+    const shippingAmount =
+      cart.contactInfo?.address?.country === "US" ? 9.99 : 0;
+
+    return (subtotalAmount + shippingAmount).toFixed(2);
+  };
+
   if (!cart || !cart.lineItems || cart.lineItems.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -185,8 +232,6 @@ const ViewCartPage = () => {
       </div>
     );
   }
-
-  console.log("cart", JSON.stringify(cart, null, 2));
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -283,7 +328,7 @@ const ViewCartPage = () => {
                           {desc.plainText?.original || desc.colorInfo?.original}
                         </p>
                       ))}
-                      <div className="flex justify-between items-center mt-4">
+                      <div className="flex justify-between items-center mt-2">
                         <div className="flex items-center border rounded-md">
                           <Button
                             variant="ghost"
@@ -355,22 +400,61 @@ const ViewCartPage = () => {
           <Card>
             <CardContent className="p-4">
               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+
+              {/* Original price */}
               <div className="flex justify-between mb-2">
                 <span>Subtotal</span>
-                <span>${Number(cart.subtotal?.amount || 0).toFixed(2)}</span>
+                <span>${calculateOriginalSubtotal()}</span>
               </div>
 
-              {/* Calculate and display total savings */}
-              {cart.appliedDiscounts && cart.appliedDiscounts.length > 0 && (
-                <div className="flex justify-between mb-2 text-green-600">
-                  <span>Discounts</span>
+              {/* List itemized discounts */}
+              {cart.appliedDiscounts?.map((discount, index) => {
+                // Find product names for this discount
+                const relatedProductNames = discount.lineItemIds
+                  ?.map((lineItemId) => {
+                    const item = cart.lineItems?.find(
+                      (item) => item._id === lineItemId
+                    );
+                    return item?.productName?.original;
+                  })
+                  .filter(Boolean)
+                  .join(", ");
+
+                return (
+                  <div
+                    key={index}
+                    className="flex justify-between mb-2 text-green-600 text-sm"
+                  >
+                    <span>
+                      {discount.discountRule.name.original}{" "}
+                      {relatedProductNames && `(${relatedProductNames})`}
+                    </span>
+                    <span>
+                      -$
+                      {Number(discount.discountRule.amount.amount || 0).toFixed(
+                        2
+                      )}
+                    </span>
+                  </div>
+                );
+              })}
+
+              {/* Item-level discounts (sale prices) */}
+              {cart.lineItems?.some(
+                (item) =>
+                  Number(item.fullPrice?.amount) !== Number(item.price?.amount)
+              ) && (
+                <div className="flex justify-between mb-2 text-green-600 text-sm">
+                  <span>Item discounts</span>
                   <span>
                     -$
-                    {cart.appliedDiscounts
-                      .reduce((total, discount) => {
+                    {cart.lineItems
+                      .reduce((total, item) => {
                         return (
                           total +
-                          Number(discount.discountRule.amount.amount || 0)
+                          (Number(item.fullPrice?.amount || 0) -
+                            Number(item.price?.amount || 0)) *
+                            (item.quantity || 1)
                         );
                       }, 0)
                       .toFixed(2)}
@@ -378,6 +462,7 @@ const ViewCartPage = () => {
                 </div>
               )}
 
+              {/* Shipping */}
               <div className="flex justify-between mb-2">
                 <span>Shipping</span>
                 <span>
@@ -387,16 +472,13 @@ const ViewCartPage = () => {
                     : "0.00"}
                 </span>
               </div>
+
+              {/* Total */}
               <div className="flex justify-between font-semibold text-lg border-t pt-4">
                 <span>Total</span>
-                <span>
-                  $
-                  {(
-                    Number(cart.subtotal?.amount || 0) +
-                    (cart.contactInfo?.address?.country === "US" ? 9.99 : 0)
-                  ).toFixed(2)}
-                </span>
+                <span>${calculateFinalTotal()}</span>
               </div>
+
               <p className="text-sm text-gray-500 mt-2">
                 Tax included in the price.
               </p>
