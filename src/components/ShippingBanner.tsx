@@ -8,7 +8,7 @@ const ShippingBanner = () => {
         <Info className="w-12 h-12 sm:w-5 sm:h-5 text-cyan-600 mr-2" />
         <p className="text-sm text-gray-700">
           Free shipping to most countries!
-          <span className="font-medium"> $9.99 shipping to US</span> due to
+          <span className="font-medium"> $4.99 shipping to US</span> due to
           recent tariff changes.
           <Link
             href="/shipping-restrictions"

@@ -94,7 +94,7 @@ const GiveawayAnnouncement = () => {
               </p>
               <ul className="text-sm list-disc list-inside space-y-1">
                 <li>Sign up for an account</li>
-                <li>Make a purchase over $9.99</li>
+                <li>Make a purchase over $4.99</li>
                 <li>Automatically enter the lottery!</li>
               </ul>
               <p className="text-sm mt-4 font-medium text-primary">

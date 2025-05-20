@@ -205,7 +205,7 @@ const ViewCartPage = () => {
   };
 
   const calculateShipping = () => {
-    return cart?.contactInfo?.address?.country === "US" ? 9.99 : 0;
+    return cart?.contactInfo?.address?.country === "US" ? 4.99 : 0;
   };
 
   const calculateFinalTotal = () => {
