@@ -153,7 +153,7 @@ const SuggestedProducts = ({
               {suggestedProducts.map((product) => (
                 <div
                   key={product._id}
-                  className="product-card flex-shrink-0 w-40 sm:w-48 snap-start bg-white rounded-lg overflow-hidden shadow-sm hover:shadow border border-gray-100 flex flex-col transition-all duration-300 hover:-translate-y-1"
+                  className="product-card flex-shrink-0 w-40 sm:w-48 md:w-56 snap-start bg-white rounded-lg overflow-hidden shadow-sm hover:shadow border border-gray-100 flex flex-col transition-all duration-300 hover:-translate-y-1 first:ml-4 last:mr-4"
                 >
                   <div className="relative">
                     {product.media?.mainMedia?.image && (
@@ -214,14 +214,14 @@ const SuggestedProducts = ({
             <>
               <button
                 onClick={() => scroll("left")}
-                className="absolute left-0 top-1/2 -translate-y-8 bg-white bg-opacity-70 rounded-full p-1 md:p-2 shadow-md z-10 hover:bg-opacity-90 transition-all"
+                className="absolute left-0 top-1/2 -translate-y-8 bg-white bg-opacity-70 rounded-full p-1 md:p-2 shadow-md z-10 hover:bg-opacity-90 transition-all lg:hidden"
                 aria-label="Scroll left"
               >
                 <ChevronLeft size={20} className="text-gray-800" />
               </button>
               <button
                 onClick={() => scroll("right")}
-                className="absolute right-0 top-1/2 -translate-y-8 bg-white bg-opacity-70 rounded-full p-1 md:p-2 shadow-md z-10 hover:bg-opacity-90 transition-all"
+                className="absolute right-0 top-1/2 -translate-y-8 bg-white bg-opacity-70 rounded-full p-1 md:p-2 shadow-md z-10 hover:bg-opacity-90 transition-all lg:hidden"
                 aria-label="Scroll right"
               >
                 <ChevronRight size={20} className="text-gray-800" />
@@ -231,7 +231,7 @@ const SuggestedProducts = ({
 
           {/* Pagination dots */}
           {numberOfPages > 1 && (
-            <div className="flex justify-center space-x-3 sm:-mb-4">
+            <div className="flex justify-center space-x-3 sm:-mb-4 lg:hidden">
               {Array.from({ length: numberOfPages }).map((_, index) => (
                 <button
                   key={index}
@@ -248,10 +248,10 @@ const SuggestedProducts = ({
           )}
         </div>
 
-        <div className="mt-4 text-right">
+        <div className="mt-4 lg:mt-0 text-right">
           <Link
             href="/bundle-deals"
-            className="text-cyan-600 hover:text-cyan-800 text-sm font-medium inline-flex items-center transition-colors duration-200"
+            className="text-cyan-600 hover:text-cyan-800 text-sm font-medium inline-flex items-center transition-colors duration-200 "
           >
             See all bundles <span className="ml-1">→</span>
           </Link>
