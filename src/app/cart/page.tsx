@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Minus, ShoppingBag, Trash2, Tag } from "lucide-react";
+import { Plus, Minus, ShoppingBag, Trash2, Tag, Package } from "lucide-react";
 import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
 
@@ -219,20 +219,18 @@ const ViewCartPage = () => {
 
   // Calculate the final total after all discounts and shipping
   const calculateFinalTotal = () => {
-    if (!cart) return 0;
+    if (!cart || !cart.lineItems) return 0;
 
-    const originalSubtotal = Number(calculateOriginalSubtotal());
-    const itemDiscounts = Number(calculateItemDiscounts());
-    const couponDiscounts = Number(calculateCouponDiscounts());
-    const shippingAmount = calculateShipping();
+    // Sum the final prices of each item (price already includes discounts)
+    let total = 0;
+    cart.lineItems.forEach((item) => {
+      total += Number(item.price?.amount || 0) * (item.quantity || 1);
+    });
 
-    return (
-      originalSubtotal -
-      itemDiscounts -
-      couponDiscounts +
-      shippingAmount
-    ).toFixed(2);
+    return total.toFixed(2);
   };
+
+  console.log("cart", JSON.stringify(cart, null, 2));
 
   if (!cart || !cart.lineItems || cart.lineItems.length === 0) {
     return (
@@ -281,6 +279,26 @@ const ViewCartPage = () => {
         }
         return null;
       })}
+
+      {/* Bundle Deals Banner */}
+      {/* <Alert className="mb-6 bg-blue-50 border-blue-200">
+        <Package className="h-4 w-4 text-blue-600 mt-4 sm:mt-0" />
+        <AlertDescription className="flex justify-between items-center">
+          <div>
+            <span className="font-semibold text-blue-600">
+              Bundle Deals Available!
+            </span>{" "}
+            Add more items to unlock special discounts
+          </div>
+          <Button
+            onClick={() => router.push("/collection/bundle-deals")}
+            variant="outline"
+            className="text-blue-600 border-blue-300 hover:bg-blue-100"
+          >
+            View Bundle Deals
+          </Button>
+        </AlertDescription>
+      </Alert> */}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
@@ -496,6 +514,24 @@ const ViewCartPage = () => {
           >
             Continue Shopping
           </Button>
+
+          {/* Bundle Deals Quick Access */}
+          {/* <div className="mt-4 border rounded-md p-4 bg-blue-50">
+            <h3 className="text-md font-semibold mb-2 flex items-center">
+              <Package className="h-4 w-4 mr-2 text-blue-600" />
+              Bundle Deal Products
+            </h3>
+            <p className="text-sm text-gray-600 mb-3">
+              Add these products to your cart to unlock special discounts!
+            </p>
+            <Button
+              variant="outline"
+              className="w-full bg-white hover:bg-blue-100"
+              onClick={() => router.push("/collection/bundle-deals")}
+            >
+              View All Bundle Deals
+            </Button>
+          </div> */}
         </div>
       </div>
       <AlertDialog
