@@ -20,7 +20,7 @@ const faqs: FAQ[] = [
   {
     question: "Do you ship internationally?",
     answer:
-      "Yes, we offer free international shipping to most countries. Delivery times may vary based on your location. However, please note that there are some countries we cannot ship to due to regulations. You can check our shipping restrictions page for the complete list.",
+      "Yes, we offer free international shipping to most eligible countries. For United States destinations, there is a $9.99 shipping fee (due to recent tariff changes). Please note that there are some countries we cannot ship to due to regulations. You can check our shipping restrictions page for the complete list. Delivery times typically range from 7-16 business days, depending on your location.",
   },
   {
     question: "Why is there a shipping fee for US orders?",
@@ -91,11 +91,6 @@ const faqs: FAQ[] = [
     question: "Do you offer discounts or promotions?",
     answer:
       "Yes, we offer discounts and promotions from time to time. Be sure to stay updated on the latest deals.",
-  },
-  {
-    question: "Do you ship internationally?",
-    answer:
-      "Yes, we offer free international shipping to most eligible countries. For United States destinations, there is a $9.99 shipping fee (due to recent tariff changes). Please note that there are some countries we cannot ship to due to regulations. You can check our shipping restrictions page for the complete list. Delivery times typically range from 7-16 business days, depending on your location.",
   },
 ];
 
