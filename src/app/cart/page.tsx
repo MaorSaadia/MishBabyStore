@@ -470,7 +470,7 @@ const ViewCartPage = () => {
       </div>
 
       {/* Suggested Products Component */}
-      {/* <SuggestedProducts suggestedProducts={suggestedProducts} /> */}
+      <SuggestedProducts suggestedProducts={suggestedProducts} />
 
       <AlertDialog
         open={isDeleteDialogOpen}

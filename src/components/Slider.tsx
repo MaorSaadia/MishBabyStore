@@ -18,16 +18,16 @@ interface Slide {
 }
 
 const slides: Slide[] = [
-  // {
-  //   id: 1,
-  //   title: "Bundle & Save",
-  //   subtitle: "SPECIAL PROMOTION",
-  //   description: "Buy 2 Get 10% Off | Buy 3 Get 20% Off",
-  //   img: "/slides/Bundle-Deals.jpeg",
-  //   url: "/bundle-deals",
-  //   accent: "text-cyan-600",
-  //   bg: "bg-gradient-to-r from-cyan-50 to-sky-200",
-  // },
+  {
+    id: 1,
+    title: "Bundle & Save",
+    subtitle: "SPECIAL PROMOTION",
+    description: "Buy 2 Get 10% Off | Buy 3 Get 20% Off",
+    img: "/slides/Bundle-Deals.jpeg",
+    url: "/bundle-deals",
+    accent: "text-cyan-600",
+    bg: "bg-gradient-to-r from-cyan-50 to-sky-200",
+  },
   {
     id: 2,
     title: "Baby Cares",
