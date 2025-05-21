@@ -153,7 +153,7 @@ const BundleDealsPage = async ({ searchParams }: PageProps) => {
 
       <Suspense fallback={<Skeleton />}>
         {/* Bundle Savings Calculator */}
-        <div className="mb-12 p-6 bg-gradient-to-r from-cyan-50 to-cyan-50 rounded-xl border border-cyan-100 shadow-sm">
+        {/* <div className="mb-12 p-6 bg-gradient-to-r from-cyan-50 to-cyan-50 rounded-xl border border-cyan-100 shadow-sm">
           <h3 className="text-lg font-semibold mb-4 flex items-center">
             <Package size={20} className="mr-2 text-cyan-600" />
             Calculate Your Bundle Savings
@@ -184,7 +184,7 @@ const BundleDealsPage = async ({ searchParams }: PageProps) => {
               <p className="text-gray-600 text-sm">on a $120 bundle</p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <ProductList
           categoryId={
