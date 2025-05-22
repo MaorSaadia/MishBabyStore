@@ -13,6 +13,7 @@ import {
   Search,
   Home,
   Tag,
+  Package,
 } from "lucide-react";
 import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
 import Link from "next/link";
@@ -69,6 +70,11 @@ const MobileMenu = () => {
       href: "/list?cat=all-products",
       label: "Shop All",
       icon: <ShoppingBag size={20} />,
+    },
+    {
+      href: "/bundle-deals",
+      label: "Bundle Deals",
+      icon: <Package size={20} />,
     },
     {
       href: "/list?cat=all-products",

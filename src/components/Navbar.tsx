@@ -214,6 +214,7 @@ const Navbar = () => {
                 fallback={<div className="h-8 w-8 bg-gray-200 rounded-full" />}
               >
                 <CategoriesDropdown />
+                <NavLink href="/bundle-deals">Bundle Deals</NavLink>
                 <NavLink href="/list?cat=all-products&filter=Sale">
                   Deals
                 </NavLink>

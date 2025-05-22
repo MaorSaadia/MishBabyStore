@@ -28,7 +28,7 @@ export async function generateMetadata({
   const banner = collection.collection.media?.mainMedia?.image;
 
   return {
-    title: `${collection.collection.name} | MishBaby Special Offers`,
+    title: `${collection.collection.name} - Special Offers`,
     description: collection.collection.description,
     openGraph: {
       images: banner ? [{ url: banner.url }] : [],
