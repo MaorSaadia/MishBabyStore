@@ -185,22 +185,46 @@ const ViewCartPage = () => {
   const calculateOriginalSubtotal = () => {
     if (!cart || !cart.lineItems) return 0;
     let originalSubtotal = 0;
+
     cart.lineItems.forEach((item) => {
-      originalSubtotal +=
-        Number(item.fullPrice?.amount || 0) * (item.quantity || 1);
+      // Use priceBeforeDiscounts if available and there's a promotional discount,
+      // otherwise use fullPrice
+      const hasPromotionalDiscount = discountsByProduct[item._id];
+      const basePrice = hasPromotionalDiscount
+        ? Number(item.fullPrice?.amount || 0)
+        : Number(item.fullPrice?.amount || 0);
+
+      originalSubtotal += basePrice * (item.quantity || 1);
     });
+
     return originalSubtotal.toFixed(2);
   };
 
   const calculateItemDiscounts = () => {
     if (!cart || !cart.lineItems) return 0;
     let itemDiscounts = 0;
+
     cart.lineItems.forEach((item) => {
-      itemDiscounts +=
-        (Number(item.fullPrice?.amount || 0) -
-          Number(item.price?.amount || 0)) *
-        (item.quantity || 1);
+      // Only show item discount if the item has a promotional discount applied
+      // AND there's an actual price difference that's NOT from promotional discounts
+      const hasPromotionalDiscount = discountsByProduct[item._id];
+      const fullPrice = Number(item.fullPrice?.amount || 0);
+      const priceBeforeDiscounts = Number(
+        item.priceBeforeDiscounts?.amount || 0
+      );
+      const currentPrice = Number(item.price?.amount || 0);
+
+      if (!hasPromotionalDiscount) {
+        // If no promotional discount, show the full difference as item discount
+        itemDiscounts += (fullPrice - currentPrice) * (item.quantity || 1);
+      } else {
+        // If promotional discount exists, only show the sale discount portion
+        // (difference between full price and price before promotional discounts)
+        const saleDiscount = fullPrice - priceBeforeDiscounts;
+        itemDiscounts += saleDiscount * (item.quantity || 1);
+      }
     });
+
     return itemDiscounts.toFixed(2);
   };
 
@@ -217,6 +241,8 @@ const ViewCartPage = () => {
     total += calculateShipping();
     return total.toFixed(2);
   };
+
+  console.log("cart", JSON.stringify(cart, null, 2));
 
   if (!cart || !cart.lineItems || cart.lineItems.length === 0) {
     return (

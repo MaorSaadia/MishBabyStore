@@ -181,13 +181,14 @@ const SuggestedProducts = ({
                     </h3>
 
                     <div className="flex flex-col">
-                      {product.price?.discountedPrice ? (
+                      {product.price?.discountedPrice !==
+                      product.price?.price ? (
                         <>
                           <span className="text-gray-500 line-through text-xs">
-                            ${(product.price.price || 0).toFixed(2)}
+                            ${(product?.price?.price || 0).toFixed(2)}
                           </span>
                           <span className="text-cyan-600 font-bold text-sm">
-                            ${product.price.discountedPrice.toFixed(2)}
+                            ${product?.price?.discountedPrice?.toFixed(2)}
                           </span>
                         </>
                       ) : (
