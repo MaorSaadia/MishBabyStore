@@ -215,14 +215,14 @@ const SuggestedProducts = ({
             <>
               <button
                 onClick={() => scroll("left")}
-                className="absolute left-0 top-1/2 -translate-y-8 bg-white bg-opacity-70 rounded-full p-1 md:p-2 shadow-md z-10 hover:bg-opacity-90 transition-all lg:hidden"
+                className="absolute left-0 top-1/2 -translate-y-8 bg-white bg-opacity-70 rounded-full p-1 md:p-2 shadow-md z-10 hover:bg-opacity-90 transition-all 2xl:hidden"
                 aria-label="Scroll left"
               >
                 <ChevronLeft size={20} className="text-gray-800" />
               </button>
               <button
                 onClick={() => scroll("right")}
-                className="absolute right-0 top-1/2 -translate-y-8 bg-white bg-opacity-70 rounded-full p-1 md:p-2 shadow-md z-10 hover:bg-opacity-90 transition-all lg:hidden"
+                className="absolute right-0 top-1/2 -translate-y-8 bg-white bg-opacity-70 rounded-full p-1 md:p-2 shadow-md z-10 hover:bg-opacity-90 transition-all 2xl:hidden"
                 aria-label="Scroll right"
               >
                 <ChevronRight size={20} className="text-gray-800" />
@@ -232,7 +232,7 @@ const SuggestedProducts = ({
 
           {/* Pagination dots */}
           {numberOfPages > 1 && (
-            <div className="flex justify-center space-x-3 sm:-mb-4 lg:hidden">
+            <div className="flex justify-center space-x-3 sm:-mb-4 2xl:hidden">
               {Array.from({ length: numberOfPages }).map((_, index) => (
                 <button
                   key={index}
