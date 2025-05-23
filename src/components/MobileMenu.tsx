@@ -2,6 +2,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import {
   Menu,
   X,
@@ -16,13 +18,12 @@ import {
   Package,
 } from "lucide-react";
 import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
-import Link from "next/link";
-import Image from "next/image";
 
 import { categories } from "@/lib/getCatgeories";
 
 const MobileMenu = () => {
   const [open, setOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<"categories" | null>(
     null
   );
@@ -37,6 +38,15 @@ const MobileMenu = () => {
       document.body.style.overflow = "unset";
     };
   }, [open]);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setOpen(false);
+      setIsClosing(false);
+      setExpandedCategory(null); // Reset category expansion on close
+    }, 300); // Match the duration of the Tailwind transition (300ms)
+  };
 
   // Social media icons for footer
   const socialIcons = [
@@ -63,7 +73,6 @@ const MobileMenu = () => {
   ];
 
   // Filter for only visible categories
-
   const mainMenuItems = [
     { href: "/", label: "Home", icon: <Home size={20} /> },
     {
@@ -97,7 +106,7 @@ const MobileMenu = () => {
   return (
     <div className="relative z-40">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => (open ? handleClose() : setOpen(true))}
         className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none transition-colors duration-200"
         aria-label="Menu"
       >
@@ -105,13 +114,23 @@ const MobileMenu = () => {
       </button>
 
       {open && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity">
-          <div className="absolute right-0 top-0 h-full w-72 bg-white shadow-lg transform transition-all duration-300 ease-in-out overflow-y-auto">
+        <div
+          className={`fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300 ease-in-out ${
+            isClosing ? "opacity-0" : "opacity-100"
+          }`}
+          onClick={handleClose}
+        >
+          <div
+            className={`absolute right-0 top-0 h-full w-72 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
+              isClosing ? "translate-x-full" : "translate-x-0"
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex flex-col h-full">
               <div className="flex justify-between items-center p-4 border-b">
                 <h2 className="text-xl font-semibold text-gray-800">Menu</h2>
                 <button
-                  onClick={() => setOpen(false)}
+                  onClick={handleClose}
                   className="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100"
                   aria-label="Close menu"
                 >
@@ -131,7 +150,7 @@ const MobileMenu = () => {
                       <Link
                         href={item.href}
                         className="flex items-center py-2 px-4 text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-lg transition duration-150 ease-in-out"
-                        onClick={() => setOpen(false)}
+                        onClick={handleClose}
                       >
                         <span className="mr-3 text-gray-500">{item.icon}</span>
                         <span>{item.label}</span>
@@ -171,7 +190,7 @@ const MobileMenu = () => {
                             <Link
                               href={`/list?cat=${category.slug}`}
                               className="flex items-center py-2 px-3 text-gray-700 hover:bg-white hover:text-cyan-600 rounded-md transition duration-150 ease-in-out"
-                              onClick={() => setOpen(false)}
+                              onClick={handleClose}
                             >
                               {category.media?.mainMedia?.thumbnail?.url && (
                                 <div className="h-6 w-6 mr-3 relative overflow-hidden rounded-full bg-gray-100 flex-shrink-0">
@@ -239,7 +258,7 @@ const MobileMenu = () => {
 
                   {/* Copyright */}
                   <p className="text-xs text-center text-gray-500 mt-2">
-                    &copy; 2025 MishBaby. All rights reserved.
+                    © 2025 MishBaby. All rights reserved.
                   </p>
                 </div>
               </div>
