@@ -123,11 +123,11 @@ const MobileMenu = () => {
           <div
             className={`absolute right-0 top-0 h-full w-72 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
               isClosing ? "translate-x-full" : "translate-x-0"
-            }`}
+            } overflow-y-auto`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex flex-col h-full">
-              <div className="flex justify-between items-center p-4 border-b">
+            <div className="flex flex-col min-h-full">
+              <div className="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
                 <h2 className="text-xl font-semibold text-gray-800">Menu</h2>
                 <button
                   onClick={handleClose}
@@ -213,11 +213,8 @@ const MobileMenu = () => {
                 </div>
               </nav>
 
-              {/* Mobile Footer */}
               <div className="mt-auto border-t border-gray-300">
-                {/* Footer Content */}
                 <div className="bg-gray-100 p-4">
-                  {/* Social Icons */}
                   <div className="mb-4">
                     <p className="text-xs text-cyan-600 font-medium mb-2 text-center">
                       Follow Us
@@ -240,7 +237,6 @@ const MobileMenu = () => {
                     </div>
                   </div>
 
-                  {/* Payment Icons */}
                   <div className="flex justify-center space-x-2 mb-3">
                     {["paypal", "mastercard", "visa", "american-express"].map(
                       (payment) => (
@@ -256,7 +252,6 @@ const MobileMenu = () => {
                     )}
                   </div>
 
-                  {/* Copyright */}
                   <p className="text-xs text-center text-gray-500 mt-2">
                     © 2025 MishBaby. All rights reserved.
                   </p>
