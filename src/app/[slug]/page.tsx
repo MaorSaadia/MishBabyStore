@@ -252,7 +252,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                       >
                         Free Shipping
                       </Link>{" "}
-                      for eligible countries. $4.99 Shipping to United States
+                      for eligible countries. $2.99 Shipping to United States
                       (due to recent tariff changes).
                     </span>
                   </div>

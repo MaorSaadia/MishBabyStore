@@ -44,7 +44,7 @@ const NonShippingCountriesPage = () => {
             United States Shipping Fee
           </AlertTitle>
           <AlertDescription className="text-cyan-700">
-            Due to recent tariff changes, we now charge a $4.99 shipping fee for
+            Due to recent tariff changes, we now charge a $2.99 shipping fee for
             all orders to the United States. We source many of our products from
             international suppliers, and these new tariffs have directly
             impacted our shipping costs.
@@ -113,7 +113,7 @@ const NonShippingCountriesPage = () => {
                 <ul className="list-disc pl-5 mt-2 space-y-2 text-gray-600">
                   <li>Free shipping available for most eligible countries</li>
                   <li>
-                    $4.99 shipping fee for United States (due to recent tariff
+                    $2.99 shipping fee for United States (due to recent tariff
                     changes)
                   </li>
                   <li>Delivery times: 7-16 business days</li>
@@ -137,7 +137,7 @@ const NonShippingCountriesPage = () => {
                   If your country is not listed in the restricted locations
                   above, good news! We can ship to you. For most countries,
                   shipping is completely free. For United States destinations,
-                  there is a $4.99 shipping fee due to recent tariff changes.
+                  there is a $2.99 shipping fee due to recent tariff changes.
                   We&apos;ll deliver your items within 7-16 business days.
                 </p>
               </div>
