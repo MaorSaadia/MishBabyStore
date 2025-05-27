@@ -242,7 +242,7 @@ const ViewCartPage = () => {
     return total.toFixed(2);
   };
 
-  console.log("cart", JSON.stringify(cart, null, 2));
+  // console.log("cart", JSON.stringify(cart, null, 2));
 
   if (!cart || !cart.lineItems || cart.lineItems.length === 0) {
     return (
