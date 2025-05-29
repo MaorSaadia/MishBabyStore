@@ -396,21 +396,21 @@ const ViewCartPage = () => {
                           {Number(item.fullPrice?.amount) !==
                             Number(item.price?.amount) && (
                             <p className="text-xs md:text-sm">
-                              <span className="line-through text-gray-500 mr-2">
+                              <span className="line-through text-gray-500">
                                 $
                                 {(
                                   Number(item?.fullPrice?.amount ?? 0) *
                                   (item.quantity || 1)
                                 ).toFixed(2)}
                               </span>
-                              <span className="text-rose-600">
+                              {/* <span className="text-rose-600">
                                 Save $
                                 {(
                                   (Number(item.fullPrice?.amount ?? 0) -
                                     Number(item.price?.amount ?? 0)) *
                                   (item.quantity || 1)
                                 ).toFixed(2)}
-                              </span>
+                              </span> */}
                             </p>
                           )}
                         </div>
