@@ -5,9 +5,9 @@ import { useState, useEffect } from "react";
 import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "lucide-react";
 
 import { Review } from "@/lib/reviewUtils";
+import { useWixClient } from "@/hooks/useWixClient";
 import { AddReviewDialog } from "./AddReviewDialog";
 import StarRating from "./StarRating";
-import { useWixClient } from "@/hooks/useWixClient";
 
 interface ReviewsProps {
   productId: string;
@@ -45,7 +45,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
       try {
         if (!productSlug) return;
 
-        const response = await fetch(`/api/reviews/${productSlug}`);
+        const response = await fetch(`/api/reviews/aws/${productSlug}`);
         const responseData = await response.json();
 
         if (responseData.success) {
