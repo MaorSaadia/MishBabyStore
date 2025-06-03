@@ -136,9 +136,9 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
 
   // console.log("product info", JSON.stringify(product, null, 2));
 
-  const isEligibleForSpecialDiscount = product.collectionIds?.includes(
-    SPECIAL_DISCOUNT_COLLECTION_ID
-  );
+  const isEligibleForSpecialDiscount =
+    product.collectionIds?.includes(SPECIAL_DISCOUNT_COLLECTION_ID) ||
+    product.ribbon === "Bundle";
 
   return (
     <Suspense fallback={<LoadingFallback />}>
