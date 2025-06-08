@@ -124,9 +124,9 @@ const CartModal: React.FC<CartModalProps> = ({ onClose }) => {
                         </span>
                       </div>
                     </div>
-                    <div className="text-sm text-gray-500 mt-1">
+                    {/* <div className="text-sm text-gray-500 mt-1">
                       {item.availability?.status}
-                    </div>
+                    </div> */}
                   </div>
                   {item.descriptionLines?.map((line, index) => (
                     <div key={index}>

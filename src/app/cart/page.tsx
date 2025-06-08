@@ -343,9 +343,9 @@ const ViewCartPage = () => {
                           <Trash2 size={20} />
                         </Button>
                       </div>
-                      <p className="text-xs md:text-sm text-gray-500 mt-1">
+                      {/* <p className="text-xs md:text-sm text-gray-500 mt-1">
                         {item.availability?.status}
-                      </p>
+                      </p> */}
                       {item.descriptionLines?.map((desc, index) => (
                         <p
                           key={index}
