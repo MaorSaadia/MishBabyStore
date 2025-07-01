@@ -9,7 +9,6 @@ import LoginModal from "@/components/modals/LoginModal";
 import RegisterModal from "@/components/modals/RegisterModal";
 import ResetPasswordModal from "@/components/modals/ResetPasswordModal";
 import ToastProvider from "@/providers/ToastProvider";
-import ShippingBanner from "@/components/ShippingBanner";
 
 import "./globals.css";
 import PromoBanner from "@/components/PromoBanner";
@@ -85,13 +84,13 @@ export default function RootLayout({
             <PageLoader />
           </Suspense> */}
           {/* <Analytics /> */}
+          {/* <ShippingBanner /> */}
           <PromoBanner />
           <LoginModal />
           <RegisterModal />
           <ResetPasswordModal />
           <ToastProvider />
           <Navbar />
-          <ShippingBanner />
           {children}
           <Footer />
           <div id="portal"></div>

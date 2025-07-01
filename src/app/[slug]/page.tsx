@@ -244,7 +244,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                 {/* Additional Features */}
                 <div className="mt-6 space-y-4">
                   <div className="flex items-center">
-                    <Truck className="w-12 h-12 sm:w-9 sm:h-9 mr-2 text-gray-400" />
+                    <Truck className="w-5 h-5 mr-2 text-gray-400" />
                     <span className="text-sm text-gray-500">
                       <Link
                         href="/shipping-restrictions"
@@ -252,8 +252,7 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
                       >
                         Free Shipping
                       </Link>{" "}
-                      for eligible countries. $2.99 Shipping to United States
-                      (due to recent tariff changes).
+                      for eligible countries.
                     </span>
                   </div>
                   <div className="flex items-center">

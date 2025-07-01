@@ -38,7 +38,7 @@ const NonShippingCountriesPage = () => {
         </div>
 
         {/* US Shipping Alert */}
-        <Alert className="mb-4 bg-cyan-50 border-cyan-200">
+        {/* <Alert className="mb-4 bg-cyan-50 border-cyan-200">
           <DollarSign className="h-5 w-5 text-cyan-600" />
           <AlertTitle className="text-cyan-800">
             United States Shipping Fee
@@ -49,7 +49,7 @@ const NonShippingCountriesPage = () => {
             international suppliers, and these new tariffs have directly
             impacted our shipping costs.
           </AlertDescription>
-        </Alert>
+        </Alert> */}
 
         {/* Free Shipping Alert */}
         <Alert className="mb-4 bg-green-50 border-green-200">
@@ -112,10 +112,10 @@ const NonShippingCountriesPage = () => {
                 <h3 className="font-semibold mb-2">Our Shipping Policy</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-2 text-gray-600">
                   <li>Free shipping available for most eligible countries</li>
-                  <li>
+                  {/* <li>
                     $2.99 shipping fee for United States (due to recent tariff
                     changes)
-                  </li>
+                  </li> */}
                   <li>Delivery times: 7-16 business days</li>
                   <li>Tracking number provided for all orders</li>
                   <li>
@@ -136,8 +136,8 @@ const NonShippingCountriesPage = () => {
                 <p className="text-gray-600">
                   If your country is not listed in the restricted locations
                   above, good news! We can ship to you. For most countries,
-                  shipping is completely free. For United States destinations,
-                  there is a $2.99 shipping fee due to recent tariff changes.
+                  {/* shipping is completely free. For United States destinations,
+                  there is a $2.99 shipping fee due to recent tariff changes. */}
                   We&apos;ll deliver your items within 7-16 business days.
                 </p>
               </div>
