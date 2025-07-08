@@ -12,6 +12,7 @@ import ToastProvider from "@/providers/ToastProvider";
 
 import "./globals.css";
 import PromoBanner from "@/components/PromoBanner";
+import FreeShippingBanner from "@/components/FreeShippingBanner";
 
 const inter = Inter({ subsets: ["latin"] });
 

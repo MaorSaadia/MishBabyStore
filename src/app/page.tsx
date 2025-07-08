@@ -7,10 +7,12 @@ import ProductList from "@/components/ProductList";
 import Skeleton from "@/components/Skeleton";
 import Slider from "@/components/Slider";
 import BestSellersContainer from "@/components/BestSellersContainer";
+import FreeShippingBanner from "@/components/FreeShippingBanner";
 
 const HomePage = async () => {
   return (
     <div className="bg-white">
+      <FreeShippingBanner className="mt-2 mb-2 shadow-sm" />
       <div className="container mx-auto">
         <Slider />
       </div>
