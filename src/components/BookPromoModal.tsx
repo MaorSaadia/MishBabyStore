@@ -73,7 +73,7 @@ export default function BookPromoModal() {
               is the
               <strong className="text-white">
                 {" "}
-                only system you'll ever need
+                only system you&apos;ll ever need
               </strong>{" "}
               – covering both foundational principles and advanced ICT models.
             </p>
