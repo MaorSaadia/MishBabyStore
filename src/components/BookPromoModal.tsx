@@ -14,21 +14,54 @@ export default function BookPromoModal() {
         setShow(true);
         sessionStorage.setItem("bookPromoSeen", "true");
       }, 3000); // 3-second delay
-
       return () => clearTimeout(timer);
     }
   }, []);
 
+  // Lock/unlock body scroll when modal opens/closes
+  useEffect(() => {
+    if (show) {
+      // Prevent body scroll
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      // Restore body scroll
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+
+    // Cleanup function to restore scroll on unmount
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [show]);
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  // Prevent modal from closing when clicking inside the modal content
+  const handleModalClick = (e: { stopPropagation: () => void }) => {
+    e.stopPropagation();
+  };
+
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-fadeIn">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-fadeIn"
+      onClick={handleClose} // Close when clicking the backdrop
+    >
       {/* FIX: Added max-h-[90vh] and overflow-y-auto to make the modal scrollable on small screens */}
-      <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden relative border border-gray-500 animate-slideUp max-h-[90vh] overflow-y-auto">
+      <div
+        className="bg-gradient-to-br from-gray-900 via-gray-800 to-black w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden relative border border-gray-500 animate-slideUp max-h-[90vh] overflow-y-auto"
+        onClick={handleModalClick} // Prevent closing when clicking inside modal
+      >
         {/* Close Button */}
         <button
-          onClick={() => setShow(false)}
-          className="absolute top-3 right-3 z-20 bg-white/10 backdrop-blur-sm rounded-full p-2 text-gray-300 hover:text-white hover:bg-white/20 transition-all duration-200"
+          onClick={handleClose}
+          className="absolute top-3 right-3 z-20 bg-white backdrop-blur-sm rounded-full p-2 text-gray-900 hover:text-white hover:bg-white/20 transition-all duration-200"
           aria-label="Close"
         >
           <X size={20} />
@@ -46,7 +79,7 @@ export default function BookPromoModal() {
                 className="rounded-lg shadow-2xl w-full h-auto"
                 priority
               />
-              <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full px-4 py-2 shadow-lg animate-pulse">
+              <div className="absolute -top-2 -left-2 sm:-top-4 sm:-left-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full px-4 py-2 shadow-lg animate-pulse">
                 <div className="text-xs font-semibold">ONLY</div>
                 <div className="text-xl sm:text-2xl font-bold">$16.17</div>
               </div>
@@ -131,14 +164,14 @@ export default function BookPromoModal() {
                 Get Your Bundle Now →
               </a>
               <button
-                onClick={() => setShow(false)}
+                onClick={handleClose}
                 className="flex-1 bg-gray-700 hover:bg-gray-600 text-gray-300 font-semibold py-3 px-6 rounded-lg transition-all duration-200"
               >
                 Maybe Later
               </button>
             </div>
 
-            <p className="text-gray-500 text-xs mt-4 text-center">
+            <p className="text-gray-300 text-xs mt-4 text-center">
               Digital download • Instant access • 2 PDF files included
             </p>
           </div>
