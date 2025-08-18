@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, ChangeEvent, FormEvent } from "react";
-import { Send, Clock, MessageSquare } from "lucide-react";
+import { Send, Clock, MessageSquare, Phone, MapPin } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { FaWhatsapp } from "react-icons/fa";
 
 interface FormData {
   name: string;
@@ -84,10 +85,12 @@ const CustomerService: React.FC = () => {
           </p>
         </div>
 
-        <div className="mt-8 lg:grid lg:grid-cols-2 lg:gap-8">
-          <Card className="bg-gradient-to-r from-cyan-700 to-cyan-500 text-white">
+        {/* --- MODIFIED LINE BELOW --- */}
+        <div className="mt-8 flex flex-col gap-12 lg:grid lg:grid-cols-2 lg:gap-8">
+          {/* How We Can Help Card - Order 2 on mobile, 1 on desktop */}
+          <Card className="bg-gradient-to-r from-cyan-700 to-cyan-500 text-white order-2 lg:order-1">
             <CardHeader>
-              <h3 className="text-2xl font-bold">Support Options</h3>
+              <h3 className="text-2xl font-bold">We Are To Help</h3>
               <p className="text-cyan-200">
                 We&apos;re committed to providing excellent service to our
                 customers.
@@ -109,28 +112,46 @@ const CustomerService: React.FC = () => {
                   />
                   <span className="ml-3">Quick Response Times</span>
                 </div>
-                {/* <div className="flex items-center">
-                  <Mail
+                <div className="flex items-center">
+                  <FaWhatsapp
                     className="flex-shrink-0 w-6 h-6 text-sky-200"
                     aria-hidden="true"
                   />
-                  <span className="ml-3">Email: mishbabyshop@gmail.com</span>
-                </div> */}
+                  <a
+                    href="https://wa.me/972533930364"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-3 hover:text-cyan-200"
+                  >
+                    Whatsapp: +972-53-393-0364
+                  </a>
+                </div>
+                <div className="flex items-center">
+                  <MapPin
+                    className="flex-shrink-0 w-6 h-6 text-sky-200"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-3">
+                    Address: No.13 Amatsya, Beer Sheva, IL
+                  </span>
+                </div>
               </dl>
               <p className="mt-6 text-cyan-200">
                 Our dedicated team is ready to assist you with any inquiries
-                about your order, our products. We strive to respond to all
+                about your order or our products. We strive to respond to all
                 messages within 24 hours.
               </p>
             </CardContent>
           </Card>
 
-          <Card>
+          {/* Submit a Support Ticket Card - Order 1 on mobile, 2 on desktop */}
+          {/* --- MODIFIED LINE BELOW (removed mb-8 lg:mb-0) --- */}
+          <Card className="order-1 lg:order-2">
             <CardHeader>
               <h3 className="text-2xl font-bold">Submit a Support Ticket</h3>
             </CardHeader>
             <CardContent>
-              <p className="mb-4 text-sm text-gray-600">
+              <p className="mb-4 text-sm text-gray-600 -mt-4">
                 Please check our{" "}
                 <a
                   href="/faq"
