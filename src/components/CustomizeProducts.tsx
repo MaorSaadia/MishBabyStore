@@ -240,7 +240,7 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
                 </div>
               ) : selectedVariant?.stock?.quantity &&
                 selectedVariant.stock.quantity < 20 ? (
-                <div className="text-xs text-red-500">
+                <div className="text-xs text-red-500 mt-1">
                   Only a few units left!
                   <br /> {"Don't"} miss it
                 </div>

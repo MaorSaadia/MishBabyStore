@@ -20,7 +20,7 @@ const SecurePaymentIndicator = () => {
   const LOGO_WIDTH = 56; // width of one logo card in pixels (w-14)
   const GAP = 12; // gap between logos in pixels (gap-3)
   // Increased from 1.5 to 2.5 to make the animation slower
-  const DURATION_PER_LOGO = 3;
+  const DURATION_PER_LOGO = 2;
 
   const totalWidth = (LOGO_WIDTH + GAP) * paymentMethods.length;
   const totalDuration = DURATION_PER_LOGO * paymentMethods.length;
