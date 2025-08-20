@@ -39,7 +39,7 @@ const SecurePaymentIndicator = () => {
           <Lock className="w-4 h-4 text-gray-400" />
         </div>
 
-        <p className="text-center text-xs text-gray-500 my-3">
+        <p className="text-center text-xs text-gray-500 my-2">
           We accept all major credit cards.
         </p>
 
