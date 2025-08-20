@@ -6,6 +6,7 @@ import { useWixClient } from "@/hooks/useWixClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { Gift } from "lucide-react";
 import toast from "react-hot-toast";
+import SecurePaymentIndicator from "./SecurePaymentIndicator";
 
 interface AddProps {
   productId: string;
@@ -114,8 +115,22 @@ const Add: React.FC<AddProps> = ({
           </button>
         </div>
 
-        {/* Special Offer Text */}
         <AnimatePresence>
+          {!allOptionsSelected && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="text-xs text-red-600"
+              role="alert"
+            >
+              Please select {missingOptions?.join(" and ")} to add to cart.
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Special Offer Text */}
+        {/* <AnimatePresence>
           {hasSpecialOffer && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -133,21 +148,10 @@ const Add: React.FC<AddProps> = ({
               </div>
             </motion.div>
           )}
-        </AnimatePresence>
+        </AnimatePresence> */}
 
-        <AnimatePresence>
-          {!allOptionsSelected && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="text-xs text-red-600 mt-2"
-              role="alert"
-            >
-              Please select {missingOptions?.join(" and ")} to add to cart.
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* New Secure Payment Component */}
+        {/* <SecurePaymentIndicator /> */}
       </div>
     </div>
   );

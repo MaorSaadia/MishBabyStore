@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
 import { products } from "@wix/stores";
 import Add from "./Add";
+import SecurePaymentIndicator from "./SecurePaymentIndicator";
 
 interface CustomizeProductsProps {
   productId: string;
@@ -223,7 +224,7 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
           stockNumber={selectedVariant?.stock?.quantity || 0}
           allOptionsSelected={allOptionsSelected}
           missingOptions={missingOptions}
-          hasSpecialOffer={hasSpecialOffer} 
+          hasSpecialOffer={hasSpecialOffer}
         />
         <AnimatePresence>
           {allOptionsSelected && (
@@ -244,11 +245,33 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
                   <br /> {"Don't"} miss it
                 </div>
               ) : (
-                <div className="text-md m-2 text-green-700">In Stock</div>
+                <div className="text-sm text-green-700">In Stock</div>
               )}
             </motion.div>
           )}
         </AnimatePresence>
+        <AnimatePresence>
+          {hasSpecialOffer && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="border border-gray-200 rounded-lg px-3 py-2.5 mt-2 bg-white shadow-sm"
+            >
+              <div className="sm:flex flex-1 text-xs font-medium text-gray-900 leading-tight">
+                <div>Buy 2 get 10% off, </div>
+                <div>Buy 3+ get 20% off</div>
+              </div>
+              <div className="text-[8px] sm:text-xs text-gray-500 mt-0.5 leading-tight">
+                Discount applied automatically at checkout
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* New Secure Payment Component */}
+        <SecurePaymentIndicator />
       </motion.div>
     </motion.div>
   );
