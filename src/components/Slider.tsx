@@ -28,8 +28,7 @@ const slides: Slide[] = [
     id: 0,
     title: "Free Shipping On All Orders",
     subtitle: "PEACE OF MIND GUARANTEE",
-    description:
-      "Your order is protected from checkout to delivery with our secure payment gateway.",
+    description: "",
     img: "/slides/shipping-security.jpeg", // ** REMEMBER TO ADD YOUR IMAGE HERE **
     url: "/shipping-policy",
     accent: "text-cyan-600",
@@ -210,7 +209,7 @@ const Slider: React.FC = () => {
                 variants={textVariants}
                 initial="hidden"
                 animate="visible"
-                className="mt-3"
+                className="mt-2"
               >
                 <div className="flex flex-col sm:flex-row gap-2 justify-center md:justify-start">
                   <div className="flex items-center gap-2">
@@ -226,7 +225,7 @@ const Slider: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                <div className="mt-3">
+                <div className="mt-2">
                   <p className="text-xs text-gray-500 mb-1">
                     We proudly accept:
                   </p>
