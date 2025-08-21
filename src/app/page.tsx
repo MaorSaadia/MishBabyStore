@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { Info } from "lucide-react"; // Import Info icon
 
 import CategoryList from "@/components/CategoryList";
 import ProductList from "@/components/ProductList";
@@ -12,7 +11,7 @@ import FreeShippingBanner from "@/components/FreeShippingBanner";
 const HomePage = async () => {
   return (
     <div className="bg-white">
-      <FreeShippingBanner className="mt-2 mb-2 shadow-sm" />
+      {/* <FreeShippingBanner className="mt-2 mb-2 shadow-sm" /> */}
       <div className="container mx-auto">
         <Slider />
       </div>

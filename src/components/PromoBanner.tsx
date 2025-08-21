@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react";
 
 const PromoBanner: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const promoText =
-    "New customers 🎉: Use code FIRSTBUY10 for 10% off ALL products on your first purchase! | Until 31/08/2025.";
+    "New customers 🎉: Use code FIRSTBUY10 for 10% off ALL products on your first purchase! | Until 31/08/2025 | Free Shipping";
   // const promoText =
   //   "End of Year Sale 🎉: Enjoy 15% off ALL products with code ENDYEAR15 until 31/12/24! | Free Worldwide Shipping";
 

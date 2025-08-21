@@ -4,9 +4,7 @@ import { useState } from "react";
 import { useCartStore } from "@/hooks/useCartStore";
 import { useWixClient } from "@/hooks/useWixClient";
 import { motion, AnimatePresence } from "framer-motion";
-import { Gift } from "lucide-react";
 import toast from "react-hot-toast";
-import SecurePaymentIndicator from "./SecurePaymentIndicator";
 
 interface AddProps {
   productId: string;
