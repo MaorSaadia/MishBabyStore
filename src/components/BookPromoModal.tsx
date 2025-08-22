@@ -9,13 +9,13 @@ export default function BookPromoModal() {
 
   useEffect(() => {
     const hasSeenPopup = localStorage.getItem("bookPromoSeen");
-    if (!hasSeenPopup) {
-      const timer = setTimeout(() => {
-        setShow(true);
-        localStorage.setItem("bookPromoSeen", "true");
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
+    // if (!hasSeenPopup) {
+    const timer = setTimeout(() => {
+      setShow(true);
+      localStorage.setItem("bookPromoSeen", "true");
+    }, 3000);
+    return () => clearTimeout(timer);
+    // }
   }, []);
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function BookPromoModal() {
         </div>
 
         {/* Bottom: Content Section */}
-        <div className="p-5 sm:p-6 lg:p-8">
+        <div className="p-3 sm:p-6 lg:p-8">
           <div className="mb-3">
             <h2 className="text-lg sm:text-2xl font-bold text-slate-800 -mt-2">
               Ready for a New Way to Grow Your Income?
@@ -89,7 +89,7 @@ export default function BookPromoModal() {
             </p>
           </div>
 
-          <p className="text-slate-600 mb-4 leading-relaxed text-sm">
+          <p className="text-slate-600 mb-3 leading-relaxed text-sm -mt-2">
             Ever felt like the financial markets were too complicated? This
             two-part bundle is a simple, step-by-step blueprint that teaches you
             how the markets{" "}
@@ -124,7 +124,7 @@ export default function BookPromoModal() {
             </div>
           </div>
 
-          <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-1 sm:p-3 mb-4 text-center">
+          <div className=" hidden sm:block bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-1 sm:p-3 mb-4 text-center">
             <p className="text-cyan-800 text-xs sm:text-sm font-semibold">
               🔥 Limited Time Bundle Offer – Get Both Books & Save!
             </p>
@@ -150,7 +150,7 @@ export default function BookPromoModal() {
 
           {/* Free Demo Links Section */}
           <div className="text-center">
-            <p className="text-xs text-slate-500 mb-2">
+            <p className="text-xs text-slate-500 mb-2 -mt-2">
               Or, try a free sample first:
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-x-5 gap-y-1.5">
