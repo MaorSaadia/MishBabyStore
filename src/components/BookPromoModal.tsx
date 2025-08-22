@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { X, Download } from "lucide-react"; // Added Download icon
+import { X, Download } from "lucide-react";
 import Image from "next/image";
 
 export default function BookPromoModal() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    // Using localStorage to ensure the popup is only seen once ever per browser
     const hasSeenPopup = localStorage.getItem("bookPromoSeen");
     if (!hasSeenPopup) {
       const timer = setTimeout(() => {
@@ -45,11 +44,11 @@ export default function BookPromoModal() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-3 sm:p-6 backdrop-blur-sm animate-fadeIn"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-fadeIn"
       onClick={handleClose}
     >
       <div
-        className="bg-gradient-to-br from-slate-50 to-cyan-50 w-full max-w-lg sm:max-w-2xl rounded-2xl shadow-2xl overflow-hidden relative border border-slate-300 animate-slideUp max-h-[95vh] overflow-y-auto"
+        className="bg-gradient-to-br from-slate-50 to-cyan-50 w-full max-w-sm sm:max-w-md lg:max-w-2xl rounded-2xl shadow-2xl overflow-hidden relative border border-slate-300 animate-slideUp max-h-[95vh] overflow-y-auto"
         onClick={handleModalClick}
       >
         <button
@@ -60,8 +59,8 @@ export default function BookPromoModal() {
           <X size={20} />
         </button>
 
-        {/* Image Section - Now at the top for all screen sizes */}
-        <div className="flex items-center justify-center p-4 sm:p-6 bg-slate-200/40 relative">
+        {/* Top: Image Section */}
+        <div className="flex items-center justify-center p-5 sm:p-6 bg-slate-200/40 relative">
           <div className="relative w-full max-w-xs sm:max-w-sm">
             <Image
               src="/bundle-cover.png"
@@ -71,81 +70,79 @@ export default function BookPromoModal() {
               className="rounded-lg shadow-xl w-full h-auto"
               priority
             />
-            <div className="absolute -top-2 -left-2 sm:-top-4 sm:-left-4 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-full px-3 py-1 sm:px-4 sm:py-2 shadow-lg animate-pulse">
+            <div className="absolute -top-2 -left-2 sm:-top-3 sm:-left-3 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-full px-3 py-1 shadow-lg animate-pulse">
               <div className="text-xs font-semibold">ONLY</div>
               <div className="text-lg sm:text-xl font-bold">$17.80</div>
             </div>
           </div>
         </div>
 
-        {/* Content Section */}
-        <div className="p-4 sm:p-6 lg:p-8">
-          <div className="mb-2">
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-800 -mt-4">
+        {/* Bottom: Content Section */}
+        <div className="p-5 sm:p-6 lg:p-8">
+          <div className="mb-3">
+            <h2 className="text-lg sm:text-2xl font-bold text-slate-800 -mt-2">
               Ready for a New Way to Grow Your Income?
             </h2>
-            <p className="text-cyan-600 font-semibold text-base sm:text-lg mt-1">
+            <p className="text-cyan-600 font-semibold text-sm sm:text-base mt-1">
               Your Complete Guide to Learning a New Financial Skill, From
               Scratch.
             </p>
           </div>
 
-          <p className="text-slate-600 mb-2 -mt-1 sm:mb-5 leading-relaxed text-sm sm:text-base">
-            Ever looked at the financial markets and felt like it was a
-            complicated world you couldn&apos;t access? This two-part bundle is
-            designed to change that. It&apos;s a simple, step-by-step blueprint
-            that teaches you how the markets{" "}
-            <em className="font-semibold text-slate-700">really</em> work,
-            giving you the confidence to start trading-no experience needed.
+          <p className="text-slate-600 mb-4 leading-relaxed text-sm">
+            Ever felt like the financial markets were too complicated? This
+            two-part bundle is a simple, step-by-step blueprint that teaches you
+            how the markets{" "}
+            <em className="font-semibold text-slate-700">really</em> work.
           </p>
 
           {/* Feature List */}
-          <div className="space-y-2 sm:space-y-3 mb-2 sm:mb-2">
-            <div className="flex items-start -mt-2">
-              <span className="text-cyan-600 mr-3 mt-1">✓</span>
+          <div className="space-y-2 mb-4 -mt-2">
+            <div className="flex items-start">
+              <span className="text-cyan-600 mr-2.5 mt-0.5">✓</span>
               <div>
-                <strong className="text-slate-800 text-sm sm:text-base">
+                <strong className="text-slate-800 text-sm">
                   Part 1: Your Solid Foundation
                 </strong>
-                <p className="text-slate-500 text-xs sm:text-sm">
+                <p className="text-slate-500 text-xs">
                   Start from zero and learn the essential building blocks of
                   trading.
                 </p>
               </div>
             </div>
             <div className="flex items-start">
-              <span className="text-cyan-600 mr-3 mt-1">✓</span>
+              <span className="text-cyan-600 mr-2.5 mt-0.5">✓</span>
               <div>
-                <strong className="text-slate-800 text-sm sm:text-base">
+                <strong className="text-slate-800 text-sm">
                   Part 2: Your Professional Playbook
                 </strong>
-                <p className="text-slate-500 text-xs sm:text-sm">
-                  Learn powerful and repeatable trading strategies to take the
-                  guesswork out.
+                <p className="text-slate-500 text-xs">
+                  Learn powerful, repeatable strategies to take the guesswork
+                  out.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-3 mb-4 sm:mb-5 text-center">
+          <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-1 sm:p-3 mb-4 text-center">
             <p className="text-cyan-800 text-xs sm:text-sm font-semibold">
               🔥 Limited Time Bundle Offer – Get Both Books & Save!
             </p>
           </div>
 
           {/* Main Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mb-4 sm:mb-5">
+          <div className="flex flex-col sm:flex-row gap-2 mb-4">
             <a
               href="https://smartmoneyms.gumroad.com/l/smartmoneysimplified_theictplaybook_bundle"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg text-center transition-all duration-200 transform hover:scale-105 shadow-lg text-sm sm:text-base"
+              className="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-bold py-2.5 px-4 rounded-lg text-center transition-all duration-200 transform hover:scale-105 shadow-lg text-sm"
             >
               Get Your Bundle Now →
             </a>
             <button
               onClick={handleClose}
-              className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg transition-all duration-200 text-sm sm:text-base"
+              className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 text-sm"
             >
               Maybe Later
             </button>
@@ -153,26 +150,26 @@ export default function BookPromoModal() {
 
           {/* Free Demo Links Section */}
           <div className="text-center">
-            <p className="text-xs sm:text-sm text-slate-500 mb-2 sm:mb-3">
+            <p className="text-xs text-slate-500 mb-2">
               Or, try a free sample first:
             </p>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-x-4 sm:gap-x-6 gap-y-2">
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-x-5 gap-y-1.5">
               <a
                 href="https://smartmoneyms.gumroad.com/l/smartmoneysimplified_demo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center text-slate-600 hover:text-cyan-700 text-xs sm:text-sm font-medium transition-colors"
+                className="flex items-center text-slate-600 hover:text-cyan-700 text-xs font-medium transition-colors"
               >
-                <Download size={12} className="mr-2 flex-shrink-0" />
+                <Download size={12} className="mr-1.5 flex-shrink-0" />
                 <span>Demo: Smart Money, Simplified</span>
               </a>
               <a
                 href="https://smartmoneyms.gumroad.com/l/theictplaybook_demo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center text-slate-600 hover:text-cyan-700 text-xs sm:text-sm font-medium transition-colors"
+                className="flex items-center text-slate-600 hover:text-cyan-700 text-xs font-medium transition-colors"
               >
-                <Download size={12} className="mr-2 flex-shrink-0" />
+                <Download size={12} className="mr-1.5 flex-shrink-0" />
                 <span>Demo: The ICT Playbook</span>
               </a>
             </div>
