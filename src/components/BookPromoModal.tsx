@@ -9,13 +9,13 @@ export default function BookPromoModal() {
 
   useEffect(() => {
     const hasSeenPopup = localStorage.getItem("bookPromoSeen");
-    // if (!hasSeenPopup) {
-    const timer = setTimeout(() => {
-      setShow(true);
-      localStorage.setItem("bookPromoSeen", "true");
-    }, 3000);
-    return () => clearTimeout(timer);
-    // }
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShow(true);
+        localStorage.setItem("bookPromoSeen", "true");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   useEffect(() => {
@@ -131,18 +131,18 @@ export default function BookPromoModal() {
           </div>
 
           {/* Main Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-2 mb-4">
+          <div className="flex flex-col sm:flex-row gap-1 mb-3">
             <a
               href="https://smartmoneyms.gumroad.com/l/smartmoneysimplified_theictplaybook_bundle"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-bold py-2.5 px-4 rounded-lg text-center transition-all duration-200 transform hover:scale-105 shadow-lg text-sm"
+              className="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-bold py-1.5 sm:py-2.5 px-4 rounded-lg text-center transition-all duration-200 transform hover:scale-105 shadow-lg text-sm"
             >
               Get Your Bundle Now →
             </a>
             <button
               onClick={handleClose}
-              className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 text-sm"
+              className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1.5 sm:py-2.5 px-4 rounded-lg transition-all duration-200 text-sm"
             >
               Maybe Later
             </button>
