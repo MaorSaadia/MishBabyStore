@@ -53,21 +53,21 @@ export default function BookPromoModal() {
       >
         <button
           onClick={handleClose}
-          className="absolute top-3 right-3 z-20 bg-black/5 rounded-full p-2 text-slate-500 hover:text-slate-900 hover:bg-black/10 transition-all duration-200"
+          className="absolute top-3 right-3 z-20 bg-black rounded-full p-2 text-slate-500 hover:text-slate-900 hover:bg-red-400 transition-all duration-200"
           aria-label="Close"
         >
-          <X size={20} />
+          <X size={20} color="white" />
         </button>
 
         {/* Top: Image Section */}
-        <div className="flex items-center justify-center p-5 sm:p-6 bg-slate-200/40 relative">
+        <div className="flex items-center justify-center p-4 sm:p-6 bg-slate-200/40 relative">
           <div className="relative w-full max-w-xs sm:max-w-sm">
             <Image
               src="/bundle-cover.png"
               alt="Book bundle cover"
-              width={1834}
-              height={1032}
-              className="rounded-lg shadow-xl w-full h-auto"
+              width={1280}
+              height={700}
+              className="rounded-lg shadow-xl w-full h-auto -mb-1"
               priority
             />
             <div className="absolute -top-2 -left-2 sm:-top-3 sm:-left-3 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-full px-3 py-1 shadow-lg animate-pulse">
@@ -80,7 +80,7 @@ export default function BookPromoModal() {
         {/* Bottom: Content Section */}
         <div className="p-3 sm:p-6 lg:p-8">
           <div className="mb-3">
-            <h2 className="text-lg sm:text-2xl font-bold text-slate-800 -mt-2">
+            <h2 className="text-lg sm:text-2xl font-bold text-slate-800 -mt-3">
               Ready for a New Way to Grow Your Income?
             </h2>
             <p className="text-cyan-600 font-semibold text-sm sm:text-base mt-1">
@@ -153,7 +153,7 @@ export default function BookPromoModal() {
             <p className="text-xs text-slate-500 mb-2 -mt-2">
               Or, try a free sample first:
             </p>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-x-5 gap-y-1.5">
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-x-5 gap-y-1.5 -mt-1">
               <a
                 href="https://smartmoneyms.gumroad.com/l/smartmoneysimplified_demo"
                 target="_blank"
