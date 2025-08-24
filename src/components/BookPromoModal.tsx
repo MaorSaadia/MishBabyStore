@@ -72,7 +72,7 @@ export default function BookPromoModal() {
             />
             <div className="absolute -top-2 -left-2 sm:-top-3 sm:-left-3 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-full px-3 py-1 shadow-lg animate-pulse">
               <div className="text-xs font-semibold">ONLY</div>
-              <div className="text-lg sm:text-xl font-bold">$17.80</div>
+              <div className="text-lg sm:text-xl font-bold">$16.80</div>
             </div>
           </div>
         </div>
