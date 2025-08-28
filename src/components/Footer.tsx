@@ -132,7 +132,7 @@ const Footer = () => {
                       href: "/shipping-restrictions",
                       label: "Shipping Restrictionss",
                     },
-                    { href: "/return-policy", label: "Return Policy" },
+                    // { href: "/return-policy", label: "Return Policy" },
                     {
                       href: "/affiliate-program",
                       label: "Become an Affiliate",
