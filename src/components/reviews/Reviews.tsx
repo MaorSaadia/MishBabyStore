@@ -50,7 +50,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
       limit: REVIEWS_PER_PAGE.toString(),
       ...(filter > 0 && { rating: filter.toString() }),
     });
-    return `/api/reviews/aws/${productSlug}?${params}`;
+    return `/api/reviews/${productSlug}?${params}`;
   }, [productSlug, currentPage, filter]);
 
   const {

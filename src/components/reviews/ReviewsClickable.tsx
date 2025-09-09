@@ -28,7 +28,7 @@ const ReviewsClickable = ({
       try {
         if (!productSlug) return;
 
-        const response = await fetch(`/api/reviews/aws/${productSlug}`);
+        const response = await fetch(`/api/reviews/${productSlug}`);
         const data = await response.json();
 
         if (data.success) {
