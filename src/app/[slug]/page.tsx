@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { Tag, Heart, Truck, Clock, Package } from "lucide-react";
 import { Metadata } from "next";
+import { cache } from "react"; // <--- IMPORT 'cache' FROM REACT
 import DOMPurify from "isomorphic-dompurify";
 import Link from "next/link";
-import { Suspense } from "react";
 
 import { wixClientServer } from "@/lib/wixClientServer";
 import CustomizeProducts from "@/components/CustomizeProducts";
@@ -30,21 +30,39 @@ const ProductList = dynamic(() => import("@/components/ProductList"), {
 
 const SPECIAL_DISCOUNT_COLLECTION_ID = "4453646d-6f62-1925-d9cc-a6297010b276";
 
-// ✅ Revalidate product pages every 10 minutes
+// ✅ Revalidate product pages every 10 minutes (ISR)
 export const revalidate = 600;
 
-interface PageProps {
-  params: { slug: string };
+// ===================================================================
+// OPTIMIZATION 1: Pre-build static pages for each product slug
+// ===================================================================
+export async function generateStaticParams() {
+  try {
+    const wixClient = await wixClientServer();
+    // Fetch all products to get their slugs.
+    // NOTE: You may need to handle pagination here if you have more than 100 products.
+    const response = await wixClient.products.queryProducts().limit(100).find();
+
+    return response.items.map((product) => ({
+      slug: product.slug!,
+    }));
+  } catch (error) {
+    console.error("Failed to generate static params:", error);
+    return [];
+  }
 }
 
-// --- Helper function with simple error handling ---
-async function getProduct(slug: string) {
+// ===================================================================
+// OPTIMIZATION 2: Wrap data fetching in React.cache to avoid duplicates
+// ===================================================================
+const getProduct = cache(async (slug: string) => {
   try {
     const wixClient = await wixClientServer();
     const products = await wixClient.products
       .queryProducts()
       .eq("slug", slug)
       .find();
+
     const product = products.items[0];
     if (!product) notFound();
     return product;
@@ -52,9 +70,9 @@ async function getProduct(slug: string) {
     console.error("❌ Failed to fetch product:", error.message);
     notFound();
   }
-}
+});
 
-// --- Metadata ---
+// --- Metadata (Now uses the cached getProduct function) ---
 export async function generateMetadata({
   params: { slug },
 }: PageProps): Promise<Metadata> {
@@ -86,7 +104,11 @@ export async function generateMetadata({
   }
 }
 
-// --- Page Component ---
+interface PageProps {
+  params: { slug: string };
+}
+
+// --- Page Component (Now uses the cached getProduct function) ---
 const SinglePage = async ({ params }: PageProps) => {
   const product = await getProduct(params.slug);
 
@@ -186,6 +208,7 @@ const SinglePage = async ({ params }: PageProps) => {
 
               {/* Description */}
               {product.description ? (
+                // NOTE: As discussed, you can remove DOMPurify if you fully trust the HTML from Wix.
                 <p
                   className="mt-8 text-gray-500"
                   dangerouslySetInnerHTML={{
