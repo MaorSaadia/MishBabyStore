@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
-import useSWR from "swr";
+import { useState, useEffect, useCallback } from "react";
+import useSWRInfinite from "swr/infinite";
 import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "lucide-react";
 
 import { Review } from "@/lib/reviewUtils";
@@ -35,43 +35,53 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
   const isLoggedIn = wixClient.auth.loggedIn();
 
   const [filter, setFilter] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [reviewImagesForModal, setReviewImagesForModal] = useState<string[]>(
     []
   );
 
-  // Build API URL with query parameters for server-side filtering and pagination
-  const apiUrl = useMemo(() => {
+  // --- 1. Swapped useSWR for useSWRInfinite ---
+  const getKey = (pageIndex: number, previousPageData: any) => {
+    // Reached the end of the data
+    if (previousPageData && !previousPageData.data?.hasNextPage) return null;
+
     if (!productSlug) return null;
     const params = new URLSearchParams({
-      page: currentPage.toString(),
+      page: (pageIndex + 1).toString(),
       limit: REVIEWS_PER_PAGE.toString(),
       ...(filter > 0 && { rating: filter.toString() }),
     });
     return `/api/reviews/${productSlug}?${params}`;
-  }, [productSlug, currentPage, filter]);
+  };
 
   const {
-    data: responseData,
+    data: pages,
     error,
+    size,
+    setSize,
     isLoading,
+    isValidating,
     mutate,
-  } = useSWR(apiUrl, fetcher, {
+  } = useSWRInfinite(getKey, fetcher, {
     revalidateOnFocus: false,
-    dedupingInterval: 5 * 60 * 1000, // Cache for 5 minutes
-    keepPreviousData: true, // Keep previous data while loading new page
+    dedupingInterval: 5 * 60 * 1000,
   });
 
-  const data: ReviewsData | null = responseData?.success
-    ? responseData.data
+  // --- 2. Create state derived from useSWRInfinite ---
+  const reviews: Review[] = pages
+    ? pages.flatMap((page) => (page.success ? page.data.reviews : []))
+    : [];
+  const initialData: ReviewsData | null = pages?.[0]?.success
+    ? pages[0].data
     : null;
+  const isLoadingInitialData = isLoading && !initialData;
+  const hasMore = pages ? pages[pages.length - 1]?.data?.hasNextPage : false;
 
-  // Reset to first page when filter changes
+  // Reset to the first page when the filter changes
   useEffect(() => {
-    setCurrentPage(1);
-  }, [filter]);
+    setSize(1);
+  }, [filter, setSize]);
 
   // Body scroll lock for modal
   useEffect(() => {
@@ -108,26 +118,9 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
     [reviewImagesForModal.length]
   );
 
-  const closeModal = useCallback(() => {
-    setSelectedImage(null);
-  }, []);
+  const closeModal = useCallback(() => setSelectedImage(null), []);
 
-  // Pagination handlers
-  const goToPage = useCallback((page: number) => {
-    setCurrentPage(page);
-  }, []);
-
-  const goToPrevPage = useCallback(() => {
-    setCurrentPage((prev) => Math.max(1, prev - 1));
-  }, []);
-
-  const goToNextPage = useCallback(() => {
-    setCurrentPage((prev) =>
-      data ? Math.min(data.totalPages, prev + 1) : prev
-    );
-  }, [data]);
-
-  // Filter handlers
+  // Filter handler
   const handleFilterChange = useCallback(
     (newFilter: number) => {
       setFilter(newFilter === filter ? 0 : newFilter);
@@ -136,7 +129,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
   );
 
   // Loading state
-  if (isLoading && !data) {
+  if (isLoadingInitialData) {
     return (
       <div className="space-y-4 animate-pulse">
         <div className="h-6 bg-gray-200 rounded w-1/4"></div>
@@ -147,7 +140,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
   }
 
   // Error state
-  if (error || !data) {
+  if (error || !initialData) {
     return (
       <div className="p-6 bg-red-50 text-red-700 rounded">
         Failed to load reviews. Please try again later.
@@ -156,7 +149,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
   }
 
   // No reviews
-  if (data.totalReviews === 0) {
+  if (initialData.totalReviews === 0) {
     return (
       <div className="p-8 bg-gray-50 rounded-lg text-center">
         <p className="text-gray-600 mb-4">
@@ -198,16 +191,16 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
         <div className="w-full md:w-1/3">
           <div className="flex flex-col items-center p-4 bg-gray-50 rounded-lg">
             <h3 className="text-2xl font-bold">
-              {data.averageRating.toFixed(1)}
+              {initialData.averageRating.toFixed(1)}
             </h3>
             <StarRating
-              rating={data.averageRating}
+              rating={initialData.averageRating}
               size={24}
               className="my-2"
             />
             <p className="text-sm text-gray-500">
-              Based on {data.totalReviews}{" "}
-              {data.totalReviews === 1 ? "review" : "reviews"}
+              Based on {initialData.totalReviews}{" "}
+              {initialData.totalReviews === 1 ? "review" : "reviews"}
             </p>
           </div>
         </div>
@@ -216,9 +209,11 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
         <div className="w-full md:w-2/3">
           <h3 className="text-lg font-medium mb-2">Rating Distribution</h3>
           {[5, 4, 3, 2, 1].map((stars) => {
-            const count = data.ratingDistribution[stars] || 0;
+            const count = initialData.ratingDistribution[stars] || 0;
             const percentage =
-              data.totalReviews > 0 ? (count / data.totalReviews) * 100 : 0;
+              initialData.totalReviews > 0
+                ? (count / initialData.totalReviews) * 100
+                : 0;
 
             return (
               <div key={stars} className="flex items-center mb-1">
@@ -253,7 +248,7 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
 
       {/* Reviews List */}
       <div className="space-y-6 mt-6">
-        {data.reviews.map((review) => (
+        {reviews.map((review) => (
           <div key={review.id} className="border-b pb-6 last:border-b-0">
             <div className="flex flex-col sm:flex-row justify-between items-start">
               <div className="flex flex-col sm:flex-row items-start sm:items-center w-full">
@@ -308,56 +303,18 @@ const Reviews = ({ productId, productSlug }: ReviewsProps) => {
         ))}
       </div>
 
-      {/* Pagination */}
-      {data.totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-6">
+      {/* --- 3. REPLACED Pagination with "Load More" button --- */}
+      <div className="flex justify-center">
+        {hasMore && (
           <button
-            onClick={goToPrevPage}
-            disabled={!data.hasPrevPage || isLoading}
-            className="px-3 py-2 bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 transition-colors text-sm flex items-center"
+            onClick={() => setSize(size + 1)}
+            disabled={isValidating}
+            className="px-6 py-2 bg-cyan-600 text-white font-semibold rounded-md hover:bg-cyan-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-800 disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
-            <ArrowLeftIcon className="w-4 h-4" />
+            {isValidating ? "Loading..." : "Load More Reviews"}
           </button>
-
-          {/* Page numbers */}
-          <div className="flex items-center gap-1">
-            {Array.from({ length: Math.min(5, data.totalPages) }, (_, i) => {
-              const pageNum = i + 1;
-              const isCurrentPage = pageNum === data.currentPage;
-
-              return (
-                <button
-                  key={pageNum}
-                  onClick={() => goToPage(pageNum)}
-                  disabled={isLoading}
-                  className={`px-3 py-2 text-sm rounded transition-colors ${
-                    isCurrentPage
-                      ? "bg-cyan-500 text-white"
-                      : "bg-gray-200 hover:bg-gray-300 disabled:cursor-not-allowed"
-                  }`}
-                >
-                  {pageNum}
-                </button>
-              );
-            })}
-          </div>
-
-          <button
-            onClick={goToNextPage}
-            disabled={!data.hasNextPage || isLoading}
-            className="px-3 py-2 bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 transition-colors text-sm flex items-center"
-          >
-            <ArrowRightIcon className="w-4 h-4" />
-          </button>
-        </div>
-      )}
-
-      {/* Loading indicator */}
-      {isLoading && (
-        <div className="flex justify-center py-4">
-          <div className="text-sm text-gray-500">Loading reviews...</div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Image Modal */}
       {selectedImage && (
