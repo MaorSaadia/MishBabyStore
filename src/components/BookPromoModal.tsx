@@ -143,13 +143,13 @@ export default function BookPromoModal() {
               href="https://www.amazon.com/dp/B0FRMV4PHP"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-3 px-6 rounded-lg text-center transition-all duration-200 transform hover:scale-105 shadow-lg text-sm sm:text-base"
+              className="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-2 px-6 rounded-lg text-center transition-all duration-200 transform hover:scale-105 shadow-lg text-xs sm:text-base"
             >
               Buy Now on Amazon
             </a>
             <button
               onClick={handleClose}
-              className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg transition-all duration-200 text-sm sm:text-base"
+              className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-4 rounded-lg transition-all duration-200 text-xs sm:text-base"
             >
               Maybe Later
             </button>
