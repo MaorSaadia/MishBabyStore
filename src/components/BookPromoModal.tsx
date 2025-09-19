@@ -60,8 +60,8 @@ export default function BookPromoModal() {
         </button>
 
         {/* Top Section: Image */}
-        <div className="flex items-center justify-center p-4 sm:p-6 bg-slate-200/40">
-          <div className="relative w-64 sm:w-72 md:w-80 lg:w-96">
+        <div className="flex items-center justify-center p-3 sm:p-6 bg-slate-200/40 -mb-2 md:-mb-4">
+          <div className="relative w-58 sm:w-72 md:w-80 lg:w-96">
             <Image
               src="/masterclass-cover.png" // <-- UPDATE: Use your new cover image file
               alt="The Modern ICT Trader's Masterclass Book Cover"
@@ -74,9 +74,9 @@ export default function BookPromoModal() {
         </div>
 
         {/* Bottom Section: Content */}
-        <div className="p-3 sm:p-6 lg:p-8">
+        <div className="p-3 sm:p-4 lg:p-6">
           <div className="mb-2 text-center">
-            <h2 className="text-md sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-2">
+            <h2 className="text-md sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-1">
               Your A-Z Path to a New Financial Skill
             </h2>
             <p className="text-cyan-600 font-semibold text-sm sm:text-base lg:text-lg">
@@ -84,7 +84,7 @@ export default function BookPromoModal() {
             </p>
           </div>
 
-          <p className="text-slate-600 mb-1 leading-relaxed text-sm sm:text-base">
+          <p className="text-slate-600 mb-1 leading-relaxed text-xs sm:text-base">
             Feeling lost on where to start your trading journey? This
             masterclass is the single, definitive guide you&apos;ll ever need.
             It combines three complete books into one unified path, taking you
@@ -131,11 +131,11 @@ export default function BookPromoModal() {
             </div>
           </div>
 
-          <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-2 sm:p-4 mb-2 text-center">
+          {/* <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-2 sm:p-4 mb-2 text-center">
             <p className="text-cyan-800 text-sm sm:text-base font-semibold">
               🔥 Get the Complete 3-in-1 Masterclass!
             </p>
-          </div>
+          </div> */}
 
           {/* Main Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
