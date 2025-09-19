@@ -84,7 +84,7 @@ export default function BookPromoModal() {
             </p>
           </div>
 
-          <p className="text-slate-600 mb-1 leading-relaxed text-xs sm:text-base">
+          <p className="text-slate-600 mb-1 leading-relaxed text-xs sm:text-base -mt-1">
             Feeling lost on where to start your trading journey? This
             masterclass is the single, definitive guide you&apos;ll ever need.
             It combines three complete books into one unified path, taking you
