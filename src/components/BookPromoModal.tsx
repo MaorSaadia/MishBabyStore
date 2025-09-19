@@ -1,21 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { X, Download } from "lucide-react";
 import Image from "next/image";
+import { X } from "lucide-react";
 
 export default function BookPromoModal() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     const hasSeenPopup = localStorage.getItem("bookPromoSeen");
-    if (!hasSeenPopup) {
-      const timer = setTimeout(() => {
-        setShow(true);
-        localStorage.setItem("bookPromoSeen", "true");
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
+    // if (!hasSeenPopup) {
+    const timer = setTimeout(() => {
+      setShow(true);
+      localStorage.setItem("bookPromoSeen", "true");
+    }, 3000);
+    return () => clearTimeout(timer);
+    // }
   }, []);
 
   useEffect(() => {
@@ -53,126 +53,106 @@ export default function BookPromoModal() {
       >
         <button
           onClick={handleClose}
-          className="absolute top-3 right-3 z-20 bg-black rounded-full p-2 text-slate-500 hover:text-slate-900 hover:bg-red-400 transition-all duration-200"
+          className="absolute top-3 right-3 z-20 bg-black/5 rounded-full p-2 text-slate-500 hover:text-slate-900 hover:bg-black/10 transition-all duration-200"
           aria-label="Close"
         >
-          <X size={20} color="white" />
+          <X size={20} />
         </button>
 
-        {/* Top: Image Section */}
-        <div className="flex items-center justify-center p-4 sm:p-6 bg-slate-200/40 relative">
-          <div className="relative w-full max-w-xs sm:max-w-sm">
+        {/* Top Section: Image */}
+        <div className="flex items-center justify-center p-4 sm:p-6 bg-slate-200/40">
+          <div className="relative w-64 sm:w-72 md:w-80 lg:w-96">
             <Image
-              src="/bundle-cover.png"
-              alt="Book bundle cover"
-              width={1280}
-              height={700}
-              className="rounded-lg shadow-xl w-full h-auto -mb-1"
+              src="/masterclass-cover.png" // <-- UPDATE: Use your new cover image file
+              alt="The Modern ICT Trader's Masterclass Book Cover"
+              width={1200}
+              height={1800} // Use the actual dimensions of your cover for best results
+              className="rounded-lg shadow-xl w-full h-auto"
               priority
             />
-            <div className="absolute -top-2 -left-2 sm:-top-3 sm:-left-3 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-full px-3 py-1 shadow-lg animate-pulse">
-              <div className="text-xs font-semibold">ONLY</div>
-              <div className="text-lg sm:text-xl font-bold">$13.80</div>
-            </div>
           </div>
         </div>
 
-        {/* Bottom: Content Section */}
+        {/* Bottom Section: Content */}
         <div className="p-3 sm:p-6 lg:p-8">
-          <div className="mb-3">
-            <h2 className="text-lg sm:text-2xl font-bold text-slate-800 -mt-3">
-              Ready for a New Way to Grow Your Income?
+          <div className="mb-2 text-center">
+            <h2 className="text-md sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-2">
+              Your A-Z Path to a New Financial Skill
             </h2>
-            <p className="text-cyan-600 font-semibold text-sm sm:text-base mt-1">
-              Your Complete Guide to Learning a New Financial Skill, From
-              Scratch.
+            <p className="text-cyan-600 font-semibold text-sm sm:text-base lg:text-lg">
+              The 3-in-1 Masterclass for Absolute Beginners.
             </p>
           </div>
 
-          <p className="text-slate-600 mb-3 leading-relaxed text-sm -mt-2">
-            Ever felt like the financial markets were too complicated? This
-            two-part bundle is a simple, step-by-step blueprint that teaches you
-            how the markets{" "}
-            <em className="font-semibold text-slate-700">really</em> work.
+          <p className="text-slate-600 mb-1 leading-relaxed text-sm sm:text-base">
+            Feeling lost on where to start your trading journey? This
+            masterclass is the single, definitive guide you&apos;ll ever need.
+            It combines three complete books into one unified path, taking you
+            from zero knowledge to a full, professional strategy.
           </p>
 
           {/* Feature List */}
-          <div className="space-y-2 mb-4 -mt-2">
+          <div className="space-y-3 mb-2">
             <div className="flex items-start">
-              <span className="text-cyan-600 mr-2.5 mt-0.5">✓</span>
+              <span className="text-cyan-600 mr-3 mt-0.5 text-base">✓</span>
               <div>
-                <strong className="text-slate-800 text-sm">
-                  Part 1: Your Solid Foundation
+                <strong className="text-slate-800 text-sm sm:text-base">
+                  The Absolute Basics
                 </strong>
-                <p className="text-slate-500 text-xs">
-                  Start from zero and learn the essential building blocks of
-                  trading.
+                <p className="text-slate-500 text-xs sm:text-sm -mb-1">
+                  Learn to read charts, understand the markets, and place your
+                  first trade.
                 </p>
               </div>
             </div>
             <div className="flex items-start">
-              <span className="text-cyan-600 mr-2.5 mt-0.5">✓</span>
+              <span className="text-cyan-600 mr-3 mt-0.5 text-base">✓</span>
               <div>
-                <strong className="text-slate-800 text-sm">
-                  Part 2: Your Professional Playbook
+                <strong className="text-slate-800 text-sm sm:text-base">
+                  A Professional Strategy
                 </strong>
-                <p className="text-slate-500 text-xs">
-                  Learn powerful, repeatable strategies to take the guesswork
-                  out.
+                <p className="text-slate-500 text-xs sm:text-sm -mb-1">
+                  Master a complete, repeatable strategy that demystifies how
+                  markets move.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start">
+              <span className="text-cyan-600 mr-3 mt-0.5 text-base">✓</span>
+              <div>
+                <strong className="text-slate-800 text-sm sm:text-base">
+                  Your Complete Trading Plan
+                </strong>
+                <p className="text-slate-500 text-xs sm:text-sm">
+                  Get a step-by-step daily checklist and master the mindset for
+                  success.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className=" hidden sm:block bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-1 sm:p-3 mb-4 text-center">
-            <p className="text-cyan-800 text-xs sm:text-sm font-semibold">
-              🔥 Limited Time Bundle Offer – Get Both Books & Save!
+          <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-2 sm:p-4 mb-2 text-center">
+            <p className="text-cyan-800 text-sm sm:text-base font-semibold">
+              🔥 Get the Complete 3-in-1 Masterclass!
             </p>
           </div>
 
           {/* Main Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-1 mb-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <a
-              href="https://smartmoneyms.gumroad.com/l/smartmoneysimplified_theictplaybook_bundle"
+              href="https://www.amazon.com/dp/B0FRMV4PHP"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-bold py-1.5 sm:py-2.5 px-4 rounded-lg text-center transition-all duration-200 transform hover:scale-105 shadow-lg text-sm"
+              className="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-3 px-6 rounded-lg text-center transition-all duration-200 transform hover:scale-105 shadow-lg text-sm sm:text-base"
             >
-              Get Your Bundle Now →
+              Buy Now on Amazon
             </a>
             <button
               onClick={handleClose}
-              className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1.5 sm:py-2.5 px-4 rounded-lg transition-all duration-200 text-sm"
+              className="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg transition-all duration-200 text-sm sm:text-base"
             >
               Maybe Later
             </button>
-          </div>
-
-          {/* Free Demo Links Section */}
-          <div className="text-center">
-            <p className="text-xs text-slate-500 mb-2 -mt-2">
-              Or, try a free sample first:
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-x-5 gap-y-1.5 -mt-1">
-              <a
-                href="https://smartmoneyms.gumroad.com/l/smartmoneysimplified_demo"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-slate-600 hover:text-cyan-700 text-xs font-medium transition-colors"
-              >
-                <Download size={12} className="mr-1.5 flex-shrink-0" />
-                <span>Demo: Smart Money, Simplified</span>
-              </a>
-              <a
-                href="https://smartmoneyms.gumroad.com/l/theictplaybook_demo"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-slate-600 hover:text-cyan-700 text-xs font-medium transition-colors"
-              >
-                <Download size={12} className="mr-1.5 flex-shrink-0" />
-                <span>Demo: The ICT Playbook</span>
-              </a>
-            </div>
           </div>
         </div>
       </div>
