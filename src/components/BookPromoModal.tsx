@@ -140,12 +140,12 @@ export default function BookPromoModal() {
           {/* Main Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
             <a
-              href="https://www.amazon.com/dp/B0FRMV4PHP"
+              href="https://smartmoneysimplified.etsy.com/listing/4373947421"
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-2 px-6 rounded-lg text-center transition-all duration-200 transform hover:scale-105 shadow-lg text-xs sm:text-base"
             >
-              Buy Now on Amazon
+              Buy Now on Etsy
             </a>
             <button
               onClick={handleClose}
