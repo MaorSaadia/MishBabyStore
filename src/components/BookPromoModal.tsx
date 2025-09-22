@@ -79,12 +79,12 @@ export default function BookPromoModal() {
             <h2 className="text-md sm:text-2xl lg:text-3xl font-bold text-slate-800 mb-1">
               Your A-Z Path to a New Financial Skill
             </h2>
-            <p className="text-cyan-600 font-semibold text-sm sm:text-base lg:text-lg">
+            <p className="text-cyan-600 font-semibold text-sm sm:text-base lg:text-lg -mt-1">
               The 3-in-1 Masterclass for Absolute Beginners.
             </p>
           </div>
 
-          <p className="text-slate-600 mb-1 leading-relaxed text-xs sm:text-base -mt-1">
+          <p className="text-slate-600 mb-1 leading-relaxed text-xs sm:text-base -mt-2">
             Feeling lost on where to start your trading journey? This
             masterclass is the single, definitive guide you&apos;ll ever need.
             It combines three complete books into one unified path, taking you
