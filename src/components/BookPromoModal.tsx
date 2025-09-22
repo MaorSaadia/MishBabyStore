@@ -61,12 +61,12 @@ export default function BookPromoModal() {
 
         {/* Top Section: Image */}
         <div className="flex items-center justify-center p-3 sm:p-6 bg-slate-200/40 -mb-2 md:-mb-4">
-          <div className="relative w-60 sm:w-72 md:w-80 lg:w-96">
+          <div className="relative w-58 sm:w-72 md:w-80 lg:w-96">
             <Image
-              src="/masterclass-cover.png" // <-- UPDATE: Use your new cover image file
+              src="/Book-Cover.png" // <-- UPDATE: Use your new cover image file
               alt="The Modern ICT Trader's Masterclass Book Cover"
-              width={2000}
-              height={1445} // Use the actual dimensions of your cover for best results
+              width={1184}
+              height={864} // Use the actual dimensions of your cover for best results
               className="rounded-lg shadow-xl w-full h-auto"
               priority
             />
@@ -92,14 +92,14 @@ export default function BookPromoModal() {
           </p>
 
           {/* Feature List */}
-          <div className="space-y-3 mb-2">
+          <div className="space-y-3 mb-2 -mt-1">
             <div className="flex items-start">
               <span className="text-cyan-600 mr-3 mt-0.5 text-base">✓</span>
               <div>
                 <strong className="text-slate-800 text-sm sm:text-base">
                   The Absolute Basics
                 </strong>
-                <p className="text-slate-500 text-xs sm:text-sm -mb-1">
+                <p className="text-slate-500 text-xs sm:text-sm -mb-1 -mt-1">
                   Learn to read charts, understand the markets, and place your
                   first trade.
                 </p>
@@ -111,7 +111,7 @@ export default function BookPromoModal() {
                 <strong className="text-slate-800 text-sm sm:text-base">
                   A Professional Strategy
                 </strong>
-                <p className="text-slate-500 text-xs sm:text-sm -mb-1">
+                <p className="text-slate-500 text-xs sm:text-sm -mb-1 -mt-1">
                   Master a complete, repeatable strategy that demystifies how
                   markets move.
                 </p>
@@ -123,7 +123,7 @@ export default function BookPromoModal() {
                 <strong className="text-slate-800 text-sm sm:text-base">
                   Your Complete Trading Plan
                 </strong>
-                <p className="text-slate-500 text-xs sm:text-sm">
+                <p className="text-slate-500 text-xs sm:text-sm -mt-1">
                   Get a step-by-step daily checklist and master the mindset for
                   success.
                 </p>
