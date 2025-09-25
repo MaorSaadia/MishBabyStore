@@ -26,16 +26,6 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 0,
-    title: "Free Shipping On All Orders",
-    subtitle: "PEACE OF MIND GUARANTEE",
-    description: "",
-    img: "/slides/shipping-security.jpeg", // ** REMEMBER TO ADD YOUR IMAGE HERE **
-    url: "/shipping-policy",
-    accent: "text-cyan-600",
-    bg: "bg-gradient-to-r from-gray-50 to-cyan-50",
-  },
-  {
-    id: 1,
     title: "Bundle & Save",
     subtitle: "SPECIAL PROMOTION",
     description: "Buy 2 Get 10% Off | Buy 3 Get 20% Off",
@@ -43,6 +33,16 @@ const slides: Slide[] = [
     url: "/bundle-deals",
     accent: "text-cyan-600",
     bg: "bg-gradient-to-r from-cyan-50 to-sky-200",
+  },
+  {
+    id: 1,
+    title: "Free Shipping On All Orders",
+    subtitle: "PEACE OF MIND GUARANTEE",
+    description: "",
+    img: "/slides/shipping-security.jpeg", // ** REMEMBER TO ADD YOUR IMAGE HERE **
+    url: "/shipping-policy",
+    accent: "text-cyan-600",
+    bg: "bg-gradient-to-r from-gray-50 to-cyan-50",
   },
   {
     id: 2,
@@ -203,7 +203,7 @@ const Slider: React.FC = () => {
             </motion.p>
 
             {/* Conditional content for the shipping slide */}
-            {currentSlide.id === 0 && (
+            {currentSlide.id === 1 && (
               <motion.div
                 custom={3}
                 variants={textVariants}
@@ -250,7 +250,7 @@ const Slider: React.FC = () => {
             )}
 
             {/* CTA Button for other slides */}
-            {currentSlide.id !== 0 && (
+            {currentSlide.id !== 1 && (
               <motion.div
                 custom={3}
                 variants={textVariants}
@@ -292,7 +292,7 @@ const Slider: React.FC = () => {
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
-                priority={page === 0}
+                priority={page === 1}
               />
             </motion.div>
           </div>
