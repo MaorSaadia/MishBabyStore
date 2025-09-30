@@ -14,6 +14,10 @@ interface SitemapProduct {
   [key: string]: any;
 }
 
+function escapeXmlUrl(url: string) {
+  return url.replace(/&/g, "&amp;");
+}
+
 async function getWixProducts(): Promise<SitemapProduct[]> {
   try {
     const wixClient = await wixClientServer();
@@ -51,57 +55,90 @@ async function getWixProducts(): Promise<SitemapProduct[]> {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static routes
+
+  const baseUrl = "https://www.mishbaby.com";
+
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: "https://www.mishbaby.com",
+      url: `${baseUrl}`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 1,
     },
+    // {
+    //   url: `${baseUrl}/blog`, // Added from your blog sitemap
+    //   lastModified: new Date(),
+    //   changeFrequency: "daily",
+    //   priority: 0.8,
+    // },
     {
-      url: "https://www.mishbaby.com/list?cat=all-products",
+      url: `${baseUrl}/list?cat=all-products`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.8,
     },
     {
-      url: "https://www.mishbaby.com/list?cat=baby-cares",
+      url: `${baseUrl}/bundle-deals`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
-      url: "https://www.mishbaby.com/list?cat=baby-clothing",
+      url: escapeXmlUrl(`${baseUrl}/list?cat=all-products&filter=Sale`),
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
-      url: "https://www.mishbaby.com/list?cat=nursery-decor",
+      url: `${baseUrl}/list?cat=baby-cares`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
-      url: "https://www.mishbaby.com/list?cat=night-lights-room-lighting",
+      url: `${baseUrl}/list?cat=bath-care`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
-      url: "https://www.mishbaby.com/list?cat=toys-games",
+      url: `${baseUrl}/list?cat=baby-clothing`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
-      url: "https://www.mishbaby.com/list?cat=characters-collectibles",
+      url: `${baseUrl}/list?cat=feeding-mealtime`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
-      url: "https://www.mishbaby.com/shipping-restrictions",
+      url: `${baseUrl}/list?cat=nursery-decor`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/list?cat=safety-comfort`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/list?cat=toys-games`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/list?cat=nursery-decor`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/shipping-restrictions`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,
