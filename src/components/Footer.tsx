@@ -15,14 +15,14 @@ const Footer = () => {
       url: "https://www.facebook.com/profile.php?id=61567086625746",
     },
     {
-      name: "TikTok",
-      icon: "tiktok",
-      url: "https://www.tiktok.com/@mishbaby_shop",
-    },
-    {
       name: "YouTube",
       icon: "youtube",
       url: "https://www.youtube.com/@MishBabyShop",
+    },
+    {
+      name: "TikTok",
+      icon: "tiktok",
+      url: "https://www.tiktok.com/@mishbaby_shop",
     },
     // {
     //   name: "Pinterest",

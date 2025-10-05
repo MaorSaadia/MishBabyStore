@@ -61,14 +61,14 @@ const MobileMenu = () => {
       url: "https://www.facebook.com/profile.php?id=61567086625746",
     },
     {
-      name: "TikTok",
-      icon: <FaTiktok size={18} />,
-      url: "https://www.tiktok.com/@mishbaby_shop",
-    },
-    {
       name: "YouTube",
       icon: <FaYoutube size={18} />,
       url: "https://www.youtube.com/@MishBabyShop",
+    },
+    {
+      name: "TikTok",
+      icon: <FaTiktok size={18} />,
+      url: "https://www.tiktok.com/@mishbaby_shop",
     },
   ];
 
