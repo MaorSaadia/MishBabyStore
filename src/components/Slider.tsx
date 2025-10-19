@@ -24,8 +24,18 @@ interface Slide {
 }
 
 const slides: Slide[] = [
+  // {
+  //   id: 0,
+  //   title: "Spend More, Save More!",
+  //   subtitle: "MEGA DISCOUNT EVENT",
+  //   description: "Every $10 You Spend = $1 Off | Up to $10 Off on $100+",
+  //   img: "/slides/Discount-Sale.jpeg",
+  //   url: "/list",
+  //   accent: "text-emerald-600",
+  //   bg: "bg-gradient-to-r from-emerald-50 to-teal-100",
+  // },
   {
-    id: 0,
+    id: 1,
     title: "Bundle & Save",
     subtitle: "SPECIAL PROMOTION",
     description: "Buy 2 Get 10% Off | Buy 3 Get 20% Off",
@@ -35,7 +45,7 @@ const slides: Slide[] = [
     bg: "bg-gradient-to-r from-cyan-50 to-sky-200",
   },
   {
-    id: 1,
+    id: 2,
     title: "Free Shipping On All Orders",
     subtitle: "PEACE OF MIND GUARANTEE",
     description: "",
@@ -45,7 +55,7 @@ const slides: Slide[] = [
     bg: "bg-gradient-to-r from-gray-50 to-cyan-50",
   },
   {
-    id: 2,
+    id: 3,
     title: "Baby Cares",
     subtitle: "ESSENTIAL CARE PRODUCTS",
     description: "Gentle & Safe | For Everyday Needs",
@@ -55,7 +65,7 @@ const slides: Slide[] = [
     bg: "bg-gradient-to-r from-rose-50 to-cyan-100",
   },
   {
-    id: 3,
+    id: 4,
     title: "Baby Clothing",
     subtitle: "NEW COLLECTION 2025",
     description: "Luxury Organic Cotton | Up to 50% Off",
@@ -203,7 +213,7 @@ const Slider: React.FC = () => {
             </motion.p>
 
             {/* Conditional content for the shipping slide */}
-            {currentSlide.id === 1 && (
+            {currentSlide.id === 2 && (
               <motion.div
                 custom={3}
                 variants={textVariants}
@@ -250,7 +260,7 @@ const Slider: React.FC = () => {
             )}
 
             {/* CTA Button for other slides */}
-            {currentSlide.id !== 1 && (
+            {currentSlide.id !== 2 && (
               <motion.div
                 custom={3}
                 variants={textVariants}
