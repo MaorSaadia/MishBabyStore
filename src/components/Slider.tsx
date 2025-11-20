@@ -35,6 +35,16 @@ const slides: Slide[] = [
   //   bg: "bg-gradient-to-r from-emerald-50 to-teal-100",
   // },
   {
+    id: 0,
+    title: "Black Friday Sale!",
+    subtitle: "LIMITED TIME OFFER",
+    description: "Use Code: BLACKFRIDAY25 for Extra 10% Off Storewide",
+    img: "/slides/Black-Friday.jpeg",
+    url: "/list",
+    accent: "text-cyan-600",
+    bg: "bg-gradient-to-r from-cyan-200 to-slate-400",
+  },
+  {
     id: 1,
     title: "Bundle & Save",
     subtitle: "SPECIAL PROMOTION",

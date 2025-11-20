@@ -86,7 +86,7 @@ export default function RootLayout({
           </Suspense> */}
           {/* <Analytics /> */}
           {/* <ShippingBanner /> */}
-          <PromoBanner />
+          {/* <PromoBanner /> */}
           {/* <BookPromoModal /> */}
           <LoginModal />
           <RegisterModal />
