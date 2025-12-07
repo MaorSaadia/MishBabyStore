@@ -139,9 +139,8 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
                 );
                 const selected =
                   selectedOptions[option.name!] === choice.description;
-                const clickHandler = disabled
-                  ? undefined
-                  : () => handleOptionSelect(option.name!, choice.description!);
+                const clickHandler = () =>
+                  handleOptionSelect(option.name!, choice.description!);
 
                 return option.name === "Color" ? (
                   <motion.li
@@ -199,7 +198,7 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
                         : "ring-gray-200 bg-white text-gray-700 hover:ring-slate-300"
                     }`}
                     style={{
-                      cursor: disabled ? "not-allowed" : "pointer",
+                      cursor: "pointer",
                     }}
                     onClick={clickHandler}
                   >
