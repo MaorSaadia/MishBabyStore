@@ -270,7 +270,7 @@ const CustomizeProducts: React.FC<CustomizeProductsProps> = ({
         </AnimatePresence>
 
         {/* New Secure Payment Component */}
-        <SecurePaymentIndicator />
+        {/* <SecurePaymentIndicator /> */}
       </motion.div>
     </motion.div>
   );

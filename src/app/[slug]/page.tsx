@@ -18,20 +18,21 @@ import Skeleton from "@/components/Skeleton";
 import Loader from "@/components/Loader";
 
 // CLIENT-SIDE ONLY (to save CPU)
-import dynamic from "next/dynamic";
-const Reviews = dynamic(() => import("@/components/reviews/Reviews"), {
+import dynamicImport from "next/dynamic";
+const Reviews = dynamicImport(() => import("@/components/reviews/Reviews"), {
   ssr: false,
   loading: () => <Loader color="text-yellow-400" />,
 });
-const ProductList = dynamic(() => import("@/components/ProductList"), {
+const ProductList = dynamicImport(() => import("@/components/ProductList"), {
   ssr: false,
   loading: () => <Skeleton />,
 });
 
 const SPECIAL_DISCOUNT_COLLECTION_ID = "4453646d-6f62-1925-d9cc-a6297010b276";
 
-// ✅ Revalidate product pages every 10 minutes (ISR)
-export const revalidate = 600;
+// Static generation config
+export const dynamic = "force-static";
+export const revalidate = false;
 
 // ===================================================================
 // OPTIMIZATION 1: Pre-build static pages for each product slug
