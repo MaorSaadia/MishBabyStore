@@ -32,7 +32,7 @@ const SPECIAL_DISCOUNT_COLLECTION_ID = "4453646d-6f62-1925-d9cc-a6297010b276";
 
 // Static generation config
 export const dynamic = "force-static";
-export const revalidate = false;
+export const revalidate = 86400;
 
 // ===================================================================
 // OPTIMIZATION 1: Pre-build static pages for each product slug
