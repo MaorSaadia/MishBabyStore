@@ -25,7 +25,7 @@ const MobileMenu = () => {
   const [open, setOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<"categories" | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -85,21 +85,43 @@ const MobileMenu = () => {
       label: "Bundle Deals",
       icon: <Package size={20} />,
     },
+    // {
+    //   href: "/list?cat=all-products",
+    //   label: "Shop Deals",
+    //   icon: <Tag size={20} />,
+    // },
+    // NEW: Add this item
     {
-      href: "/list?cat=all-products",
-      label: "Shop Deals",
-      icon: <Tag size={20} />,
+      href: "https://mishbabyguide.com/blog",
+      label: "Parenting Guides",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+      ),
+      external: true, // Add this flag to identify external links
     },
     {
       href: "/order-tracking",
       label: "Order Tracking",
       icon: <Search size={20} />,
     },
-    {
-      href: "/affiliate-program",
-      label: "Become an Affiliate",
-      icon: <Users size={20} />,
-    },
+    // {
+    //   href: "/affiliate-program",
+    //   label: "Become an Affiliate",
+    //   icon: <Users size={20} />,
+    // },
     { href: "/customer-service", label: "Contact", icon: <Phone size={20} /> },
   ];
 
@@ -147,14 +169,47 @@ const MobileMenu = () => {
                 <ul className="space-y-1 p-2">
                   {mainMenuItems.map((item) => (
                     <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className="flex items-center py-2 px-4 text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-lg transition duration-150 ease-in-out"
-                        onClick={handleClose}
-                      >
-                        <span className="mr-3 text-gray-500">{item.icon}</span>
-                        <span>{item.label}</span>
-                      </Link>
+                      {item.external ? (
+                        <Link
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center py-2 px-4 text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-lg transition duration-150 ease-in-out"
+                          onClick={handleClose}
+                        >
+                          <span className="mr-3 text-gray-500">
+                            {item.icon}
+                          </span>
+                          <span>{item.label}</span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="ml-auto opacity-60"
+                          >
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                          </svg>
+                        </Link>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className="flex items-center py-2 px-4 text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-lg transition duration-150 ease-in-out"
+                          onClick={handleClose}
+                        >
+                          <span className="mr-3 text-gray-500">
+                            {item.icon}
+                          </span>
+                          <span>{item.label}</span>
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -169,7 +224,7 @@ const MobileMenu = () => {
                   <button
                     onClick={() =>
                       setExpandedCategory(
-                        expandedCategory === "categories" ? null : "categories"
+                        expandedCategory === "categories" ? null : "categories",
                       )
                     }
                     className="w-full flex items-center justify-between py-2 px-4 text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 focus:outline-none focus:bg-cyan-50 focus:text-cyan-600"
@@ -248,12 +303,12 @@ const MobileMenu = () => {
                           height={24}
                           className="h-6 w-auto"
                         />
-                      )
+                      ),
                     )}
                   </div>
 
                   <p className="text-xs text-center text-gray-500 mt-2">
-                    © 2025 MishBaby. All rights reserved.
+                    © 2026 MishBaby. All rights reserved.
                   </p>
                 </div>
               </div>

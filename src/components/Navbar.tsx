@@ -215,9 +215,31 @@ const Navbar = () => {
               >
                 <CategoriesDropdown />
                 <NavLink href="/bundle-deals">Bundle Deals</NavLink>
-                <NavLink href="/list?cat=all-products&filter=Sale">
-                  Deals
-                </NavLink>
+                <Link
+                  href="https://mishbabyguide.com/blog"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative py-2 px-1 text-sm font-medium transition-colors duration-200 hover:text-cyan-600 group text-gray-700 flex items-center gap-1"
+                >
+                  Parenting Guides
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="opacity-60"
+                  >
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  <span className="absolute bottom-0 left-0 h-0.5 bg-cyan-600 transition-all duration-300 ease-out w-0 group-hover:w-full" />
+                </Link>
                 <NavLink href="/order-tracking">Order Tracking</NavLink>
                 <NavLink href="/customer-service">Contact</NavLink>
               </Suspense>

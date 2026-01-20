@@ -134,8 +134,9 @@ const Footer = () => {
                     },
                     { href: "/return-policy", label: "Return Policy" },
                     {
-                      href: "/affiliate-program",
-                      label: "Become an Affiliate",
+                      href: "https://mishbabyguide.com",
+                      label: "Parenting Guides & Reviews",
+                      external: true,
                     },
                     { href: "/privacy-policy", label: "Privacy Policy" },
                     { href: "/terms-of-service", label: "Terms of Service" },
