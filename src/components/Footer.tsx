@@ -183,7 +183,7 @@ const Footer = () => {
         {/* Bottom section */}
         <div className="border-t border-sky-200 pt-4 flex flex-col sm:flex-row justify-between items-center text-xs">
           <p className="mb-2 sm:mb-0">
-            &copy; 2025 MishBaby. All rights reserved.
+            &copy; 2026 MishBaby. All rights reserved.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
             <div className="flex items-center">
