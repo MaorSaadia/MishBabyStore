@@ -19,6 +19,7 @@ import Loader from "@/components/Loader";
 
 // CLIENT-SIDE ONLY (to save CPU)
 import dynamicImport from "next/dynamic";
+import ShippingGuideBanner from "@/components/ShippingGuideBanner";
 const Reviews = dynamicImport(() => import("@/components/reviews/Reviews"), {
   ssr: false,
   loading: () => <Loader color="text-yellow-400" />,
@@ -192,7 +193,7 @@ const SinglePage = async ({ params }: PageProps) => {
                     productOptions={product.productOptions.map((option) => ({
                       ...option,
                       choices: option.choices?.filter(
-                        (choice) => choice.visible
+                        (choice) => choice.visible,
                       ),
                     }))}
                     hasSpecialOffer={isEligibleForSpecialDiscount}
@@ -219,7 +220,10 @@ const SinglePage = async ({ params }: PageProps) => {
               ) : (
                 <p className="mt-4 text-gray-500">No description available.</p>
               )}
-
+              {/* ADD THIS BANNER HERE */}
+              <div className="mt-6">
+                <ShippingGuideBanner />
+              </div>
               {/* Additional Features */}
               <div className="mt-6 space-y-4">
                 <div className="flex items-center">

@@ -7,6 +7,7 @@ import Skeleton from "@/components/Skeleton";
 import Slider from "@/components/Slider";
 import BestSellersContainer from "@/components/BestSellersContainer";
 import FreeShippingBanner from "@/components/FreeShippingBanner";
+import GuidePromoBanner from "@/components/GuidePromoBanner";
 
 const HomePage = async () => {
   return (
@@ -54,6 +55,10 @@ const HomePage = async () => {
             <CategoryList />
           </Suspense>
         </div>
+      </div>
+      {/* GUIDE BANNER HERE */}
+      <div className="container mx-auto mt-8 px-4 md:px-8">
+        <GuidePromoBanner />
       </div>
     </div>
   );
