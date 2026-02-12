@@ -220,10 +220,12 @@ const SinglePage = async ({ params }: PageProps) => {
               ) : (
                 <p className="mt-4 text-gray-500">No description available.</p>
               )}
+              
               {/* ADD THIS BANNER HERE */}
-              <div className="mt-6">
+              {/* <div className="mt-6">
                 <ShippingGuideBanner />
-              </div>
+              </div> */}
+
               {/* Additional Features */}
               <div className="mt-6 space-y-4">
                 <div className="flex items-center">

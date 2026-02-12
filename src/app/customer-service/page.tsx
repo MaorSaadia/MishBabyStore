@@ -113,7 +113,7 @@ const CustomerService: React.FC = () => {
                   <span className="ml-3">Quick Response Times</span>
                 </div>
 
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <MapPin
                     className="flex-shrink-0 w-6 h-6 text-sky-200"
                     aria-hidden="true"
@@ -121,12 +121,9 @@ const CustomerService: React.FC = () => {
                   <span className="ml-3">
                     Address: No.13 Amatsya, Beer Sheva, IL
                   </span>
-                </div>
+                </div> */}
+{/* 
                 <div className="flex items-center">
-                  {/* <FaWhatsapp
-                    className="flex-shrink-0 w-6 h-6 text-sky-200"
-                    aria-hidden="true"
-                  /> */}
                   <a
                     href="https://wa.me/972533930364"
                     target="_blank"
@@ -136,7 +133,8 @@ const CustomerService: React.FC = () => {
                     <FaWhatsapp className="mr-2 h-6 w-6" />
                     WhatsApp Us
                   </a>
-                </div>
+                </div> */}
+
               </dl>
               <p className="mt-6 text-cyan-200">
                 Our dedicated team is ready to assist you with any inquiries
