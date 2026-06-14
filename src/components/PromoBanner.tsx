@@ -5,7 +5,7 @@ import { useState } from "react";
 const PromoBanner: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const promoText =
-    "New customers 🎉: Use code FIRSTBUY10 for 10% off ALL products on your first purchase! | Until 28/02/2026 | Free Shipping";
+    "New customers 🎉: Use code FIRSTBUY10 for 10% off ALL products on your first purchase! | Until 30/06/2026 | Free Shipping";
   // const promoText =
   //   "End of Year Sale 🎉: Enjoy 15% off ALL products with code ENDYEAR15 until 31/12/24! | Free Worldwide Shipping";
 
