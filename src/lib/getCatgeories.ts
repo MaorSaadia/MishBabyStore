@@ -2,6 +2,7 @@ export const categories = [
   {
     name: "All Products",
     slug: "all-products",
+    shortLabel: "Browse every curated find",
     media: {
       mainMedia: {
         thumbnail: {
@@ -14,6 +15,7 @@ export const categories = [
   {
     name: "Baby Clothing",
     slug: "baby-clothing",
+    shortLabel: "Everyday layers and little essentials",
     media: {
       mainMedia: {
         thumbnail: {
@@ -26,6 +28,7 @@ export const categories = [
   {
     name: "Baby Essentials",
     slug: "baby-cares",
+    shortLabel: "Thoughtful care for daily routines",
     media: {
       mainMedia: {
         thumbnail: {
@@ -38,6 +41,7 @@ export const categories = [
   {
     name: "Bath Care & Accessories",
     slug: "bath-care",
+    shortLabel: "Gentle picks for bath time",
     media: {
       mainMedia: {
         thumbnail: {
@@ -50,6 +54,7 @@ export const categories = [
   {
     name: "Feeding & Mealtime",
     slug: "feeding-mealtime",
+    shortLabel: "Helpful tools from bottle to bites",
     media: {
       mainMedia: {
         thumbnail: {
@@ -62,6 +67,7 @@ export const categories = [
   {
     name: "Nursery & Lighting",
     slug: "nursery-decor",
+    shortLabel: "Comfortable spaces for rest and play",
     media: {
       mainMedia: {
         thumbnail: {
@@ -74,6 +80,7 @@ export const categories = [
   {
     name: "Safety & Comfort",
     slug: "safety-comfort",
+    shortLabel: "Practical support for a safer home",
     media: {
       mainMedia: {
         thumbnail: {
@@ -86,6 +93,7 @@ export const categories = [
   {
     name: "Toys Plush & Games",
     slug: "toys-games",
+    shortLabel: "Playful finds for growing minds",
     media: {
       mainMedia: {
         thumbnail: {

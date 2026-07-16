@@ -1,67 +1,72 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
-import Link from "next/link";
 
-import CategoryList from "@/components/CategoryList";
-import ProductList from "@/components/ProductList";
-import Skeleton from "@/components/Skeleton";
-import Slider from "@/components/Slider";
-import BestSellersContainer from "@/components/BestSellersContainer";
-import FreeShippingBanner from "@/components/FreeShippingBanner";
-import GuidePromoBanner from "@/components/GuidePromoBanner";
+import BuyingGuides from "@/components/home/BuyingGuides";
+import CategoryGrid from "@/components/home/CategoryGrid";
+import FeaturedProducts from "@/components/home/FeaturedProducts";
+import HomeHero from "@/components/home/HomeHero";
+import HowItWorks from "@/components/home/HowItWorks";
+import NeedGrid from "@/components/home/NeedGrid";
+import NewsletterSection from "@/components/home/NewsletterSection";
+import RetailerSection from "@/components/home/RetailerSection";
+import TrustSection from "@/components/home/TrustSection";
+import Container from "@/components/ui/Container";
+import { getAllPosts } from "@/lib/mdx";
 
-const HomePage = async () => {
-  return (
-    <div className="bg-white">
-      {/* <FreeShippingBanner className="mt-2 mb-2 shadow-sm" /> */}
-      <div className="container mx-auto">
-        <Slider />
-      </div>
-
-      {/* Best Sellers Section */}
-      <div className="mt-6">
-        <Suspense fallback={<Skeleton />}>
-          <BestSellersContainer limit={10} />
-        </Suspense>
-      </div>
-
-      <div className="container mx-auto mt-6 px-4 md:px-8">
-        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
-          Featured Products
-        </h1>
-        <Suspense fallback={<Skeleton />}>
-          <ProductList
-            categoryId={process.env.FEATURED_PRODUCTS_FEATURED_ALL_CATEGORY_ID!}
-            limit={12}
-          />
-        </Suspense>
-
-        <div className="flex justify-center mt-6 -mb-6">
-          <Link
-            href="/list?cat=all-products"
-            className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-cyan-500 to-cyan-300 p-0.5 font-medium text-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300"
-          >
-            <span className="relative rounded-full bg-white px-8 py-3.5 transition-all duration-300 ease-in-out group-hover:bg-opacity-0">
-              View All Products
-            </span>
-          </Link>
-        </div>
-      </div>
-      <div className="mt-12 bg-gray-50 py-10">
-        <div className="container mx-auto px-4 md:px-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
-            Explore Categories
-          </h2>
-          <Suspense fallback={<Skeleton />}>
-            <CategoryList />
-          </Suspense>
-        </div>
-      </div>
-      {/* GUIDE BANNER HERE */}
-      <div className="container mx-auto mt-8 px-4 md:px-8">
-        <GuidePromoBanner />
-      </div>
-    </div>
-  );
+export const metadata: Metadata = {
+  title: {
+    absolute: "MishBaby | Discover and Compare Baby Products",
+  },
+  description:
+    "Discover curated baby products, helpful buying guides, and shopping options across trusted retailers and baby brands.",
+  alternates: {
+    canonical: "https://www.mishbaby.com",
+  },
+  openGraph: {
+    title: "MishBaby | Discover and Compare Baby Products",
+    description:
+      "Discover curated baby products, helpful buying guides, and shopping options for your family.",
+    url: "https://www.mishbaby.com",
+  },
 };
 
-export default HomePage;
+function FeaturedProductsFallback() {
+  return (
+    <section className="section-space bg-page" aria-label="Loading featured products">
+      <Container>
+        <div className="h-4 w-36 animate-pulse rounded bg-cyan-100 motion-reduce:animate-none" />
+        <div className="mt-4 h-10 w-72 max-w-full animate-pulse rounded bg-slate-200 motion-reduce:animate-none" />
+        <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div key={index} className="aspect-[3/4] animate-pulse rounded-card bg-slate-200 motion-reduce:animate-none" />
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+export default function HomePage() {
+  const posts = getAllPosts()
+    .filter((post) => post.title && post.excerpt && post.categoryLabel)
+    .slice(0, 3);
+
+  return (
+    <main>
+      <HomeHero />
+      <CategoryGrid />
+      <NeedGrid />
+      <Suspense fallback={<FeaturedProductsFallback />}>
+        <FeaturedProducts
+          categoryId={process.env.FEATURED_PRODUCTS_FEATURED_ALL_CATEGORY_ID}
+          limit={8}
+        />
+      </Suspense>
+      <RetailerSection />
+      <HowItWorks />
+      <BuyingGuides posts={posts} />
+      <TrustSection />
+      <NewsletterSection />
+    </main>
+  );
+}

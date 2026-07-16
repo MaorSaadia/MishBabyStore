@@ -1,16 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
+    /* MishBaby brand: cyan/sky values already used across the storefront. */
+    --brand: 188 86% 43%;
+    --brand-hover: 188 78% 33%;
+    --brand-secondary: 199 89% 48%;
+    --brand-soft: 183 100% 96%;
+    --page: 210 40% 98%;
+    --surface: 0 0% 100%;
+    --ink: 215 28% 17%;
+    --ink-secondary: 215 19% 35%;
+    --ink-muted: 215 16% 47%;
+    --line: 214 32% 91%;
+    --positive: 160 84% 39%;
+    --warning: 38 92% 50%;
+    --critical: 0 72% 51%;
+    --focus: 188 86% 43%;
+
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 215 28% 17%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 188 78% 33%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
@@ -21,13 +38,21 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 188 86% 43%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --radius: 0.75rem;
+    --radius-card: 1rem;
+    --radius-panel: 1.5rem;
+    --shadow-card: 0 1px 2px hsl(215 28% 17% / 0.04), 0 8px 24px hsl(215 28% 17% / 0.06);
+    --shadow-elevated: 0 18px 50px hsl(188 78% 33% / 0.12);
+    --space-section: clamp(4rem, 8vw, 7rem);
+    --space-section-compact: clamp(3rem, 6vw, 5rem);
+    --container-page: 80rem;
+    --container-copy: 46rem;
   }
   .dark {
     --background: 222.2 84% 4.9%;
@@ -60,7 +85,50 @@
   * {
     @apply border-border;
   }
+  html {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-background text-foreground;
+    width: 100%;
+    max-width: 100vw;
+    min-width: 0;
+    @apply overflow-x-hidden bg-page text-ink antialiased;
+  }
+  :focus-visible {
+    outline: 3px solid hsl(var(--focus) / 0.45);
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: hsl(var(--brand) / 0.2);
+  }
+}
+
+@layer utilities {
+  .section-space {
+    padding-block: var(--space-section);
+  }
+  .section-space-compact {
+    padding-block: var(--space-section-compact);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }

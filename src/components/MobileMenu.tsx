@@ -1,323 +1,136 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import {
-  Menu,
-  X,
-  ChevronRight,
-  ChevronDown,
-  ShoppingBag,
-  Phone,
-  Users,
-  Search,
-  Home,
-  Tag,
-  Package,
-} from "lucide-react";
-import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 import { categories } from "@/lib/getCatgeories";
 
-const MobileMenu = () => {
+const links = [
+  { label: "Home", href: "/" },
+  { label: "Shop", href: "/list?cat=all-products" },
+  { label: "Shop by Need", href: "/#shop-by-need" },
+  { label: "Buying Guides", href: "/blog" },
+  { label: "About MishBaby", href: "/about-us" },
+  { label: "Contact", href: "/customer-service" },
+  { label: "Order Tracking", href: "/order-tracking" },
+];
+
+export default function MobileMenu() {
   const [open, setOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
-  const [expandedCategory, setExpandedCategory] = useState<"categories" | null>(
-    null,
-  );
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  const closeMenu = () => {
+    setOpen(false);
+    setCategoriesOpen(false);
+  };
 
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMenu();
+        return;
+      }
+      if (event.key !== "Tab" || !dialogRef.current) return;
+
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [open]);
 
-  const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setOpen(false);
-      setIsClosing(false);
-      setExpandedCategory(null); // Reset category expansion on close
-    }, 300); // Match the duration of the Tailwind transition (300ms)
-  };
-
-  // Social media icons for footer
-  const socialIcons = [
-    {
-      name: "Instagram",
-      icon: <FaInstagram size={18} />,
-      url: "https://www.instagram.com/mishbabystore",
-    },
-    {
-      name: "Facebook",
-      icon: <FaFacebook size={18} />,
-      url: "https://www.facebook.com/profile.php?id=61567086625746",
-    },
-    {
-      name: "YouTube",
-      icon: <FaYoutube size={18} />,
-      url: "https://www.youtube.com/@MishBabyShop",
-    },
-    {
-      name: "TikTok",
-      icon: <FaTiktok size={18} />,
-      url: "https://www.tiktok.com/@mishbaby_shop",
-    },
-  ];
-
-  // Filter for only visible categories
-  const mainMenuItems = [
-    { href: "/", label: "Home", icon: <Home size={20} /> },
-    {
-      href: "/list?cat=all-products",
-      label: "Shop All",
-      icon: <ShoppingBag size={20} />,
-    },
-    {
-      href: "/bundle-deals",
-      label: "Bundle Deals",
-      icon: <Package size={20} />,
-    },
-    // {
-    //   href: "/list?cat=all-products",
-    //   label: "Shop Deals",
-    //   icon: <Tag size={20} />,
-    // },
-    // NEW: Add this item
-    {
-      href: "https://mishbabyguide.com/blog",
-      label: "Parenting Guides",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-        </svg>
-      ),
-      external: true, // Add this flag to identify external links
-    },
-    {
-      href: "/order-tracking",
-      label: "Order Tracking",
-      icon: <Search size={20} />,
-    },
-    // {
-    //   href: "/affiliate-program",
-    //   label: "Become an Affiliate",
-    //   icon: <Users size={20} />,
-    // },
-    { href: "/customer-service", label: "Contact", icon: <Phone size={20} /> },
-  ];
-
   return (
-    <div className="relative z-40">
+    <>
       <button
-        onClick={() => (open ? handleClose() : setOpen(true))}
-        className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none transition-colors duration-200"
-        aria-label="Menu"
+        type="button"
+        onClick={() => setOpen(true)}
+        className="flex h-11 w-11 items-center justify-center rounded-lg text-ink-secondary transition hover:bg-brand-soft hover:text-brand-hover"
+        aria-label="Open navigation menu"
+        aria-expanded={open}
       >
-        {open ? <X size={28} /> : <Menu size={28} />}
+        <Menu className="h-6 w-6" aria-hidden="true" />
       </button>
 
       {open && (
-        <div
-          className={`fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300 ease-in-out ${
-            isClosing ? "opacity-0" : "opacity-100"
-          }`}
-          onClick={handleClose}
-        >
+        <div className="fixed inset-0 z-50 bg-ink/50" onMouseDown={(event) => event.target === event.currentTarget && closeMenu()}>
           <div
-            className={`absolute right-0 top-0 h-full w-72 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
-              isClosing ? "translate-x-full" : "translate-x-0"
-            } overflow-y-auto`}
-            onClick={(e) => e.stopPropagation()}
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+            className="ml-auto flex h-full w-[min(88vw,24rem)] flex-col overflow-y-auto bg-white shadow-elevated"
           >
-            <div className="flex flex-col min-h-full">
-              <div className="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
-                <h2 className="text-xl font-semibold text-gray-800">Menu</h2>
-                <button
-                  onClick={handleClose}
-                  className="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100"
-                  aria-label="Close menu"
-                >
-                  <X size={24} />
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-line bg-white px-5 py-4">
+              <p className="text-lg font-bold text-ink">Explore MishBaby</p>
+              <button ref={closeRef} type="button" onClick={closeMenu} className="flex h-11 w-11 items-center justify-center rounded-lg text-ink-secondary hover:bg-brand-soft hover:text-brand-hover" aria-label="Close navigation menu">
+                <X className="h-6 w-6" aria-hidden="true" />
+              </button>
+            </div>
+
+            <nav className="p-4" aria-label="Mobile navigation links">
+              <ul className="space-y-1">
+                {links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} onClick={closeMenu} className="flex min-h-12 items-center rounded-lg px-4 text-base font-semibold text-ink-secondary hover:bg-brand-soft hover:text-brand-hover">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-3 border-t border-line pt-3">
+                <button type="button" onClick={() => setCategoriesOpen((value) => !value)} className="flex min-h-12 w-full items-center justify-between rounded-lg px-4 text-left font-semibold text-ink-secondary hover:bg-brand-soft hover:text-brand-hover" aria-expanded={categoriesOpen} aria-controls="mobile-category-list">
+                  Categories
+                  <ChevronDown className={`h-5 w-5 transition-transform ${categoriesOpen ? "rotate-180" : ""}`} aria-hidden="true" />
                 </button>
-              </div>
-
-              <nav className="flex-grow">
-                <div className="px-4 py-2 bg-gray-50">
-                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">
-                    Main Navigation
-                  </h3>
-                </div>
-                <ul className="space-y-1 p-2">
-                  {mainMenuItems.map((item) => (
-                    <li key={item.href}>
-                      {item.external ? (
-                        <Link
-                          href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center py-2 px-4 text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-lg transition duration-150 ease-in-out"
-                          onClick={handleClose}
-                        >
-                          <span className="mr-3 text-gray-500">
-                            {item.icon}
-                          </span>
-                          <span>{item.label}</span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="ml-auto opacity-60"
-                          >
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
-                          </svg>
+                {categoriesOpen && (
+                  <ul id="mobile-category-list" className="mt-1 rounded-lg bg-page p-2">
+                    {categories.map((category) => (
+                      <li key={category.slug}>
+                        <Link href={`/list?cat=${category.slug}`} onClick={closeMenu} className="flex min-h-11 items-center rounded-md px-3 text-sm font-medium text-ink-secondary hover:bg-white hover:text-brand-hover">
+                          {category.name}
                         </Link>
-                      ) : (
-                        <Link
-                          href={item.href}
-                          className="flex items-center py-2 px-4 text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-lg transition duration-150 ease-in-out"
-                          onClick={handleClose}
-                        >
-                          <span className="mr-3 text-gray-500">
-                            {item.icon}
-                          </span>
-                          <span>{item.label}</span>
-                        </Link>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="px-4 py-2 bg-gray-50 mt-2">
-                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">
-                    Shop by Category
-                  </h3>
-                </div>
-
-                <div className="mt-1">
-                  <button
-                    onClick={() =>
-                      setExpandedCategory(
-                        expandedCategory === "categories" ? null : "categories",
-                      )
-                    }
-                    className="w-full flex items-center justify-between py-2 px-4 text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 focus:outline-none focus:bg-cyan-50 focus:text-cyan-600"
-                  >
-                    <span className="font-medium">Categories</span>
-                    {expandedCategory === "categories" ? (
-                      <ChevronDown size={18} />
-                    ) : (
-                      <ChevronRight size={18} />
-                    )}
-                  </button>
-
-                  {expandedCategory === "categories" && (
-                    <div className="bg-gray-50 py-1 px-2 mx-2 rounded-lg">
-                      <ul className="space-y-1">
-                        {categories.map((category) => (
-                          <li key={category.slug}>
-                            <Link
-                              href={`/list?cat=${category.slug}`}
-                              className="flex items-center py-2 px-3 text-gray-700 hover:bg-white hover:text-cyan-600 rounded-md transition duration-150 ease-in-out"
-                              onClick={handleClose}
-                            >
-                              {category.media?.mainMedia?.thumbnail?.url && (
-                                <div className="h-6 w-6 mr-3 relative overflow-hidden rounded-full bg-gray-100 flex-shrink-0">
-                                  <img
-                                    src={category.media.mainMedia.thumbnail.url}
-                                    alt={category.name}
-                                    className="object-cover w-full h-full"
-                                  />
-                                </div>
-                              )}
-                              <div className="flex flex-col">
-                                <span className="text-sm">{category.name}</span>
-                              </div>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </nav>
-
-              <div className="mt-auto border-t border-gray-300">
-                <div className="bg-gray-100 p-4">
-                  <div className="mb-4">
-                    <p className="text-xs text-cyan-600 font-medium mb-2 text-center">
-                      Follow Us
-                    </p>
-                    <div className="flex space-x-3 items-center justify-center mb-3">
-                      {socialIcons.map((social) => (
-                        <a
-                          key={social.name}
-                          href={social.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 bg-white rounded-full shadow-sm hover:bg-gray-50 transition-colors"
-                          aria-label={social.name}
-                        >
-                          <span className="text-gray-600 hover:text-cyan-600">
-                            {social.icon}
-                          </span>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex justify-center space-x-2 mb-3">
-                    {["paypal", "mastercard", "visa", "american-express"].map(
-                      (payment) => (
-                        <Image
-                          key={payment}
-                          src={`/${payment}.png`}
-                          alt={payment}
-                          width={24}
-                          height={24}
-                          className="h-6 w-auto"
-                        />
-                      ),
-                    )}
-                  </div>
-
-                  <p className="text-xs text-center text-gray-500 mt-2">
-                    © 2026 MishBaby. All rights reserved.
-                  </p>
-                </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
+            </nav>
+
+            <div className="mt-auto border-t border-line bg-brand-soft p-5">
+              <p className="text-sm font-bold text-ink">A calmer way to discover baby products.</p>
+              <p className="mt-2 text-sm leading-6 text-ink-secondary">Shopping and fulfillment remain with the selected retailer.</p>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
-};
-
-export default MobileMenu;
+}

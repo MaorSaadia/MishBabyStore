@@ -16,6 +16,23 @@ const config: Config = {
       },
       colors: {
         lama: "#F35C7A",
+        brand: {
+          DEFAULT: "hsl(var(--brand))",
+          hover: "hsl(var(--brand-hover))",
+          secondary: "hsl(var(--brand-secondary))",
+          soft: "hsl(var(--brand-soft))",
+        },
+        page: "hsl(var(--page))",
+        surface: "hsl(var(--surface))",
+        ink: {
+          DEFAULT: "hsl(var(--ink))",
+          secondary: "hsl(var(--ink-secondary))",
+          muted: "hsl(var(--ink-muted))",
+        },
+        line: "hsl(var(--line))",
+        positive: "hsl(var(--positive))",
+        warning: "hsl(var(--warning))",
+        critical: "hsl(var(--critical))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -61,6 +78,16 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        card: "var(--radius-card)",
+        panel: "var(--radius-panel)",
+      },
+      boxShadow: {
+        card: "var(--shadow-card)",
+        elevated: "var(--shadow-elevated)",
+      },
+      maxWidth: {
+        page: "var(--container-page)",
+        copy: "var(--container-copy)",
       },
       keyframes: {
         "accordion-down": {

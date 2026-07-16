@@ -83,9 +83,12 @@ const UserMenu = () => {
 
   return (
     <div className="relative" ref={menuRef}>
-      <div
+      <button
+        type="button"
         onClick={isLoggedIn ? toggleOpen : loginModal.onOpen}
-        className="flex items-center gap-1 rounded-full border border-gray-200 p-1 pr-2 shadow-sm hover:shadow-md transition cursor-pointer"
+        className="flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-lg border border-line bg-white p-1 text-ink-secondary shadow-sm transition hover:bg-brand-soft hover:text-brand-hover sm:pr-2"
+        aria-label={isLoggedIn ? "Open account menu" : "Sign in to your account"}
+        aria-expanded={isLoggedIn ? isOpen : undefined}
       >
         <Avatar src="/profile.png" />
         <div className="hidden md:block">
@@ -93,8 +96,8 @@ const UserMenu = () => {
             {isLoggedIn ? userName : "Sign in"}
           </div>
         </div>
-        <ChevronDown size={16} className="text-gray-600" />
-      </div>
+        <ChevronDown size={16} className="hidden text-ink-muted sm:block" />
+      </button>
 
       {isOpen && (
         <div className="absolute rounded-xl overflow-hidden top-12 right-0 w-56 bg-white text-sm shadow-lg border border-gray-100 z-20">

@@ -1,260 +1,132 @@
 "use client";
 
-import { Suspense, useState, useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 import MobileMenu from "./MobileMenu";
 import SearchBar from "./SearchBar";
+import Container from "./ui/Container";
 import { categories } from "@/lib/getCatgeories";
+import { cn } from "@/lib/utils";
 
 const NavIcons = dynamic(() => import("./NavIcons"), { ssr: false });
 
-interface NavLinkProps {
-  href: string;
-  children: React.ReactNode;
-}
+const navigation = [
+  { label: "Shop", href: "/list?cat=all-products" },
+  { label: "Shop by Need", href: "/#shop-by-need" },
+  { label: "Buying Guides", href: "/blog" },
+  { label: "About", href: "/about-us" },
+];
 
-const NavLink: React.FC<NavLinkProps> = ({ href, children }) => {
+function DesktopLink({ label, href }: { label: string; href: string }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  // Extract query parameters from href
-  const hrefQuery = href.split("?")[1];
-  const hrefParams = new URLSearchParams(hrefQuery);
-
-  // Check if the current link is for "All Products" or "Deals"
-  const isAllProducts = href === "/list?cat=all-products";
-  const isDeals = href === "/list?cat=all-products&filter=Sale";
-
-  const isActive =
-    pathname === href.split("?")[0] &&
-    // For Deals page
-    ((isDeals &&
-      searchParams.get("cat") === "all-products" &&
-      searchParams.get("filter") === "Sale") ||
-      // For All Products page
-      (isAllProducts &&
-        searchParams.get("cat") === "all-products" &&
-        !searchParams.get("filter")) ||
-      // For other pages
-      (!isAllProducts && !isDeals && href === pathname));
+  const active = pathname === href || (href === "/blog" && pathname.startsWith("/blog"));
 
   return (
     <Link
       href={href}
-      className={`
-        relative py-2 px-1
-        text-sm font-medium
-        transition-colors duration-200
-        hover:text-cyan-600
-        group
-        ${isActive ? "text-cyan-600" : "text-gray-700"}
-      `}
+      className={cn(
+        "inline-flex min-h-11 items-center rounded-md px-2 text-sm font-semibold text-ink-secondary transition hover:bg-brand-soft hover:text-brand-hover",
+        active && "text-brand-hover",
+      )}
     >
-      {children}
-      <span
-        className={`
-        absolute bottom-0 left-0
-        h-0.5 bg-cyan-600
-        transition-all duration-300 ease-out
-        ${isActive ? "w-full" : "w-0"}
-        group-hover:w-full
-      `}
-      />
+      {label}
     </Link>
   );
-};
+}
 
-// Categories dropdown component
-const CategoriesDropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const searchParams = useSearchParams();
-  const currentCategory = searchParams.get("cat");
-  const dropdownRef = useState<HTMLDivElement | null>(null);
+function CategoriesDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Close dropdown when clicking outside
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef && !dropdownRef[0]?.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
+    if (!open) return;
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    const close = (event: MouseEvent | KeyboardEvent) => {
+      if (event instanceof KeyboardEvent && event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (event instanceof MouseEvent && !ref.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
     };
-  }, [dropdownRef]);
+
+    document.addEventListener("mousedown", close);
+    document.addEventListener("keydown", close);
+    return () => {
+      document.removeEventListener("mousedown", close);
+      document.removeEventListener("keydown", close);
+    };
+  }, [open]);
 
   return (
-    <div
-      className="relative"
-      ref={dropdownRef[1]}
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
-    >
+    <div ref={ref} className="relative">
       <button
-        className={`
-          flex items-center gap-1
-          py-2 px-1
-          text-sm font-medium
-          transition-colors duration-200
-          hover:text-cyan-600
-          ${currentCategory ? "text-cyan-600" : "text-gray-700"}
-        `}
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
-        aria-haspopup="true"
+        type="button"
+        className="inline-flex min-h-11 items-center gap-1 rounded-md px-2 text-sm font-semibold text-ink-secondary transition hover:bg-brand-soft hover:text-brand-hover"
+        aria-expanded={open}
+        aria-controls="desktop-category-menu"
+        onClick={() => setOpen((value) => !value)}
       >
         Categories
-        <ChevronDown
-          size={16}
-          className={`transition-transform duration-300 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        />
+        <ChevronDown className={cn("h-4 w-4 transition-transform", open && "rotate-180")} aria-hidden="true" />
       </button>
-
-      {isOpen && (
-        <div className="absolute top-full left-0 mt-1 z-50 w-64 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden">
-          <div className="grid grid-cols-1 gap-1 p-2 max-h-96 overflow-y-auto">
-            {categories.map((category) => (
-              <Link
-                key={category.slug}
-                href={`/list?cat=${category.slug}`}
-                className="flex items-center p-2 rounded-md hover:bg-sky-50 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                {category.media?.mainMedia?.thumbnail?.url && (
-                  <div className="h-8 w-8 mr-3 relative overflow-hidden rounded-full bg-gray-100 flex-shrink-0">
-                    <Image
-                      src={category.media.mainMedia.thumbnail.url}
-                      alt={category.name}
-                      width={32}
-                      height={32}
-                      className="object-cover"
-                    />
-                  </div>
-                )}
-                <span className="text-sm">{category.name}</span>
-              </Link>
-            ))}
-          </div>
+      {open && (
+        <div id="desktop-category-menu" className="absolute left-0 top-full z-50 mt-2 w-72 rounded-card border border-line bg-white p-2 shadow-elevated">
+          {categories.map((category) => (
+            <Link
+              key={category.slug}
+              href={`/list?cat=${category.slug}`}
+              onClick={() => setOpen(false)}
+              className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-semibold text-ink-secondary transition hover:bg-brand-soft hover:text-brand-hover"
+            >
+              {category.name}
+            </Link>
+          ))}
         </div>
       )}
     </div>
   );
-};
+}
 
-const Navbar = () => {
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
-  // Add scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 16);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <nav
-      className={`sticky top-0 z-30 h-auto bg-white px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-32 
-        transition-shadow duration-300 ${
-          scrolled ? "shadow-md" : "border-b border-gray-200"
-        }`}
-    >
-      <div className="max-w-screen-2xl mx-auto">
-        {/* Mobile and Tablet */}
-        <div className="h-16 md:h-20 flex items-center justify-between lg:hidden">
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center ml-2">
-              <Image
-                src="/mb-logo.png"
-                alt="MishBaby Logo"
-                width={45}
-                height={45}
-                className="hover:scale-105 transition-transform duration-200"
-              />
-            </Link>
+    <header className={cn("sticky top-0 z-30 border-b border-line bg-white/95 backdrop-blur-sm transition-shadow", scrolled && "shadow-card")}>
+      <Container>
+        <nav className="flex h-[4.5rem] items-center justify-between gap-2 lg:h-20" aria-label="Primary navigation">
+          <Link href="/" className="flex min-h-11 items-center rounded-md" aria-label="MishBaby home">
+            <Image src="/mb-logo.png" alt="" width={48} height={50} className="h-12 w-auto sm:h-[3.25rem]" priority />
+          </Link>
+
+          <div className="hidden items-center gap-1 lg:flex">
+            <DesktopLink {...navigation[0]} />
+            <CategoriesDropdown />
+            {navigation.slice(1).map((item) => <DesktopLink key={item.href} {...item} />)}
           </div>
 
-          <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex min-w-0 items-center gap-0 sm:gap-2">
             <SearchBar />
             <NavIcons />
-            <MobileMenu />
-          </div>
-        </div>
-
-        {/* Desktop */}
-        <div className="hidden lg:flex items-center justify-between h-20">
-          {/* Left side */}
-          <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center group">
-              <Image
-                src="/mb-logo.png"
-                alt="MishBaby Logo"
-                width={60}
-                height={60}
-                className="hover:scale-105 transition-transform duration-200"
-              />
-            </Link>
-            <div className="flex gap-6">
-              <Suspense
-                fallback={<div className="h-8 w-8 bg-gray-200 rounded-full" />}
-              >
-                <CategoriesDropdown />
-                <NavLink href="/bundle-deals">Bundle Deals</NavLink>
-                <Link
-                  href="https://mishbabyguide.com/blog"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative py-2 px-1 text-sm font-medium transition-colors duration-200 hover:text-cyan-600 group text-gray-700 flex items-center gap-1"
-                >
-                  Parenting Guides
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="opacity-60"
-                  >
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                  <span className="absolute bottom-0 left-0 h-0.5 bg-cyan-600 transition-all duration-300 ease-out w-0 group-hover:w-full" />
-                </Link>
-                <NavLink href="/order-tracking">Order Tracking</NavLink>
-                <NavLink href="/customer-service">Contact</NavLink>
-              </Suspense>
+            <div className="lg:hidden">
+              <MobileMenu />
             </div>
           </div>
-
-          {/* Right side */}
-          <div className="flex items-center gap-4">
-            <SearchBar />
-            <NavIcons />
-          </div>
-        </div>
-      </div>
-    </nav>
+        </nav>
+      </Container>
+    </header>
   );
-};
-
-export default Navbar;
+}

@@ -75,6 +75,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <a
+          href="#main-content"
+          className="sr-only fixed left-4 top-4 z-[100] rounded-lg bg-white px-4 py-3 font-semibold text-brand-hover shadow-elevated focus:not-sr-only"
+        >
+          Skip to main content
+        </a>
         <WixClientContextProvider>
           <Script
             src="https://cloud.umami.is/script.js"
@@ -93,7 +99,9 @@ export default function RootLayout({
           <ResetPasswordModal />
           <ToastProvider />
           <Navbar />
-          {children}
+          <div id="main-content" tabIndex={-1}>
+            {children}
+          </div>
           <Footer />
           <div id="portal"></div>
         </WixClientContextProvider>

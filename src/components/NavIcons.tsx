@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { ShoppingBag } from "lucide-react";
 
 import { useWixClient } from "@/hooks/useWixClient";
 import { useCartStore } from "@/hooks/useCartStore";
@@ -19,7 +19,9 @@ const NavIcons = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
-    getCart(wixClient);
+    // Wix reports "cart not found" until a visitor adds their first item.
+    // Keep the temporary ecommerce control available without an unhandled promise.
+    void getCart(wixClient).catch(() => undefined);
   }, [wixClient, getCart]);
 
   const handleCartClick = () => {
@@ -31,14 +33,19 @@ const NavIcons = () => {
   };
 
   return (
-    <div className="flex items-center gap-4 xl:gap-6 relative">
+    <div className="relative flex items-center gap-1 sm:gap-2">
       <UserMenu />
-      <div className="relative cursor-pointer" onClick={handleCartClick}>
-        <Image src="/cart.png" alt="" width={22} height={22} />
-        <div className="absolute -top-4 -right-4 w-6 h-6 bg-cyan-600 rounded-full text-white text-sm flex items-center justify-center">
+      <button
+        type="button"
+        className="relative flex h-11 w-11 items-center justify-center rounded-lg text-ink-secondary transition hover:bg-brand-soft hover:text-brand-hover"
+        onClick={handleCartClick}
+        aria-label={`Open cart with ${counter} ${counter === 1 ? "item" : "items"}`}
+      >
+        <ShoppingBag className="h-5 w-5" aria-hidden="true" />
+        <span className="absolute right-0.5 top-0.5 flex min-h-5 min-w-5 items-center justify-center rounded-full bg-brand-hover px-1 text-[10px] font-bold text-white">
           {counter}
-        </div>
-      </div>
+        </span>
+      </button>
       {isLargeScreen && isCartOpen && (
         <CartModal onClose={() => setIsCartOpen(false)} />
       )}
